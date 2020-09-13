@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
-@MapperScan("com.csmaxwell.tes.mapper")
+@MapperScan("com.csmaxwell.tes.dao")
 public class TesApplication {
 
     public static void main(String[] args) {

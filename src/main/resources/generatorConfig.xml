@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--
+        targetRuntime: 代码运行环境 (不需要Example查询，使用MyBatis3Simple)
+        defaultModelType: MBG如何生成实体类
+            - flat: 每一张表只生成一个实体类
+    -->
+    <context id="mysqlGenerator" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!--当表名或字段名为SQL关键字，自动加上分隔符-->
+        <property name="autoDelimitKeywords" value="true"/>
+        <!--使用``包括字段名，避免字段名与sql保留字冲突报错-->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- equals方法和hashcode方法 -->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+
+<!--        &lt;!&ndash; 查询单条数据插件 https://github.com/itfsw/mybatis-generator-plugin &ndash;&gt;-->
+<!--        <plugin type="com.itfsw.mybatis.generator.plugins.SelectOneByExamplePlugin"/>-->
+<!--        &lt;!&ndash; 查询结果选择性返回插件 &ndash;&gt;-->
+<!--        <plugin type="com.itfsw.mybatis.generator.plugins.SelectSelectivePlugin"/>-->
+<!--        &lt;!&ndash; Example Criteria 增强插件 &ndash;&gt;-->
+<!--        <plugin type="com.itfsw.mybatis.generator.plugins.ExampleEnhancedPlugin"/>-->
+<!--        &lt;!&ndash; 数据Model属性对应Column获取插件 &ndash;&gt;-->
+<!--        <plugin type="com.itfsw.mybatis.generator.plugins.ModelColumnPlugin"/>-->
+        <!--通用mapper-->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+        </plugin>
+        <!--数据库连接信息-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/tes?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;verifyServerCertificate=false&amp;useSSL=false"
+                        userId="root"
+                        password="599890897"/>
+
+        <javaModelGenerator targetPackage="com.csmaxwell.tes.domain" targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="com.csmaxwell.tes.dao" targetProject="src/main/resources"/>
+
+        <javaClientGenerator targetPackage="com.csmaxwell.tes.dao" targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <table tableName="tes_class">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_course">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_course_info">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_department">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_evaluation">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_evaluation_control">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_indicator">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_indicator_role">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_option">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_permission">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_role">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_role_permission">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_user">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_user_course">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

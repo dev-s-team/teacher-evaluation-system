@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csmaxwell.tes.dao.TesUserMapper">
+  <resultMap id="BaseResultMap" type="com.csmaxwell.tes.domain.TesUser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="no" jdbcType="VARCHAR" property="no" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="gender" jdbcType="CHAR" property="gender" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="class_no" jdbcType="VARCHAR" property="classNo" />
+    <result column="dept_no" jdbcType="VARCHAR" property="deptNo" />
+  </resultMap>
+</mapper>

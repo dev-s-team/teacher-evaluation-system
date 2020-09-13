@@ -1,7 +1,7 @@
 package com.csmaxwell.tes.controller;
 
-import com.csmaxwell.tes.pojo.User;
-import com.csmaxwell.tes.service.UserService;
+import com.csmaxwell.tes.domain.TesUser;
+import com.csmaxwell.tes.service.TesUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +19,8 @@ public class HelloController {
 
     @Autowired
     private DataSource dataSource;
-
     @Autowired
-    private UserService userService;
+    private TesUserService tesUserService;
 
     @RequestMapping("/hello")
     public String sayHello() {
@@ -35,7 +34,8 @@ public class HelloController {
      * @return 用户
      */
     @GetMapping("/user/{id}")
-    public User findById(@PathVariable Integer id) {
-        return userService.findById(id);
+    public TesUser findById(@PathVariable Integer id) {
+        // return tesUserService.findById(id);
+        return null;
     }
 }
