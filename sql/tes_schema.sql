@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 80018
  Source Host           : localhost:3306
- Source Schema         : tes1
+ Source Schema         : tes
 
  Target Server Type    : MySQL
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 13/09/2020 22:58:56
+ Date: 14/09/2020 00:17:40
 */
 
 SET NAMES utf8mb4;
