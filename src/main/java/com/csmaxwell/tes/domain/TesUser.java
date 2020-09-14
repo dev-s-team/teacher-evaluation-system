@@ -32,7 +32,7 @@ public class TesUser {
      * 角色id
      */
     @Column(name = "role_id")
-    private Integer roleId;
+    private Long roleId;
 
     /**
      * 班级编号
@@ -45,6 +45,11 @@ public class TesUser {
      */
     @Column(name = "dept_no")
     private String deptNo;
+
+    /**
+     * 账号启用状态 0: 禁用 1: 启用
+     */
+    private Integer status;
 
     /**
      * @return id
@@ -137,7 +142,7 @@ public class TesUser {
      *
      * @return role_id - 角色id
      */
-    public Integer getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
@@ -146,7 +151,7 @@ public class TesUser {
      *
      * @param roleId 角色id
      */
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 
@@ -186,6 +191,24 @@ public class TesUser {
         this.deptNo = deptNo;
     }
 
+    /**
+     * 获取账号启用状态 0: 禁用 1: 启用
+     *
+     * @return status - 账号启用状态 0: 禁用 1: 启用
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * 设置账号启用状态 0: 禁用 1: 启用
+     *
+     * @param status 账号启用状态 0: 禁用 1: 启用
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -200,6 +223,7 @@ public class TesUser {
         sb.append(", roleId=").append(roleId);
         sb.append(", classNo=").append(classNo);
         sb.append(", deptNo=").append(deptNo);
+        sb.append(", status=").append(status);
         sb.append("]");
         return sb.toString();
     }
@@ -223,7 +247,8 @@ public class TesUser {
             && (this.getGender() == null ? other.getGender() == null : this.getGender().equals(other.getGender()))
             && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()))
             && (this.getClassNo() == null ? other.getClassNo() == null : this.getClassNo().equals(other.getClassNo()))
-            && (this.getDeptNo() == null ? other.getDeptNo() == null : this.getDeptNo().equals(other.getDeptNo()));
+            && (this.getDeptNo() == null ? other.getDeptNo() == null : this.getDeptNo().equals(other.getDeptNo()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
     }
 
     @Override
@@ -238,6 +263,7 @@ public class TesUser {
         result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
         result = prime * result + ((getClassNo() == null) ? 0 : getClassNo().hashCode());
         result = prime * result + ((getDeptNo() == null) ? 0 : getDeptNo().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         return result;
     }
 }

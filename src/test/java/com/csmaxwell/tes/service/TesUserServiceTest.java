@@ -19,7 +19,7 @@ class TesUserServiceTest {
     private TesUserService tesUserService;
 
     @Test
-    void findAll() {
+    public void findAll() {
         List<TesUser> userList = tesUserService.findAll();
         for (TesUser tesUser : userList) {
             System.out.println(tesUser);

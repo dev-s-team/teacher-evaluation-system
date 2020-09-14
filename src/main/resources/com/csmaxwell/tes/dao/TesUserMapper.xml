@@ -10,8 +10,9 @@
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="gender" jdbcType="CHAR" property="gender" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
     <result column="class_no" jdbcType="VARCHAR" property="classNo" />
     <result column="dept_no" jdbcType="VARCHAR" property="deptNo" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
 </mapper>
