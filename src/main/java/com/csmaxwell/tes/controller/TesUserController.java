@@ -48,6 +48,7 @@ public class TesUserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult login(@RequestBody TesUserLoginParam tesUserLoginParam, BindingResult result) {
+        System.out.println("/user/login 登录");
         String token = tesUserService.login(tesUserLoginParam.getUsername(), tesUserLoginParam.getPassword());
         if (token == null) {
             return CommonResult.validateFailed("用户名或密码错误");
@@ -64,5 +65,15 @@ public class TesUserController {
     public CommonResult<List<TesPermission>> getPermissionList(@PathVariable Long userId) {
         List<TesPermission> permissionList = tesUserService.getPermissionList(userId);
         return CommonResult.success(permissionList);
+    }
+
+    @ApiOperation(value = "退出登录")
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult logout() {
+
+        System.out.println("/user/logout 退出登录");
+
+        return null;
     }
 }
