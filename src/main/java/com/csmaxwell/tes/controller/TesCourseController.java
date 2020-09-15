@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * S
  * Created by maxwell on 2020/9/15.
  */
-@Controller
+@RestController
 @Api(tags = "TesCourseController", description = "课程管理")
 @RequestMapping("/course")
 public class TesCourseController {
