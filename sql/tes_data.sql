@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 14/09/2020 00:17:51
+ Date: 15/09/2020 15:15:44
 */
 
 SET NAMES utf8mb4;
@@ -219,13 +219,20 @@ CREATE TABLE `tes_permission` (
   `status` int(1) DEFAULT '1' COMMENT '启用状态：0->禁用；1->启用',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='权限表';
 
 -- ----------------------------
 -- Records of tes_permission
 -- ----------------------------
 BEGIN;
-INSERT INTO `tes_permission` VALUES (1, 0, '查看评教', 'pms:comment:list', NULL, NULL, 1, NULL);
+INSERT INTO `tes_permission` VALUES (1, 0, '查看评教', 'pms:comment:list', NULL, NULL, 1, '2020-09-14 21:29:54');
+INSERT INTO `tes_permission` VALUES (2, 1, '查询', 'pms:comment:read', NULL, NULL, 1, NULL);
+INSERT INTO `tes_permission` VALUES (3, 1, '修改', 'pms:comment:update', NULL, NULL, 1, NULL);
+INSERT INTO `tes_permission` VALUES (4, 0, '课程', 'pms:course', NULL, NULL, 1, NULL);
+INSERT INTO `tes_permission` VALUES (5, 4, '查询', 'pms:course:read', NULL, NULL, 1, NULL);
+INSERT INTO `tes_permission` VALUES (6, 4, '创建', 'pms:course:create', NULL, NULL, 1, NULL);
+INSERT INTO `tes_permission` VALUES (7, 4, '修改', 'pms:course:update', NULL, NULL, 1, NULL);
+INSERT INTO `tes_permission` VALUES (8, 4, '删除', 'pms:course:delete', NULL, NULL, 1, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -260,7 +267,21 @@ CREATE TABLE `tes_role_permission` (
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
   `permission_id` bigint(20) DEFAULT NULL COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色权限表';
+
+-- ----------------------------
+-- Records of tes_role_permission
+-- ----------------------------
+BEGIN;
+INSERT INTO `tes_role_permission` VALUES (1, 1, 1);
+INSERT INTO `tes_role_permission` VALUES (2, 1, 2);
+INSERT INTO `tes_role_permission` VALUES (3, 1, 3);
+INSERT INTO `tes_role_permission` VALUES (4, 1, 4);
+INSERT INTO `tes_role_permission` VALUES (5, 1, 5);
+INSERT INTO `tes_role_permission` VALUES (6, 1, 6);
+INSERT INTO `tes_role_permission` VALUES (7, 1, 7);
+INSERT INTO `tes_role_permission` VALUES (8, 1, 8);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for tes_semester
@@ -289,36 +310,38 @@ CREATE TABLE `tes_user` (
   `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '姓名',
   `password` varchar(255) DEFAULT NULL COMMENT '密码',
   `gender` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '0' COMMENT '性别 0: 男; 1: 女',
-  `role_id` int(10) DEFAULT NULL COMMENT '角色id',
+  `role_id` bigint(10) DEFAULT NULL COMMENT '角色id',
   `class_no` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '班级编号',
   `dept_no` varchar(10) DEFAULT NULL COMMENT '院系编号',
+  `status` int(1) DEFAULT '1' COMMENT '账号启用状态 0: 禁用 1: 启用',
   PRIMARY KEY (`id`),
   UNIQUE KEY `no` (`no`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户表';
 
 -- ----------------------------
 -- Records of tes_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `tes_user` VALUES (1, '1790001001', '罗1', '123456', '0', 4, '1790001', '01102');
-INSERT INTO `tes_user` VALUES (2, '1790001002', '罗2', '123456', '0', 4, '1790001', '01102');
-INSERT INTO `tes_user` VALUES (3, '1790001003', '罗3', '123456', '0', 4, '1790001', '01102');
-INSERT INTO `tes_user` VALUES (4, '1790001004', '罗4', '123456', '0', 4, '1790001', '01102');
-INSERT INTO `tes_user` VALUES (5, '1790001005', '罗5', '123456', '1', 4, '1790001', '01102');
-INSERT INTO `tes_user` VALUES (6, '1790001006', '罗6', '123456', '0', 4, '1790001', '01102');
-INSERT INTO `tes_user` VALUES (7, '1790002001', '赵1', '123456', '0', 4, '1790002', '01102');
-INSERT INTO `tes_user` VALUES (8, '1790002002', '赵2', '123456', '0', 4, '1790002', '01102');
-INSERT INTO `tes_user` VALUES (9, '1790002003', '赵3', '123456', '1', 4, '1790002', '01102');
-INSERT INTO `tes_user` VALUES (10, '1790002004', '赵4', '123456', '0', 4, '1790002', '01102');
-INSERT INTO `tes_user` VALUES (12, '1001', '张1', '123456', '0', 2, NULL, '01101');
-INSERT INTO `tes_user` VALUES (13, '1002', '张2', '123456', '1', 2, NULL, '01102');
-INSERT INTO `tes_user` VALUES (14, '1003', '张3', '123456', '0', 2, NULL, '02101');
-INSERT INTO `tes_user` VALUES (15, '0001', '唯1', '123456', '0', 1, NULL, '');
-INSERT INTO `tes_user` VALUES (16, '3306', '王1', '123456', '1', 3, NULL, '01101');
-INSERT INTO `tes_user` VALUES (17, '4406', '王2', '123456', '0', 3, NULL, '01102');
-INSERT INTO `tes_user` VALUES (18, '1234', '王3', '123456', '1', 3, NULL, '01103');
-INSERT INTO `tes_user` VALUES (19, '232', '王4', '123456', '0', 3, NULL, '01102');
-INSERT INTO `tes_user` VALUES (20, '235', '王5', '123456', '1', 3, NULL, '01102');
+INSERT INTO `tes_user` VALUES (1, '1790001001', '罗1', '123456', '0', 4, '1790001', '01102', 1);
+INSERT INTO `tes_user` VALUES (2, '1790001002', '罗2', '123456', '0', 4, '1790001', '01102', 1);
+INSERT INTO `tes_user` VALUES (3, '1790001003', '罗3', '123456', '0', 4, '1790001', '01102', 1);
+INSERT INTO `tes_user` VALUES (4, '1790001004', '罗4', '123456', '0', 4, '1790001', '01102', 1);
+INSERT INTO `tes_user` VALUES (5, '1790001005', '罗5', '123456', '1', 4, '1790001', '01102', 1);
+INSERT INTO `tes_user` VALUES (6, '1790001006', '罗6', '123456', '0', 4, '1790001', '01102', 1);
+INSERT INTO `tes_user` VALUES (7, '1790002001', '赵1', '123456', '0', 4, '1790002', '01102', 1);
+INSERT INTO `tes_user` VALUES (8, '1790002002', '赵2', '123456', '0', 4, '1790002', '01102', 1);
+INSERT INTO `tes_user` VALUES (9, '1790002003', '赵3', '123456', '1', 4, '1790002', '01102', 1);
+INSERT INTO `tes_user` VALUES (10, '1790002004', '赵4', '123456', '0', 4, '1790002', '01102', 1);
+INSERT INTO `tes_user` VALUES (12, '1001', '张1', '123456', '0', 2, NULL, '01101', 1);
+INSERT INTO `tes_user` VALUES (13, '1002', '张2', '123456', '1', 2, NULL, '01102', 1);
+INSERT INTO `tes_user` VALUES (14, '1003', '张3', '123456', '0', 2, NULL, '02101', 1);
+INSERT INTO `tes_user` VALUES (15, '0001', '唯1', '123456', '0', 1, NULL, '', 1);
+INSERT INTO `tes_user` VALUES (16, '3306', '王1', '123456', '1', 3, NULL, '01101', 1);
+INSERT INTO `tes_user` VALUES (17, '4406', '王2', '123456', '0', 3, NULL, '01102', 1);
+INSERT INTO `tes_user` VALUES (18, '1234', '王3', '123456', '1', 3, NULL, '01103', 1);
+INSERT INTO `tes_user` VALUES (19, '232', '王4', '123456', '0', 3, NULL, '01102', 1);
+INSERT INTO `tes_user` VALUES (20, '235', '王5', '123456', '1', 3, NULL, '01102', 1);
+INSERT INTO `tes_user` VALUES (21, NULL, 'test', '$2a$10$KRvPlNKKQqj/L3FVYEGE9OVenvn5dSg41THasxtuQePm11DQ9nXf2', '0', 1, NULL, NULL, 1);
 COMMIT;
 
 -- ----------------------------
