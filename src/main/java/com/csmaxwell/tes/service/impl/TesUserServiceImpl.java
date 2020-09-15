@@ -7,11 +7,13 @@ import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -38,13 +40,27 @@ public class TesUserServiceImpl implements TesUserService {
 
     @Override
     public TesUser getUserByUsername(String username) {
-        tesUserMapper.
-        return null;
+        TesUser tesUser = new TesUser();
+        return tesUserMapper.selectOne(tesUser);
     }
 
     @Override
-    public TesUser register(TesUser tesUser) {
-        return null;
+    public TesUser register(TesUser tesUserParam) {
+        TesUser tesUser = new TesUser();
+        BeanUtils.copyProperties(tesUserParam, tesUser);
+        tesUser.setStatus(1);
+        // 查询是否具有相同用户名的用户
+        Example example = new Example(TesUser.class);
+        example.createCriteria().andEqualTo("username", tesUser.getUsername());
+        List<TesUser> tesUserList = tesUserMapper.selectByExample(example);
+        if (tesUserList.size() > 0) {
+            return null;
+        }
+        // 将密码进行加密
+        String encodePassword = passwordEncoder.encode(tesUser.getPassword());
+        tesUser.setPassword(encodePassword);
+        tesUserMapper.insertSelective(tesUser);
+        return tesUser;
     }
 
     @Override

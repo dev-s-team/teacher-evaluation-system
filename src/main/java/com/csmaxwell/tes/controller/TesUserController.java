@@ -34,7 +34,7 @@ public class TesUserController {
     private String tokenHead;
 
     @ApiOperation(value = "用户注册")
-    @PostMapping("/register")
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<TesUser> register(@RequestBody TesUser tesUserParam, BindingResult result) {
         TesUser tesUser = tesUserService.register(tesUserParam);
@@ -45,7 +45,7 @@ public class TesUserController {
     }
 
     @ApiOperation(value = "登录后返回token")
-    @PostMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult login(@RequestBody TesUserLoginParam tesUserLoginParam, BindingResult result) {
         String token = tesUserService.login(tesUserLoginParam.getUsername(), tesUserLoginParam.getPassword());
@@ -59,7 +59,7 @@ public class TesUserController {
     }
 
     @ApiOperation(value = "获取用户所有权限")
-    @GetMapping("/permission/${userId}")
+    @RequestMapping(value = "/permission/{userId}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<TesPermission>> getPermissionList(@PathVariable Long userId) {
         List<TesPermission> permissionList = tesUserService.getPermissionList(userId);
