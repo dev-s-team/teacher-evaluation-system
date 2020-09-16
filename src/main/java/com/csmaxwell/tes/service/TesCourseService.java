@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface TesCourseService {
     List<TesCourse> listAllCourse();
+
+    int create(TesCourse tesCourseParam);
 }

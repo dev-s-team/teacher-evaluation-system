@@ -72,17 +72,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // .antMatchers("/**") // 测试时全部运行访问
                 // .permitAll()
                 .anyRequest() // 除上面外的所有请求全部需要鉴权认证
-                .authenticated()
+                .authenticated();
                 // 自定义登录页面
-                .and()
-                .formLogin()
-                .loginPage("/login.html")
-                .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/success.html", true)
-                .failureUrl("/failed.html")
-                .and()
-                .logout()
-                .logoutUrl("/user/logout");
+                // .and()
+                // .formLogin()
+                // .loginPage("/login.html")
+                // .loginProcessingUrl("/user/login")
+                // .defaultSuccessUrl("/success.html", true)
+                // .failureUrl("/failed.html")
+                // .and()
+                // .logout()
+                // .logoutUrl("/user/logout");
         // 禁用缓存
         http.headers().cacheControl();
         // 添加JWT filter

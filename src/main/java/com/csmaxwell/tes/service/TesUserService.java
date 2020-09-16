@@ -31,4 +31,6 @@ public interface TesUserService {
     List<TesUser> findAll();
 
     TesUser findById(Integer id);
+
+    int create(TesUser tesUserParam);
 }

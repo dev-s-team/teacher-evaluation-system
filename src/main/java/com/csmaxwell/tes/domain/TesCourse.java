@@ -1,11 +1,14 @@
 package com.csmaxwell.tes.domain;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 
 @Table(name = "tes_course")
 public class TesCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(value = "null")
     private Long id;
 
     /**

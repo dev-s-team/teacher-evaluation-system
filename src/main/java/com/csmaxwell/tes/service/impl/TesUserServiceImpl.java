@@ -102,4 +102,14 @@ public class TesUserServiceImpl implements TesUserService {
         TesUser tesUser = tesUserMapper.selectByPrimaryKey(id);
         return tesUser;
     }
+
+    @Override
+    public int create(TesUser tesUserParam) {
+        TesUser tesUser = new TesUser();
+        BeanUtils.copyProperties(tesUserParam, tesUser);
+        String encodePassword = passwordEncoder.encode(tesUser.getPassword());
+        tesUser.setPassword(encodePassword);
+        int count = tesUserMapper.insertSelective(tesUser);
+        return count;
+    }
 }

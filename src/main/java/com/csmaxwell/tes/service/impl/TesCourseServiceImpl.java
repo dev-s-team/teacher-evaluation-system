@@ -22,4 +22,10 @@ public class TesCourseServiceImpl implements TesCourseService {
     public List<TesCourse> listAllCourse() {
         return tesCourseMapper.selectAll();
     }
+
+    @Override
+    public int create(TesCourse tesCourseParam) {
+        int count = tesCourseMapper.insertSelective(tesCourseParam);
+        return count;
+    }
 }

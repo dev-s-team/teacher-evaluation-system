@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,4 +77,20 @@ public class TesUserController {
 
         return null;
     }
+
+    @ApiOperation(value = "新增用户")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('pms:user:create')")
+    public CommonResult create(@RequestBody TesUser tesUserParam) {
+        CommonResult commonResult;
+        int count = tesUserService.create(tesUserParam);
+        if (count == 1) {
+            commonResult = CommonResult.success(null);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+
 }
