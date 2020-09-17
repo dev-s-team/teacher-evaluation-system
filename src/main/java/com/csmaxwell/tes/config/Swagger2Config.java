@@ -60,6 +60,7 @@ public class Swagger2Config {
         List<SecurityContext> result = new ArrayList<>();
         result.add(getContextByPath("/course/.*"));
         result.add(getContextByPath("/user/.*"));
+        result.add(getContextByPath("/role/.*"));
         return result;
     }
 
