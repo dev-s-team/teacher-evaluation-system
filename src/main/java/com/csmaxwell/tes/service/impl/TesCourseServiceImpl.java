@@ -28,4 +28,24 @@ public class TesCourseServiceImpl implements TesCourseService {
         int count = tesCourseMapper.insertSelective(tesCourseParam);
         return count;
     }
+
+    @Override
+    public TesCourse findById(Long id) {
+        TesCourse tesCourse = new TesCourse();
+        tesCourse.setId(id);
+        return tesCourseMapper.selectOne(tesCourse);
+    }
+
+    @Override
+    public int update(Long id, TesCourse tesCourseDto) {
+        tesCourseDto.setId(id);
+        return tesCourseMapper.updateByPrimaryKeySelective(tesCourseDto);
+    }
+
+    @Override
+    public int delete(Long id) {
+        TesCourse tesCourse = new TesCourse();
+        tesCourse.setId(id);
+        return tesCourseMapper.deleteByPrimaryKey(tesCourse);
+    }
 }

@@ -12,4 +12,10 @@ public interface TesCourseService {
     List<TesCourse> listAllCourse();
 
     int create(TesCourse tesCourseParam);
+
+    TesCourse findById(Long id);
+
+    int update(Long id, TesCourse tesCourseDto);
+
+    int delete(Long id);
 }
