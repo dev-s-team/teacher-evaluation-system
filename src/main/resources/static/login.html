@@ -2,13 +2,104 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login登录页面</title>
+    <!-- 必须先引入vue，  后使用element-ui -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <!--引入 element-ui 的样式，-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入element 的组件库-->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!--引入文件    -->
+    <script src="js/axios-0.18.0.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="plugins/elementui/index.css">
+    <script src="plugins/elementui/index.js"></script>
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.css">
 </head>
+<style>
+    body{
+        /*background-color: #0ebffc;*/
+        background-image: url("images/background2.png");
+        background-size: 100%;
+    }
+    .loginForm{
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        left: 37%;
+        top: 26%;
+        background-color: #58e8f5;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+        border-radius: 30px;
+        opacity: 0.8;
+    }
+    .form{
+        margin-top: 180px;
+    }
+    h1{
+        text-align: center;
+        font-size: 80px;
+        letter-spacing: 20px;
+    }
+    .el-row{
+        margin-bottom: 20px;
+    }
+</style>
 <body>
-<form action="/user/login" method="post">
-    用户名: <input type="text" name="username" />
-    密码: <input type="password" name="password" />
-    <input type="submit" value="提交">
-</form>
+
+    <div>
+        <h1>教师综合评价系统</h1>
+    </div>
+
+    <div id="app">
+        <div class="loginForm">
+            <el-form ref="form" :model="form" label-width="100px" class="form">
+                <el-row class="el-row">
+                    <el-form-item label="用户名:">
+                        <el-col span="20">
+                            <el-input v-model="username" placeholder="请输入内容"></el-input>
+                        </el-col>
+                    </el-form-item>
+                </el-row>
+                <el-row class="el-row">
+                    <el-form-item label="密&emsp;码:">
+                        <el-col span="20">
+                          <el-input placeholder="请输入密码" v-model="password" show-password name="password"></el-input>
+                        </el-col>
+                    </el-form-item>
+                </el-row>
+                <el-row class="el-row">
+                    <el-form-item>
+                        <el-col span="10">
+                            <el-button type="primary" @click="onSubmit">提交</el-button>
+                        </el-col>
+                        <el-col span="10">
+                            <el-button>取消</el-button>
+                        </el-col>
+                    </el-form-item>
+                </el-row>
+            </el-form>
+        </div>
+    </div>
+
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: function() {
+                return{
+                    username,
+                    password
+                }
+            },
+            methods:{
+                onsubmit:function () {
+                    
+                }
+            }
+        })
+    </script>
+
 </body>
 </html>
