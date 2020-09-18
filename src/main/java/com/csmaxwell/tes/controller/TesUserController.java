@@ -1,7 +1,6 @@
 package com.csmaxwell.tes.controller;
 
 import com.csmaxwell.tes.common.api.CommonResult;
-import com.csmaxwell.tes.domain.TesCourse;
 import com.csmaxwell.tes.domain.TesPermission;
 import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.dto.TesUserLoginParam;
