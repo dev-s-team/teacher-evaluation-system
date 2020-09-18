@@ -112,4 +112,23 @@ public class TesUserServiceImpl implements TesUserService {
         int count = tesUserMapper.insertSelective(tesUser);
         return count;
     }
+
+    @Override
+    public int delete(Long userId) {
+        int count = tesUserMapper.deleteByPrimaryKey(userId);
+        return count;
+    }
+
+    @Override
+    public TesUser select(Long userId) {
+        TesUser tesUser = tesUserMapper.selectByPrimaryKey(userId);
+        return tesUser;
+    }
+
+    @Override
+    public int update(Long userId, TesUser tesUser) {
+        tesUser.setId(userId);
+        int count = tesUserMapper.updateByPrimaryKeySelective(tesUser);
+        return count;
+    }
 }
