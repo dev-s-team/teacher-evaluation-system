@@ -33,4 +33,10 @@ public interface TesUserService {
     TesUser findById(Integer id);
 
     int create(TesUser tesUserParam);
+
+    int delete(Long userId);
+
+    TesUser select(Long userId);
+
+    int update(Long userId, TesUser tesUser);
 }

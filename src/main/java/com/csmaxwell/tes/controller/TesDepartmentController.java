@@ -1,8 +1,14 @@
 package com.csmaxwell.tes.controller;
 
+import com.csmaxwell.tes.common.api.CommonResult;
+import com.csmaxwell.tes.domain.TesDepartment;
+import com.csmaxwell.tes.service.TesDepartmentService;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * S
@@ -12,4 +18,55 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/dept")
 public class TesDepartmentController {
+    @Autowired
+    private TesDepartmentService tesDepartmentService;
+
+    @ApiOperation(value = "院系添加")
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult create(@RequestBody TesDepartment tesDepartmentParam) {
+        CommonResult commonResult;
+        int count = tesDepartmentService.create(tesDepartmentParam);
+        if (count == 1) {
+            commonResult = CommonResult.success(null);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+
+    @ApiOperation(value = "院系查看")
+    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TesDepartment> findAll(){
+        return tesDepartmentService.selectAll();
+    }
+
+    @ApiOperation(value = "院系删除")
+    @RequestMapping(value = "/deleteByid/{departmentId}" , method = RequestMethod.DELETE)
+    @ResponseBody
+    public CommonResult delete(@PathVariable Long departmentId){
+        CommonResult commonResult;
+        int count = tesDepartmentService.delete(departmentId);
+        if (count == 1){
+            commonResult=CommonResult.success(null);
+        }else {
+            commonResult=CommonResult.failed();
+        }
+        return commonResult;
+    }
+
+    @ApiOperation(value = "院系修改")
+    @RequestMapping(value = "/update/{departmentId}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult update(@PathVariable Long departmentId, TesDepartment departmentDto){
+        CommonResult commonResult;
+        int count=tesDepartmentService.update(departmentId,departmentDto);
+        if (count == 1){
+            commonResult=CommonResult.success(null);
+        }else {
+            commonResult=CommonResult.failed();
+        }
+        return commonResult;
+    }
 }

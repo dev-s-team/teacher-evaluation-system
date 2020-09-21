@@ -93,4 +93,42 @@ public class TesUserController {
         return commonResult;
     }
 
+    @ApiOperation(value = "删除用户")
+    @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('pms:course:delete')")
+    public CommonResult delete(@PathVariable Long userId) {
+        int count = tesUserService.delete(userId);
+        if (count ==1) {
+            return CommonResult.success(null);
+        } else {
+            return CommonResult.failed("删除用户失败");
+        }
+    }
+
+    @ApiOperation(value = "查询用户信息")
+    @RequestMapping(value = "/reade/{userId}", method = RequestMethod.GET)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('pms:user:reade')")
+    public CommonResult reade(@PathVariable Long userId) {
+        TesUser tesUser = tesUserService.select(userId);
+        if (tesUser != null) {
+            return CommonResult.success(tesUser);
+        } else {
+            return CommonResult.failed("查询用户信息失败");
+        }
+    }
+
+    @ApiOperation(value = "更新用户信息")
+    @RequestMapping(value = "/update/{userId}", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('pms:user:update')")
+    public CommonResult update(@PathVariable Long userId ,@RequestBody TesUser tesUser) {
+        int count = tesUserService.update(userId,tesUser);
+        if (count == 1) {
+            return CommonResult.success("更新用户信息成功");
+        } else {
+            return CommonResult.failed("更新用户信息失败");
+        }
+    }
 }
