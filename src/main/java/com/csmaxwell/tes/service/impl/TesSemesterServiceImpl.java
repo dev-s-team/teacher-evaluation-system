@@ -20,7 +20,18 @@ public class TesSemesterServiceImpl implements TesSemesterService {
         return count;
     }
 
+    @Override
+    public TesSemester select(Long semesterId) {
+        TesSemester tesSemester = tesSemesterMapper.selectByPrimaryKey(semesterId);
+        return tesSemester;
+    }
 
+    @Override
+    public int update(Long semesterId, TesSemester tesSemester) {
+        tesSemester.setId(semesterId);
+        int count = tesSemesterMapper.updateByPrimaryKeySelective(tesSemester);
+        return count;
+    }
 
 
 }

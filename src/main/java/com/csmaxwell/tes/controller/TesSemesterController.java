@@ -3,6 +3,7 @@ package com.csmaxwell.tes.controller;
 
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesSemester;
+import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesSemesterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,5 +37,32 @@ public class TesSemesterController {
         }
         return commonResult;
     }
+
+    @ApiOperation(value = "查询批次信息")
+    @RequestMapping(value = "/reade/{semesterId}", method = RequestMethod.GET)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('pms:semester:reade')")
+    public CommonResult reade(@PathVariable Long semesterId) {
+        TesSemester tesSemester = tesSemesterService.select(semesterId);
+        if (tesSemester != null) {
+            return CommonResult.success(tesSemester);
+        } else {
+            return CommonResult.failed("查询用户信息失败");
+        }
+    }
+
+    @ApiOperation(value = "更新批次信息")
+    @RequestMapping(value = "/update/{semesterId}", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('pms:semester:update')")
+    public CommonResult update(@PathVariable Long semesterId ,@RequestBody TesSemester tesSemester) {
+        int count = tesSemesterService.update(semesterId,tesSemester);
+        if (count == 1) {
+            return CommonResult.success("更新用户信息成功");
+        } else {
+            return CommonResult.failed("更新用户信息失败");
+        }
+    }
+
 
 }
