@@ -96,7 +96,7 @@ public class TesUserController {
     @ApiOperation(value = "删除用户")
     @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:course:delete')")
+    @PreAuthorize("hasAuthority('pms:user:delete')")
     public CommonResult delete(@PathVariable Long userId) {
         int count = tesUserService.delete(userId);
         if (count ==1) {
