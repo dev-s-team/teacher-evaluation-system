@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TesIndicatorServiceImpl  implements TesIndicatorService {
 
@@ -39,5 +41,13 @@ public class TesIndicatorServiceImpl  implements TesIndicatorService {
         tesindicator.setId(indicatorId);
         int count = tesIndicatorMapper.updateByPrimaryKeySelective(tesindicator);
         return count;
+    }
+
+    @Override
+    public List<TesIndicator> select() {
+        List<TesIndicator> tesIndicators = tesIndicatorMapper.selectAll();
+
+        return tesIndicators;
+
     }
 }
