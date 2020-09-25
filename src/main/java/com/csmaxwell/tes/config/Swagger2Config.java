@@ -62,6 +62,11 @@ public class Swagger2Config {
         result.add(getContextByPath("/user/.*"));
         result.add(getContextByPath("/role/.*"));
         result.add(getContextByPath("/dept/.*"));
+        result.add(getContextByPath("/class/.*"));
+        result.add(getContextByPath("/semester/.*"));
+        result.add(getContextByPath("/indicator/.*"));
+        result.add(getContextByPath("/evaluationResult/.*"));
+
         return result;
     }
 
