@@ -11,6 +11,5 @@ import java.util.List;
 public interface TesEvaluationControlMapper extends Mapper<TesEvaluationControl> {
 
     @Update("update tes_evaluation_control set status = 1  where id = #{evaluationControlId} and status != 1")
-//
     int updateById(Long evaluationControlId);
 }

@@ -1,9 +1,13 @@
 package com.csmaxwell.tes.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.csmaxwell.tes.common.api.CommonResult;
+import com.csmaxwell.tes.domain.TesMenu;
 import com.csmaxwell.tes.domain.TesPermission;
+import com.csmaxwell.tes.domain.TesRole;
 import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.dto.TesUserLoginParam;
+import com.csmaxwell.tes.service.TesRoleService;
 import com.csmaxwell.tes.service.TesUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,9 +17,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 用户管理
@@ -28,6 +34,8 @@ public class TesUserController {
 
     @Autowired
     private TesUserService tesUserService;
+    @Autowired
+    private TesRoleService tesRoleService;
 
     @Value("${jwt.tokenHeader}")
     private String tokenHeader;
@@ -60,6 +68,29 @@ public class TesUserController {
         return CommonResult.success(tokenMap);
     }
 
+    @ApiOperation(value = "获取用户信息")
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getUserInfo(Principal principal) {
+        if (principal == null) {
+            return CommonResult.unauthorized(null);
+        }
+        String username = principal.getName();
+        TesUser tesUser = tesUserService.getUserByUsername(username);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("username", tesUser.getUsername());
+        List<TesMenu> menus = tesRoleService.getMenuList(tesUser.getId());
+        data.put("menus", menus);
+        TesRole tesRole = tesRoleService.findById(tesUser.getRoleId());
+        // if(CollUtil.isNotEmpty(roleList)){
+        //     List<String> roles = roleList.stream().map(UmsRole::getName).collect(Collectors.toList());
+        //     data.put("roles",roles);
+        // }
+        data.put("roles", tesRole.getName());
+        System.out.println("获取用户信息");
+        return CommonResult.success(data);
+    }
+
     @ApiOperation(value = "获取用户所有权限")
     @RequestMapping(value = "/permission/{userId}", method = RequestMethod.GET)
     @ResponseBody
@@ -69,13 +100,10 @@ public class TesUserController {
     }
 
     @ApiOperation(value = "退出登录")
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult logout() {
-
-        System.out.println("/user/logout 退出登录");
-
-        return null;
+        return CommonResult.success(null);
     }
 
     @ApiOperation(value = "新增用户")

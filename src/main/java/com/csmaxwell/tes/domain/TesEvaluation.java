@@ -1,6 +1,5 @@
 package com.csmaxwell.tes.domain;
 
-import java.math.BigDecimal;
 import javax.persistence.*;
 
 @Table(name = "tes_evaluation")
@@ -10,33 +9,16 @@ public class TesEvaluation {
     private Long id;
 
     /**
-     * 评教人id
+     * 学期id
      */
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "eval_cnotrol_id")
+    private Long evalCnotrolId;
 
     /**
-     * 评教人角色id
+     * 指标id
      */
-    @Column(name = "role_id")
-    private Long roleId;
-
-    /**
-     * 目标用户id
-     */
-    @Column(name = "target_id")
-    private Long targetId;
-
-    /**
-     * 课程的id
-     */
-    @Column(name = "course_id")
-    private Long courseId;
-
-    /**
-     * 分数
-     */
-    private BigDecimal score;
+    @Column(name = "indicator_id")
+    private Long indicatorId;
 
     /**
      * @return id
@@ -53,93 +35,39 @@ public class TesEvaluation {
     }
 
     /**
-     * 获取评教人id
+     * 获取学期id
      *
-     * @return user_id - 评教人id
+     * @return eval_cnotrol_id - 学期id
      */
-    public Long getUserId() {
-        return userId;
+    public Long getEvalCnotrolId() {
+        return evalCnotrolId;
     }
 
     /**
-     * 设置评教人id
+     * 设置学期id
      *
-     * @param userId 评教人id
+     * @param evalCnotrolId 学期id
      */
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setEvalCnotrolId(Long evalCnotrolId) {
+        this.evalCnotrolId = evalCnotrolId;
     }
 
     /**
-     * 获取评教人角色id
+     * 获取指标id
      *
-     * @return role_id - 评教人角色id
+     * @return indicator_id - 指标id
      */
-    public Long getRoleId() {
-        return roleId;
+    public Long getIndicatorId() {
+        return indicatorId;
     }
 
     /**
-     * 设置评教人角色id
+     * 设置指标id
      *
-     * @param roleId 评教人角色id
+     * @param indicatorId 指标id
      */
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    /**
-     * 获取目标用户id
-     *
-     * @return target_id - 目标用户id
-     */
-    public Long getTargetId() {
-        return targetId;
-    }
-
-    /**
-     * 设置目标用户id
-     *
-     * @param targetId 目标用户id
-     */
-    public void setTargetId(Long targetId) {
-        this.targetId = targetId;
-    }
-
-    /**
-     * 获取课程的id
-     *
-     * @return course_id - 课程的id
-     */
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    /**
-     * 设置课程的id
-     *
-     * @param courseId 课程的id
-     */
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
-    }
-
-    /**
-     * 获取分数
-     *
-     * @return score - 分数
-     */
-    public BigDecimal getScore() {
-        return score;
-    }
-
-    /**
-     * 设置分数
-     *
-     * @param score 分数
-     */
-    public void setScore(BigDecimal score) {
-        this.score = score;
+    public void setIndicatorId(Long indicatorId) {
+        this.indicatorId = indicatorId;
     }
 
     @Override
@@ -149,11 +77,8 @@ public class TesEvaluation {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", userId=").append(userId);
-        sb.append(", roleId=").append(roleId);
-        sb.append(", targetId=").append(targetId);
-        sb.append(", courseId=").append(courseId);
-        sb.append(", score=").append(score);
+        sb.append(", evalCnotrolId=").append(evalCnotrolId);
+        sb.append(", indicatorId=").append(indicatorId);
         sb.append("]");
         return sb.toString();
     }
@@ -171,11 +96,8 @@ public class TesEvaluation {
         }
         TesEvaluation other = (TesEvaluation) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()))
-            && (this.getTargetId() == null ? other.getTargetId() == null : this.getTargetId().equals(other.getTargetId()))
-            && (this.getCourseId() == null ? other.getCourseId() == null : this.getCourseId().equals(other.getCourseId()))
-            && (this.getScore() == null ? other.getScore() == null : this.getScore().equals(other.getScore()));
+            && (this.getEvalCnotrolId() == null ? other.getEvalCnotrolId() == null : this.getEvalCnotrolId().equals(other.getEvalCnotrolId()))
+            && (this.getIndicatorId() == null ? other.getIndicatorId() == null : this.getIndicatorId().equals(other.getIndicatorId()));
     }
 
     @Override
@@ -183,11 +105,8 @@ public class TesEvaluation {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
-        result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
-        result = prime * result + ((getTargetId() == null) ? 0 : getTargetId().hashCode());
-        result = prime * result + ((getCourseId() == null) ? 0 : getCourseId().hashCode());
-        result = prime * result + ((getScore() == null) ? 0 : getScore().hashCode());
+        result = prime * result + ((getEvalCnotrolId() == null) ? 0 : getEvalCnotrolId().hashCode());
+        result = prime * result + ((getIndicatorId() == null) ? 0 : getIndicatorId().hashCode());
         return result;
     }
 }

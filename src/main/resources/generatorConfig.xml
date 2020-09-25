@@ -36,9 +36,9 @@
         </plugin>
         <!--数据库连接信息-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/tes?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;verifyServerCertificate=false&amp;useSSL=false"
+                        connectionURL="jdbc:mysql://120.27.235.21:3306/tes?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;verifyServerCertificate=false&amp;useSSL=false"
                         userId="root"
-                        password="599890897"/>
+                        password="A1790001"/>
 
         <javaModelGenerator targetPackage="com.csmaxwell.tes.domain" targetProject="src/main/java"/>
 
@@ -71,11 +71,19 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
+        <table tableName="tes_evaluation_result">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
         <table tableName="tes_indicator">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
         <table tableName="tes_indicator_role">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_menu">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
@@ -91,7 +99,15 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
+        <table tableName="tes_role_menu">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
         <table tableName="tes_role_permission">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tes_semester">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 

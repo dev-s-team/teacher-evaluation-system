@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.csmaxwell.tes.dao.TesRoleMapper">
-  <resultMap id="BaseResultMap" type="com.csmaxwell.tes.domain.TesRole">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.csmaxwell.tes.domain.TesRole">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+
+    <select id="getMenuList" parameterType="long" resultType="com.csmaxwell.tes.domain.TesMenu">
+        SELECT
+            tm.id id,
+            tm.parent_id parentId,
+            tm.title title,
+            tm.level level,
+            tm.name name,
+            tm.icon icon,
+            tm.hidden hidden,
+            tm.create_time createTime,
+            tm.sort sort
+        FROM
+            tes_user tu
+            LEFT JOIN tes_role tr ON tu.role_id = tr.id
+            LEFT JOIN tes_role_menu trm ON trm.role_id = tr.id
+            LEFT JOIN tes_menu tm ON tm.id = trm.menu_id
+        WHERE
+            tu.id = #{id} and tm.id IS NOT NULL
+        GROUP BY
+            tm.id
+    </select>
 </mapper>

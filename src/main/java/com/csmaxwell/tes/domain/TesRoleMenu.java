@@ -2,21 +2,23 @@ package com.csmaxwell.tes.domain;
 
 import javax.persistence.*;
 
-@Table(name = "tes_course")
-public class TesCourse {
+@Table(name = "tes_role_menu")
+public class TesRoleMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
-     * 课程名称
+     * 角色id
      */
-    private String name;
+    @Column(name = "role_id")
+    private Long roleId;
 
     /**
-     * 课程编号
+     * 菜单id
      */
-    private String num;
+    @Column(name = "menu_id")
+    private Long menuId;
 
     /**
      * @return id
@@ -33,39 +35,39 @@ public class TesCourse {
     }
 
     /**
-     * 获取课程名称
+     * 获取角色id
      *
-     * @return name - 课程名称
+     * @return role_id - 角色id
      */
-    public String getName() {
-        return name;
+    public Long getRoleId() {
+        return roleId;
     }
 
     /**
-     * 设置课程名称
+     * 设置角色id
      *
-     * @param name 课程名称
+     * @param roleId 角色id
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     /**
-     * 获取课程编号
+     * 获取菜单id
      *
-     * @return num - 课程编号
+     * @return menu_id - 菜单id
      */
-    public String getNum() {
-        return num;
+    public Long getMenuId() {
+        return menuId;
     }
 
     /**
-     * 设置课程编号
+     * 设置菜单id
      *
-     * @param num 课程编号
+     * @param menuId 菜单id
      */
-    public void setNum(String num) {
-        this.num = num;
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
     }
 
     @Override
@@ -75,8 +77,8 @@ public class TesCourse {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", num=").append(num);
+        sb.append(", roleId=").append(roleId);
+        sb.append(", menuId=").append(menuId);
         sb.append("]");
         return sb.toString();
     }
@@ -92,10 +94,10 @@ public class TesCourse {
         if (getClass() != that.getClass()) {
             return false;
         }
-        TesCourse other = (TesCourse) that;
+        TesRoleMenu other = (TesRoleMenu) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getNum() == null ? other.getNum() == null : this.getNum().equals(other.getNum()));
+            && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()))
+            && (this.getMenuId() == null ? other.getMenuId() == null : this.getMenuId().equals(other.getMenuId()));
     }
 
     @Override
@@ -103,8 +105,8 @@ public class TesCourse {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getNum() == null) ? 0 : getNum().hashCode());
+        result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
+        result = prime * result + ((getMenuId() == null) ? 0 : getMenuId().hashCode());
         return result;
     }
 }

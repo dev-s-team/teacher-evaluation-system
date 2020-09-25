@@ -6,10 +6,7 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="role_id" jdbcType="BIGINT" property="roleId" />
-    <result column="target_id" jdbcType="BIGINT" property="targetId" />
-    <result column="course_id" jdbcType="BIGINT" property="courseId" />
-    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="eval_cnotrol_id" jdbcType="BIGINT" property="evalCnotrolId" />
+    <result column="indicator_id" jdbcType="BIGINT" property="indicatorId" />
   </resultMap>
 </mapper>

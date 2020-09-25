@@ -1,5 +1,6 @@
 package com.csmaxwell.tes.service;
 
+import com.csmaxwell.tes.domain.TesMenu;
 import com.csmaxwell.tes.domain.TesRole;
 
 import java.util.List;
@@ -13,4 +14,8 @@ public interface TesRoleService {
     int update(Long roleId, TesRole tesRoleDto);
 
     int create(TesRole tesRoleParam);
+
+    List<TesMenu> getMenuList(Long id);
+
+    TesRole findById(Long id);
 }

@@ -1,6 +1,7 @@
 package com.csmaxwell.tes.service.impl;
 
 import com.csmaxwell.tes.dao.TesRoleMapper;
+import com.csmaxwell.tes.domain.TesMenu;
 import com.csmaxwell.tes.domain.TesRole;
 import com.csmaxwell.tes.service.TesRoleService;
 import org.slf4j.Logger;
@@ -21,7 +22,6 @@ public class TesRoleServiceImpl implements TesRoleService {
 
     @Autowired
     private TesRoleMapper tesRoleMapper;
-
 
     @Override
     public List<TesRole> selectAll() {
@@ -47,5 +47,16 @@ public class TesRoleServiceImpl implements TesRoleService {
         return count;
     }
 
+    @Override
+    public List<TesMenu> getMenuList(Long id) {
+        return tesRoleMapper.getMenuList(id);
+    }
+
+    @Override
+    public TesRole findById(Long id) {
+        TesRole tesRole = new TesRole();
+        tesRole.setId(id);
+        return tesRoleMapper.selectOne(tesRole);
+    }
 
 }
