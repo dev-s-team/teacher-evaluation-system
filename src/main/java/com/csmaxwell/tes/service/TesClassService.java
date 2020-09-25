@@ -2,6 +2,8 @@ package com.csmaxwell.tes.service;
 
 import com.csmaxwell.tes.domain.TesClass;
 
+import java.util.List;
+
 
 public interface TesClassService{
 
@@ -12,4 +14,6 @@ public interface TesClassService{
     TesClass select(Long classId);
 
     int update(Long classId, TesClass tesClass);
+
+    List<TesClass> findAll();
 }

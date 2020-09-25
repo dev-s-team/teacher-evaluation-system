@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * S
  * Created by maxwell on 2020/9/17.
@@ -53,6 +55,14 @@ public class TesClassController {
         } else {
             return CommonResult.failed("删除班级失败");
         }
+    }
+
+    @ApiOperation(value = "查询班级列表")
+    @RequestMapping(value = "/list")
+    @ResponseBody
+    public CommonResult<List<TesClass>> list() {
+        List<TesClass> classList = tesClassService.findAll();
+        return CommonResult.success(classList);
     }
 
     @ApiOperation(value = "查询班级信息")

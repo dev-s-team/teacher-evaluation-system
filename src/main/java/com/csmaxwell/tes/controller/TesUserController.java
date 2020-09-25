@@ -1,6 +1,7 @@
 package com.csmaxwell.tes.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesMenu;
 import com.csmaxwell.tes.domain.TesPermission;
@@ -122,11 +123,11 @@ public class TesUserController {
     }
 
     @ApiOperation(value = "删除用户")
-    @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasAuthority('pms:user:delete')")
-    public CommonResult delete(@PathVariable Long userId) {
-        int count = tesUserService.delete(userId);
+    public CommonResult delete(@PathVariable Long id) {
+        int count = tesUserService.delete(id);
         if (count ==1) {
             return CommonResult.success(null);
         } else {
@@ -158,5 +159,43 @@ public class TesUserController {
         } else {
             return CommonResult.failed("更新用户信息失败");
         }
+    }
+
+    @ApiOperation(value = "获取用户列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<TesUser>> list(@RequestParam(value = "keyword", required = false) String keyword,
+                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<TesUser> userList = tesUserService.list(keyword, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(userList));
+    }
+
+    @ApiOperation(value = "根据id获取角色")
+    @RequestMapping(value = "/role/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<TesRole> findRoleById(@PathVariable("id") Long id) {
+        return CommonResult.success(tesUserService.findRoleById(id));
+    }
+
+    @ApiOperation(value = "根据id更新用户角色")
+    @RequestMapping(value = "/role/update", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateRole(@RequestParam("userId") Long userId,
+                                   @RequestParam("roleId") Long roleId) {
+        int count = tesUserService.updateRole(userId, roleId);
+        if (count >= 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    @ApiOperation(value = "导入用户")
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult upload() {
+
+
+        return null;
     }
 }

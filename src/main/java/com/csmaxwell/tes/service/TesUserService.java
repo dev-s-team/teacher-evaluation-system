@@ -1,6 +1,7 @@
 package com.csmaxwell.tes.service;
 
 import com.csmaxwell.tes.domain.TesPermission;
+import com.csmaxwell.tes.domain.TesRole;
 import com.csmaxwell.tes.domain.TesUser;
 
 import java.util.List;
@@ -39,4 +40,10 @@ public interface TesUserService {
     TesUser select(Long userId);
 
     int update(Long userId, TesUser tesUser);
+
+    List<TesUser> list(String keyword, Integer pageSize, Integer pageNum);
+
+    TesRole findRoleById(Long id);
+
+    int updateRole(Long userId, Long roleId);
 }

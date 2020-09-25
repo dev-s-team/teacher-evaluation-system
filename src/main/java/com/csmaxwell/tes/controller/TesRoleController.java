@@ -38,8 +38,8 @@ public class TesRoleController {
 
     @ApiOperation("获取所有角色信息")
     @RequestMapping(value = "/findAll", method =  RequestMethod.GET)
-    public List<TesRole> findAll() {
-        return tesRoleService.selectAll();
+    public CommonResult<List<TesRole>> findAll() {
+        return CommonResult.success(tesRoleService.selectAll());
     }
 
     @ApiOperation("删除角色信息")
@@ -48,9 +48,9 @@ public class TesRoleController {
     public CommonResult delete(@PathVariable Long roleId) {
         CommonResult commonResult;
         int count=tesRoleService.delete(roleId);
-        if (count == 1){
+        if (count == 1) {
             commonResult = CommonResult.success(null);
-        }else {
+        } else {
             commonResult = CommonResult.failed();
         }
         return commonResult;

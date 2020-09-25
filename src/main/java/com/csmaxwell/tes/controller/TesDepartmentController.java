@@ -36,10 +36,10 @@ public class TesDepartmentController {
     }
 
     @ApiOperation(value = "院系查看")
-    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public List<TesDepartment> findAll(){
-        return tesDepartmentService.selectAll();
+    public CommonResult<List<TesDepartment>> findAll(){
+        return CommonResult.success(tesDepartmentService.selectAll());
     }
 
     @ApiOperation(value = "院系删除")

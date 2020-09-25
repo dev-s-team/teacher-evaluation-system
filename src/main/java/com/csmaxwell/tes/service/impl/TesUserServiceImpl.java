@@ -1,10 +1,13 @@
 package com.csmaxwell.tes.service.impl;
 
 import com.csmaxwell.tes.common.util.JwtTokenUtil;
+import com.csmaxwell.tes.dao.TesRoleMapper;
 import com.csmaxwell.tes.dao.TesUserMapper;
 import com.csmaxwell.tes.domain.TesPermission;
+import com.csmaxwell.tes.domain.TesRole;
 import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesUserService;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -33,6 +37,9 @@ public class TesUserServiceImpl implements TesUserService {
 
     @Autowired
     private TesUserMapper tesUserMapper;
+    @Autowired
+    private TesRoleMapper tesRoleMapper;
+
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -130,5 +137,36 @@ public class TesUserServiceImpl implements TesUserService {
         tesUser.setId(userId);
         int count = tesUserMapper.updateByPrimaryKeySelective(tesUser);
         return count;
+    }
+
+    @Override
+    public List<TesUser> list(String keyword, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+        Example example = new Example(TesUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(keyword)) {
+            criteria.andLike("username", "%" + keyword + "%");
+            example.or(example.createCriteria().andLike("no", "%" + keyword + "%"));
+        }
+        List<TesUser> userList = tesUserMapper.selectByExample(example);
+        return userList;
+    }
+
+    @Override
+    public TesRole findRoleById(Long id) {
+        TesUser tesUser = new TesUser();
+        tesUser.setId(id);
+        TesUser user = tesUserMapper.selectOne(tesUser);
+        Example example = new Example(TesRole.class);
+        example.createCriteria().andEqualTo("id", user.getRoleId());
+        List<TesRole> tesRoles = tesRoleMapper.selectByExample(example);
+        return tesRoles.get(0);
+    }
+
+    @Override
+    public int updateRole(Long userId, Long roleId) {
+        TesUser tesUser = new TesUser();
+        tesUser.setRoleId(roleId);
+        return update(userId, tesUser);
     }
 }

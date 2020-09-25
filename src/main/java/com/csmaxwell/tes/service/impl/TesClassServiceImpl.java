@@ -8,6 +8,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TesClassServiceImpl implements TesClassService {
 
@@ -37,5 +39,11 @@ public class TesClassServiceImpl implements TesClassService {
         tesClass.setId(classId);
         int count = tesClassMapper.updateByPrimaryKeySelective(tesClass);
         return count;
+    }
+
+    @Override
+    public List<TesClass> findAll() {
+        List<TesClass> classList = tesClassMapper.selectAll();
+        return classList;
     }
 }
