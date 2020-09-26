@@ -3,11 +3,15 @@ package com.csmaxwell.tes.service.impl;
 import com.csmaxwell.tes.dao.TesRoleMapper;
 import com.csmaxwell.tes.domain.TesMenu;
 import com.csmaxwell.tes.domain.TesRole;
+import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesRoleService;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -57,6 +61,19 @@ public class TesRoleServiceImpl implements TesRoleService {
         TesRole tesRole = new TesRole();
         tesRole.setId(id);
         return tesRoleMapper.selectOne(tesRole);
+    }
+
+    @Override
+    public List<TesRole> list(String keyword, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+        Example example = new Example(TesRole.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(keyword)) {
+            criteria.andLike("name", "%" + keyword + "%");
+//            example.or(example.createCriteria().andLike("no", "%" + keyword + "%"));
+        }
+        List<TesRole> roleList = tesRoleMapper.selectByExample(example);
+        return roleList;
     }
 
 }

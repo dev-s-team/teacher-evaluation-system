@@ -18,4 +18,6 @@ public interface TesRoleService {
     List<TesMenu> getMenuList(Long id);
 
     TesRole findById(Long id);
+
+    List<TesRole> list(String keyword, Integer pageSize, Integer pageNum);
 }
