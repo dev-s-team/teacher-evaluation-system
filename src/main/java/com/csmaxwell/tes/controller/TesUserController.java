@@ -1,6 +1,9 @@
 package com.csmaxwell.tes.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelUtil;
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesMenu;
@@ -12,12 +15,17 @@ import com.csmaxwell.tes.service.TesRoleService;
 import com.csmaxwell.tes.service.TesUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +50,8 @@ public class TesUserController {
     private String tokenHeader;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TesUserController.class);
 
     @ApiOperation(value = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -193,8 +203,29 @@ public class TesUserController {
     @ApiOperation(value = "导入用户")
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult upload() {
-
+    public CommonResult upload(@RequestParam("excelFile") MultipartFile excelFile) throws IOException {
+        String fileName = excelFile.getOriginalFilename();
+        // 上传文件为空
+        if (StringUtils.isEmpty(excelFile)) {
+            return CommonResult.failed("不能上传空文件");
+        }
+        // 限制上传大小
+        if (excelFile.getSize() > 1024 * 1024 * 40) {
+            return CommonResult.failed("文件过大");
+        }
+        // 上传文件格式不正确
+        if (fileName.lastIndexOf(".") != -1 && !".xlsx".equals(fileName.substring(fileName.lastIndexOf(".")))) {
+            return CommonResult.failed("文件格式不正确");
+        }
+        // 读取数据
+        ExcelReader reader = ExcelUtil.getReader(excelFile.getInputStream(), 0);
+        List<Map<String, Object>> maps = reader.readAll();
+        for (Map<String, Object> map : maps) {
+            for (String key : map.keySet()) {
+                System.out.println(key);
+                System.out.println(map.get(key));
+            }
+        }
 
         return null;
     }

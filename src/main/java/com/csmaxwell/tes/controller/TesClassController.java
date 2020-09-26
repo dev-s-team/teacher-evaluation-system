@@ -1,5 +1,6 @@
 package com.csmaxwell.tes.controller;
 
+import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesClass;
 import com.csmaxwell.tes.domain.TesUser;
@@ -45,7 +46,7 @@ public class TesClassController {
     }
 
     @ApiOperation(value = "删除班级")
-    @RequestMapping(value = "/delete/{classId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{classId}", method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasAuthority('pms:class:delete')")
     public CommonResult delete(@PathVariable Long classId) {
@@ -58,11 +59,13 @@ public class TesClassController {
     }
 
     @ApiOperation(value = "查询班级列表")
-    @RequestMapping(value = "/list")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<TesClass>> list() {
-        List<TesClass> classList = tesClassService.findAll();
-        return CommonResult.success(classList);
+    public CommonResult<CommonPage<TesClass>> list(@RequestParam(value = "keyword", required = false) String keyword,
+                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<TesClass> classList = tesClassService.findAll(keyword, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(classList));
     }
 
     @ApiOperation(value = "查询班级信息")

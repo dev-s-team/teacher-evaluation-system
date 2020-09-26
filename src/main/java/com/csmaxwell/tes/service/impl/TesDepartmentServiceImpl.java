@@ -3,10 +3,13 @@ package com.csmaxwell.tes.service.impl;
 import com.csmaxwell.tes.dao.TesDepartmentMapper;
 import com.csmaxwell.tes.domain.TesDepartment;
 import com.csmaxwell.tes.service.TesDepartmentService;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -25,8 +28,15 @@ public class TesDepartmentServiceImpl implements TesDepartmentService {
     }
 
     @Override
-    public List<TesDepartment> selectAll() {
-        return tesDepartmentMapper.selectAll();
+    public List<TesDepartment> selectAll(String keyword, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+        Example example = new Example(TesDepartment.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(keyword)) {
+            criteria.andEqualTo("no", keyword);
+            example.or(example.createCriteria().andLike("name", "%" + keyword + "%"));
+        }
+        return tesDepartmentMapper.selectByExample(example);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.csmaxwell.tes.controller;
 
+import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesDepartment;
 import com.csmaxwell.tes.service.TesDepartmentService;
@@ -38,8 +39,11 @@ public class TesDepartmentController {
     @ApiOperation(value = "院系查看")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<TesDepartment>> findAll(){
-        return CommonResult.success(tesDepartmentService.selectAll());
+    public CommonResult<CommonPage<TesDepartment>> list(@RequestParam(value = "keyword", required = false) String keyword,
+                                                        @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<TesDepartment> departmentList = tesDepartmentService.selectAll(keyword, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(departmentList));
     }
 
     @ApiOperation(value = "院系删除")

@@ -14,4 +14,6 @@ public interface TesIndicatorService {
     int update(Long indicatorId, TesIndicator tesindicator);
 
     List<TesIndicator> select();
+
+    List<TesIndicator> list(String keyword, Integer pageSize, Integer pageNum);
 }

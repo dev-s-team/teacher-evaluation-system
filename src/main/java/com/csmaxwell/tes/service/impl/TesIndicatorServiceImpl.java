@@ -3,10 +3,13 @@ package com.csmaxwell.tes.service.impl;
 import com.csmaxwell.tes.dao.TesIndicatorMapper;
 import com.csmaxwell.tes.domain.TesIndicator;
 import com.csmaxwell.tes.service.TesIndicatorService;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -49,5 +52,15 @@ public class TesIndicatorServiceImpl  implements TesIndicatorService {
 
         return tesIndicators;
 
+    }
+
+    @Override
+    public List<TesIndicator> list(String keyword, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+        Example example = new Example(TesIndicator.class);
+        if (!StringUtils.isEmpty(keyword)) {
+            example.createCriteria().andLike("name", "%" + keyword + "%");
+        }
+        return tesIndicatorMapper.selectByExample(example);
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public interface TesDepartmentService {
     int create(TesDepartment tesDepartmentParam);
 
-    List<TesDepartment> selectAll();
+    List<TesDepartment> selectAll(String keyword, Integer pageSize, Integer pageNum);
 
     int delete(Long departmentId);
 

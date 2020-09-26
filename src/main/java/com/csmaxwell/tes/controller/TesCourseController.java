@@ -1,5 +1,6 @@
 package com.csmaxwell.tes.controller;
 
+import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesCourse;
 import com.csmaxwell.tes.service.TesCourseService;
@@ -30,11 +31,14 @@ public class TesCourseController {
     private TesCourseService tesCourseService;
 
     @ApiOperation("获取所有课程列表")
-    @RequestMapping(value = "listAll", method = RequestMethod.GET)
+    @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     @PreAuthorize("hasAuthority('pms:course:read')")
-    public CommonResult<List<TesCourse>> getCourseList() {
-        return CommonResult.success(tesCourseService.listAllCourse());
+    public CommonResult<CommonPage<TesCourse>> list(@RequestParam(value = "keyword", required = false) String keyword,
+                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<TesCourse> courseList = tesCourseService.listAllCourse(keyword, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(courseList));
     }
 
     @ApiOperation("根据id查询课程信息")

@@ -1,10 +1,14 @@
 package com.csmaxwell.tes.service.impl;
 
 import com.csmaxwell.tes.dao.TesCourseMapper;
+import com.csmaxwell.tes.domain.TesClass;
 import com.csmaxwell.tes.domain.TesCourse;
 import com.csmaxwell.tes.service.TesCourseService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -19,8 +23,15 @@ public class TesCourseServiceImpl implements TesCourseService {
     private TesCourseMapper tesCourseMapper;
 
     @Override
-    public List<TesCourse> listAllCourse() {
-        return tesCourseMapper.selectAll();
+    public List<TesCourse> listAllCourse(String keyword, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+        Example example = new Example(TesCourse.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(keyword)) {
+            criteria.andEqualTo("num", keyword);
+            example.or(example.createCriteria().andLike("name", "%" + keyword + "%"));
+        }
+        return tesCourseMapper.selectByExample(example);
     }
 
     @Override

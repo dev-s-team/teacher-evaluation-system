@@ -9,7 +9,7 @@ import java.util.List;
  * Created by maxwell on 2020/9/15.
  */
 public interface TesCourseService {
-    List<TesCourse> listAllCourse();
+    List<TesCourse> listAllCourse(String keyword, Integer pageSize, Integer pageNum);
 
     int create(TesCourse tesCourseParam);
 

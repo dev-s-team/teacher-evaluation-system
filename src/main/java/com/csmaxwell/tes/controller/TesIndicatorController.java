@@ -1,6 +1,7 @@
 package com.csmaxwell.tes.controller;
 
 
+import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesIndicator;
 import com.csmaxwell.tes.service.TesIndicatorService;
@@ -9,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 指标管理
@@ -48,6 +51,16 @@ public class TesIndicatorController {
         } else {
             return CommonResult.failed("删除指标失败");
         }
+    }
+
+    @ApiOperation(value = "查询列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<TesIndicator>> list(@RequestParam(value = "keyword", required = false) String keyword,
+                                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                       @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<TesIndicator> list = tesIndicatorService.list(keyword, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(list));
     }
 
     @ApiOperation(value = "查询指标信息")
