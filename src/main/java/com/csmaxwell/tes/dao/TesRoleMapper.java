@@ -14,5 +14,4 @@ public interface TesRoleMapper extends Mapper<TesRole> {
      * @return
      */
     List<TesMenu> getMenuList(Long id);
-
 }
