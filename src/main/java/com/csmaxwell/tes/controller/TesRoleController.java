@@ -1,5 +1,6 @@
 package com.csmaxwell.tes.controller;
 
+import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesRole;
 import com.csmaxwell.tes.service.TesRoleService;
@@ -43,11 +44,11 @@ public class TesRoleController {
     }
 
     @ApiOperation("删除角色信息")
-    @RequestMapping(value = "/deleteByid/{roleId}", method =  RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteByid/{roleId}", method =  RequestMethod.POST)
     @ResponseBody
-    public CommonResult delete(@PathVariable Long roleId) {
+    public CommonResult deleteRelation(@PathVariable Long roleId) {
         CommonResult commonResult;
-        int count=tesRoleService.delete(roleId);
+        int count=tesRoleService.deleteRelation(roleId);
         if (count == 1) {
             commonResult = CommonResult.success(null);
         } else {
@@ -55,6 +56,7 @@ public class TesRoleController {
         }
         return commonResult;
     }
+
 
     @ApiOperation(value = "修改角色信息")
     @RequestMapping(value = "/update/{roleId}", method = RequestMethod.POST)
@@ -68,6 +70,16 @@ public class TesRoleController {
             commonResult = CommonResult.failed("修改角色信息失败");
         }
         return commonResult;
+    }
+
+    @ApiOperation(value = "获取角色列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<TesRole>> list(@RequestParam(value = "keyword", required = false) String keyword,
+                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<TesRole> roleList = tesRoleService.list(keyword, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(roleList));
     }
 
 }

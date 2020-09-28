@@ -9,8 +9,6 @@ public interface TesRoleService {
 
     List<TesRole> selectAll();
 
-    int delete(Long roleId);
-
     int update(Long roleId, TesRole tesRoleDto);
 
     int create(TesRole tesRoleParam);
@@ -18,4 +16,8 @@ public interface TesRoleService {
     List<TesMenu> getMenuList(Long id);
 
     TesRole findById(Long id);
+
+    List<TesRole> list(String keyword, Integer pageSize, Integer pageNum);
+
+    int deleteRelation(Long roleId);
 }
