@@ -63,4 +63,13 @@ public class TesIndicatorServiceImpl  implements TesIndicatorService {
         }
         return tesIndicatorMapper.selectByExample(example);
     }
+
+    @Override
+    public TesIndicator indicatorList(Long indicatorId) {
+
+        Example example = new Example(TesIndicator.class);
+        example.createCriteria().andEqualTo("id", indicatorId);
+        List<TesIndicator> indicators = tesIndicatorMapper.selectByExample(example);
+        return indicators.get(0);
+    }
 }

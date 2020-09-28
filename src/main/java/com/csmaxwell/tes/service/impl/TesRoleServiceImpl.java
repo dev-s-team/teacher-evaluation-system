@@ -3,7 +3,6 @@ package com.csmaxwell.tes.service.impl;
 import com.csmaxwell.tes.dao.TesRoleMapper;
 import com.csmaxwell.tes.domain.TesMenu;
 import com.csmaxwell.tes.domain.TesRole;
-import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesRoleService;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;

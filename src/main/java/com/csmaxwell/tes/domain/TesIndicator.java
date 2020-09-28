@@ -16,12 +16,6 @@ public class TesIndicator {
     private String name;
 
     /**
-     * 父节点
-     */
-    @Column(name = "parent_id")
-    private Long parentId;
-
-    /**
      * 权重
      */
     private BigDecimal weight;
@@ -67,24 +61,6 @@ public class TesIndicator {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * 获取父节点
-     *
-     * @return parent_id - 父节点
-     */
-    public Long getParentId() {
-        return parentId;
-    }
-
-    /**
-     * 设置父节点
-     *
-     * @param parentId 父节点
-     */
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
     }
 
     /**
@@ -149,7 +125,6 @@ public class TesIndicator {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
-        sb.append(", parentId=").append(parentId);
         sb.append(", weight=").append(weight);
         sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);
@@ -171,7 +146,6 @@ public class TesIndicator {
         TesIndicator other = (TesIndicator) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
             && (this.getWeight() == null ? other.getWeight() == null : this.getWeight().equals(other.getWeight()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
@@ -183,7 +157,6 @@ public class TesIndicator {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getParentId() == null) ? 0 : getParentId().hashCode());
         result = prime * result + ((getWeight() == null) ? 0 : getWeight().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
