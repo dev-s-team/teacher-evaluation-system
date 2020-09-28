@@ -3,6 +3,7 @@ package com.csmaxwell.tes.service.impl;
 import com.csmaxwell.tes.common.util.JwtTokenUtil;
 import com.csmaxwell.tes.dao.*;
 import com.csmaxwell.tes.domain.*;
+import com.csmaxwell.tes.dto.TesUserDetails;
 import com.csmaxwell.tes.service.TesUserService;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -59,9 +60,9 @@ public class TesUserServiceImpl implements TesUserService {
     private String tokenHead;
 
     @Override
-    public TesUser getUserByUsername(String username) {
+    public TesUser getUserByNo(String no) {
         TesUser tesUser = new TesUser();
-        tesUser.setUsername(username);
+        tesUser.setNo(no);
         return tesUserMapper.selectOne(tesUser);
     }
 
@@ -85,17 +86,17 @@ public class TesUserServiceImpl implements TesUserService {
     }
 
     @Override
-    public String login(String username, String password) {
+    public String login(String no, String password) {
         String token = null;
 
         try {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(no);
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
                 throw new BadCredentialsException("密码正确");
             }
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            token = jwtTokenUtil.generateToken(userDetails);
+            token = jwtTokenUtil.generateToken((TesUserDetails) userDetails);
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常: {}", e.getMessage());
         }

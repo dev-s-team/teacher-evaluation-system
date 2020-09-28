@@ -1,5 +1,6 @@
 package com.csmaxwell.tes.common.util;
 
+import com.csmaxwell.tes.dto.TesUserDetails;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,7 +120,7 @@ public class JwtTokenUtil {
      * @param userDetails
      * @return
      */
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(TesUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
         claims.put(CLAIM_KEY_CREATED, new Date());
