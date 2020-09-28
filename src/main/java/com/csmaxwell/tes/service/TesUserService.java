@@ -1,8 +1,6 @@
 package com.csmaxwell.tes.service;
 
-import com.csmaxwell.tes.domain.TesPermission;
-import com.csmaxwell.tes.domain.TesRole;
-import com.csmaxwell.tes.domain.TesUser;
+import com.csmaxwell.tes.domain.*;
 
 import java.util.List;
 
@@ -31,7 +29,7 @@ public interface TesUserService {
 
     List<TesUser> findAll();
 
-    TesUser findById(Integer id);
+    TesUser findById(Long id);
 
     int create(TesUser tesUserParam);
 
@@ -46,4 +44,12 @@ public interface TesUserService {
     TesRole findRoleById(Long id);
 
     int updateRole(Long userId, Long roleId);
+
+    List<TesCourse> findCourseListById(Long userId);
+
+    TesClass findClassById(Long userId);
+
+    TesDepartment findDeptById(Long userId);
+
+    TesSemester findSemesterById(Long userId);
 }

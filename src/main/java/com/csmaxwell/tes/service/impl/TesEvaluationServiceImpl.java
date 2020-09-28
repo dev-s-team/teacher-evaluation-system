@@ -2,8 +2,12 @@ package com.csmaxwell.tes.service.impl;
 
 import com.csmaxwell.tes.dao.TesEvaluationMapper;
 import com.csmaxwell.tes.dao.TesEvaluationControlMapper;
+import com.csmaxwell.tes.dao.TesUserMapper;
 import com.csmaxwell.tes.domain.TesEvaluation;
+import com.csmaxwell.tes.domain.TesUser;
+import com.csmaxwell.tes.dto.TesUserEvalDto;
 import com.csmaxwell.tes.service.TesEvaluationService;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,9 @@ public class TesEvaluationServiceImpl implements TesEvaluationService {
     private TesEvaluationMapper tesEvaluationMapper;
     @Autowired
     private TesEvaluationControlMapper tesEvaluationControlMapper;
+    @Autowired
+    private TesUserMapper tesUserMapper;
+
 
     @Override
     public int updateById(Long evaluationControlId) {
@@ -42,4 +49,5 @@ public class TesEvaluationServiceImpl implements TesEvaluationService {
         List<TesEvaluation> evaluations = tesEvaluationMapper.selectByExample(example);
         return evaluations;
     }
+
 }

@@ -3,6 +3,10 @@ package com.csmaxwell.tes.controller;
 
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
+import com.csmaxwell.tes.dao.TesCourseMapper;
+import com.csmaxwell.tes.domain.*;
+import com.csmaxwell.tes.dto.TesUserEvalDto;
+import com.csmaxwell.tes.service.*;
 import com.csmaxwell.tes.domain.TesEvaluation;
 import com.csmaxwell.tes.domain.TesEvaluationControl;
 import com.csmaxwell.tes.domain.TesIndicator;
@@ -19,6 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * S
+ * Created by maxwell on 2020/9/27.
+ */
 @Api(tags = "TesEvaluationController", description = "评教管理")
 @RestController
 @RequestMapping("/evaluation")
@@ -32,6 +40,12 @@ public class TesEvaluationController {
 
     @Autowired
     private TesIndicatorService tesIndicatorService;
+    @Autowired
+    private TesClassService tesClassService;
+    @Autowired
+    private TesUserService tesUserService;
+    @Autowired
+    private TesCourseService tesCourseService;
 
     @ApiOperation(value = "发布评教")
     @RequestMapping(value = "/update/{evaluationControlId}", method = RequestMethod.POST)
@@ -99,5 +113,47 @@ public class TesEvaluationController {
         } else {
             return CommonResult.failed("查询用户信息失败");
         }
+    }
+
+    @ApiOperation(value = "根据用户id查询评教课程")
+    @RequestMapping(value = "/findCourse/{userId}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<TesUserEvalDto>> findCourse(@PathVariable("userId") Long userId,
+                                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        TesUserEvalDto userEvalDto = new TesUserEvalDto();
+        List<TesUserEvalDto> userEvalDtoList = new ArrayList<>();
+        // 获取评教人角色
+        TesRole tesRole = tesUserService.findRoleById(userId);
+        // 获取班级信息
+        TesClass tesClass = tesUserService.findClassById(userId);
+        // 获取院系信息
+        TesDepartment tesDept = tesUserService.findDeptById(userId);
+        // 获取学期信息
+        TesSemester tesSemester = tesUserService.findSemesterById(userId);
+
+        // 查询用户有哪些课程
+        List<TesCourse> courseList = tesUserService.findCourseListById(userId);
+
+        // 根据课程查询
+        for (TesCourse course : courseList) {
+            // 查询评教目标信息
+            TesUser targetUser = tesCourseService.findUserInfoById(course.getNum());
+
+            userEvalDto.setUserId(userId);
+            userEvalDto.setRoleId(tesRole.getId());
+            userEvalDto.setTargetId(targetUser.getId());
+            userEvalDto.setCourseId(course.getId());
+            userEvalDto.setCourseName(course.getName());
+            userEvalDto.setClassId(tesClass.getId());
+            userEvalDto.setClassNo(tesClass.getNo());
+            userEvalDto.setDeptId(tesDept.getId());
+            userEvalDto.setDeptName(tesDept.getName());
+            userEvalDto.setSemesterId(tesSemester.getId());
+            userEvalDto.setSemesterName(tesSemester.getName());
+            userEvalDtoList.add(userEvalDto);
+        }
+
+        return CommonResult.success(CommonPage.restPage(userEvalDtoList));
     }
 }
