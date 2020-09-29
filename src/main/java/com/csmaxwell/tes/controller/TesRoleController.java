@@ -45,11 +45,11 @@ public class TesRoleController {
     }
 
     @ApiOperation("删除角色信息")
-    @RequestMapping(value = "/deleteByid/{roleId}", method =  RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteByid/{roleId}", method =  RequestMethod.POST)
     @ResponseBody
-    public CommonResult delete(@PathVariable Long roleId) {
+    public CommonResult deleteRelation(@PathVariable Long roleId) {
         CommonResult commonResult;
-        int count=tesRoleService.delete(roleId);
+        int count=tesRoleService.deleteRelation(roleId);
         if (count == 1) {
             commonResult = CommonResult.success(null);
         } else {
@@ -57,6 +57,7 @@ public class TesRoleController {
         }
         return commonResult;
     }
+
 
     @ApiOperation(value = "修改角色信息")
     @RequestMapping(value = "/update/{roleId}", method = RequestMethod.POST)
