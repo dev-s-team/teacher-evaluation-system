@@ -113,13 +113,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         // 获取登录用户信息
-        return username -> {
-            TesUser user = tesUserService.getUserByUsername(username);
+        return no -> {
+            TesUser user = tesUserService.getUserByNo(no);
             if (user != null) {
                 List<TesPermission> permissionList = tesUserService.getPermissionList(user.getId());
                 return new TesUserDetails(user, permissionList);
             }
-            throw new UsernameNotFoundException("用户名或密码错误");
+            throw new UsernameNotFoundException("学号或密码错误");
         };
     }
 

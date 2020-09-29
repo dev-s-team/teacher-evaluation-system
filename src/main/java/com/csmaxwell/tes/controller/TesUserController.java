@@ -68,8 +68,7 @@ public class TesUserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult login(@RequestBody TesUserLoginParam tesUserLoginParam, BindingResult result) {
-        System.out.println("/user/login 登录");
-        String token = tesUserService.login(tesUserLoginParam.getUsername(), tesUserLoginParam.getPassword());
+        String token = tesUserService.login(tesUserLoginParam.getNo(), tesUserLoginParam.getPassword());
         if (token == null) {
             return CommonResult.validateFailed("用户名或密码错误");
         }
@@ -83,11 +82,13 @@ public class TesUserController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getUserInfo(Principal principal) {
+        System.out.println("哈哈哈哈");
         if (principal == null) {
             return CommonResult.unauthorized(null);
         }
-        String username = principal.getName();
-        TesUser tesUser = tesUserService.getUserByUsername(username);
+        String no = principal.getName();
+        System.out.println("no是: " + no);
+        TesUser tesUser = tesUserService.getUserByNo(no);
         HashMap<String, Object> data = new HashMap<>();
         data.put("username", tesUser.getUsername());
         List<TesMenu> menus = tesRoleService.getMenuList(tesUser.getId());
