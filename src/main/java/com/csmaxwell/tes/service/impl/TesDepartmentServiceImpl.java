@@ -24,6 +24,7 @@ public class TesDepartmentServiceImpl implements TesDepartmentService {
     @Override
     public int create(TesDepartment tesDepartmentParam) {
         int count=tesDepartmentMapper.insertSelective(tesDepartmentParam);
+
         return count;
     }
 

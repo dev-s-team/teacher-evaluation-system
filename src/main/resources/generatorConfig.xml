@@ -47,9 +47,9 @@
         <javaClientGenerator targetPackage="com.csmaxwell.tes.dao" targetProject="src/main/java"
                              type="XMLMAPPER"/>
 
-<!--        <table tableName="tes_class">-->
-<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-<!--        </table>-->
+        <table tableName="tes_class">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
 
 <!--        <table tableName="tes_course">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
@@ -106,9 +106,9 @@
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->
 
-        <table tableName="tes_indicator">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+<!--        <table tableName="tes_indicator">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
 
 <!--        <table tableName="tes_indicator_role">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
