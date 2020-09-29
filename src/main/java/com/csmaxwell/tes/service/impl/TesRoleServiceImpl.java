@@ -70,18 +70,7 @@ public class TesRoleServiceImpl implements TesRoleService {
         return tesRoleMapper.selectOne(tesRole);
     }
 
-    @Override
-    public List<TesRole> list(String keyword, Integer pageSize, Integer pageNum) {
-        PageHelper.startPage(pageNum, pageSize);
-        Example example = new Example(TesRole.class);
-        Example.Criteria criteria = example.createCriteria();
-        if (!StringUtils.isEmpty(keyword)) {
-            criteria.andLike("name", "%" + keyword + "%");
-//            example.or(example.createCriteria().andLike("no", "%" + keyword + "%"));
-        }
-        List<TesRole> roleList = tesRoleMapper.selectByExample(example);
-        return roleList;
-    }
+
 
     @Override
     public int deleteRelation(Long roleId) {
