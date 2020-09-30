@@ -22,4 +22,5 @@ public interface TesRoleService {
     int deleteRelation(Long roleId);
 
     List<TesRole> list(String keyword, Integer pageSize, Integer pageNum);
+
 }
