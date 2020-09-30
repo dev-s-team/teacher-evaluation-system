@@ -1,11 +1,9 @@
 package com.csmaxwell.tes.service.impl;
 
 import com.csmaxwell.tes.common.util.JwtTokenUtil;
-import com.csmaxwell.tes.dao.TesRoleMapper;
-import com.csmaxwell.tes.dao.TesUserMapper;
-import com.csmaxwell.tes.domain.TesPermission;
-import com.csmaxwell.tes.domain.TesRole;
-import com.csmaxwell.tes.domain.TesUser;
+import com.csmaxwell.tes.dao.*;
+import com.csmaxwell.tes.domain.*;
+import com.csmaxwell.tes.dto.TesUserDetails;
 import com.csmaxwell.tes.service.TesUserService;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -24,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +38,16 @@ public class TesUserServiceImpl implements TesUserService {
     private TesUserMapper tesUserMapper;
     @Autowired
     private TesRoleMapper tesRoleMapper;
+    @Autowired
+    private TesCourseMapper tesCourseMapper;
+    @Autowired
+    private TesUserCourseMapper tesUserCourseMapper;
+    @Autowired
+    private TesClassMapper tesClassMapper;
+    @Autowired
+    private TesDepartmentMapper tesDepartmentMapper;
+    @Autowired
+    private TesSemesterMapper tesSemesterMapper;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -51,9 +60,9 @@ public class TesUserServiceImpl implements TesUserService {
     private String tokenHead;
 
     @Override
-    public TesUser getUserByUsername(String username) {
+    public TesUser getUserByNo(String no) {
         TesUser tesUser = new TesUser();
-        tesUser.setUsername(username);
+        tesUser.setNo(no);
         return tesUserMapper.selectOne(tesUser);
     }
 
@@ -77,17 +86,17 @@ public class TesUserServiceImpl implements TesUserService {
     }
 
     @Override
-    public String login(String username, String password) {
+    public String login(String no, String password) {
         String token = null;
 
         try {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(no);
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
                 throw new BadCredentialsException("密码正确");
             }
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            token = jwtTokenUtil.generateToken(userDetails);
+            token = jwtTokenUtil.generateToken((TesUserDetails) userDetails);
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常: {}", e.getMessage());
         }
@@ -105,7 +114,7 @@ public class TesUserServiceImpl implements TesUserService {
         return userList;
     }
 
-    public TesUser findById(Integer id) {
+    public TesUser findById(Long id) {
         TesUser tesUser = tesUserMapper.selectByPrimaryKey(id);
         return tesUser;
     }
@@ -154,11 +163,9 @@ public class TesUserServiceImpl implements TesUserService {
 
     @Override
     public TesRole findRoleById(Long id) {
-        TesUser tesUser = new TesUser();
-        tesUser.setId(id);
-        TesUser user = tesUserMapper.selectOne(tesUser);
+        TesUser tesUser = findById(id);
         Example example = new Example(TesRole.class);
-        example.createCriteria().andEqualTo("id", user.getRoleId());
+        example.createCriteria().andEqualTo("id", tesUser.getRoleId());
         List<TesRole> tesRoles = tesRoleMapper.selectByExample(example);
         return tesRoles.get(0);
     }
@@ -168,5 +175,53 @@ public class TesUserServiceImpl implements TesUserService {
         TesUser tesUser = new TesUser();
         tesUser.setRoleId(roleId);
         return update(userId, tesUser);
+    }
+
+    @Override
+    public List<TesCourse> findCourseListById(Long userId) {
+
+        TesUser tesUser = findById(userId);
+
+        List<TesCourse> courseList = new ArrayList<>();
+
+        Example example1 = new Example(TesUserCourse.class);
+        example1.createCriteria().andEqualTo("userNo", tesUser.getNo());
+        List<TesUserCourse> userCourseList = tesUserCourseMapper.selectByExample(example1);
+
+        for (TesUserCourse userCourse : userCourseList) {
+            Example example2 = new Example(TesCourse.class);
+            example2.createCriteria().andEqualTo("num", userCourse.getCourseNum());
+            example2.createCriteria().andEqualTo("semesterId", tesUser.getSemesterId());
+            courseList.add(tesCourseMapper.selectByExample(example2).get(0));
+        }
+
+        return courseList;
+    }
+
+    @Override
+    public TesClass findClassById(Long userId) {
+        TesUser tesUser = findById(userId);
+        Example example = new Example(TesClass.class);
+        example.createCriteria().andEqualTo("no", tesUser.getClassNo());
+        List<TesClass> classList = tesClassMapper.selectByExample(example);
+        return classList.get(0);
+    }
+
+    @Override
+    public TesDepartment findDeptById(Long userId) {
+        TesUser tesUser = findById(userId);
+        Example example = new Example(TesDepartment.class);
+        example.createCriteria().andEqualTo("no", tesUser.getDeptNo());
+        List<TesDepartment> departmentList = tesDepartmentMapper.selectByExample(example);
+        return departmentList.get(0);
+    }
+
+    @Override
+    public TesSemester findSemesterById(Long userId) {
+        TesUser tesUser = findById(userId);
+        Example example = new Example(TesSemester.class);
+        example.createCriteria().andEqualTo("id", tesUser.getSemesterId());
+        List<TesSemester> semesterList = tesSemesterMapper.selectByExample(example);
+        return semesterList.get(0);
     }
 }

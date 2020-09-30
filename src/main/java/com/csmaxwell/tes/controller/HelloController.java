@@ -44,7 +44,7 @@ public class HelloController {
     @ApiOperation("根据id获取用户信息")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public TesUser findById(@PathVariable Integer id) {
+    public TesUser findById(@PathVariable Long id) {
         return tesUserService.findById(id);
     }
 

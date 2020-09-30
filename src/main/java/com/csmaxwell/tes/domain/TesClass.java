@@ -14,6 +14,12 @@ public class TesClass {
     private String name;
 
     /**
+     * 院系编号
+     */
+    @Column(name = "dept_no")
+    private Long deptNo;
+
+    /**
      * 班级编号
      */
     private String no;
@@ -51,6 +57,24 @@ public class TesClass {
     }
 
     /**
+     * 获取院系编号
+     *
+     * @return dept_no - 院系编号
+     */
+    public Long getDeptNo() {
+        return deptNo;
+    }
+
+    /**
+     * 设置院系编号
+     *
+     * @param deptNo 院系编号
+     */
+    public void setDeptNo(Long deptNo) {
+        this.deptNo = deptNo;
+    }
+
+    /**
      * 获取班级编号
      *
      * @return no - 班级编号
@@ -76,6 +100,7 @@ public class TesClass {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
+        sb.append(", deptNo=").append(deptNo);
         sb.append(", no=").append(no);
         sb.append("]");
         return sb.toString();
@@ -95,6 +120,7 @@ public class TesClass {
         TesClass other = (TesClass) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+            && (this.getDeptNo() == null ? other.getDeptNo() == null : this.getDeptNo().equals(other.getDeptNo()))
             && (this.getNo() == null ? other.getNo() == null : this.getNo().equals(other.getNo()));
     }
 
@@ -104,6 +130,7 @@ public class TesClass {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getDeptNo() == null) ? 0 : getDeptNo().hashCode());
         result = prime * result + ((getNo() == null) ? 0 : getNo().hashCode());
         return result;
     }

@@ -1,6 +1,7 @@
 package com.csmaxwell.tes.service;
 
 import com.csmaxwell.tes.domain.TesCourse;
+import com.csmaxwell.tes.domain.TesUser;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface TesCourseService {
     int update(Long id, TesCourse tesCourseDto);
 
     int delete(Long id);
+
+    TesUser findUserInfoById(String id);
 }

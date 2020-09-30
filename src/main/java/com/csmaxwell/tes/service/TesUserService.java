@@ -1,8 +1,6 @@
 package com.csmaxwell.tes.service;
 
-import com.csmaxwell.tes.domain.TesPermission;
-import com.csmaxwell.tes.domain.TesRole;
-import com.csmaxwell.tes.domain.TesUser;
+import com.csmaxwell.tes.domain.*;
 
 import java.util.List;
 
@@ -13,25 +11,25 @@ import java.util.List;
 public interface TesUserService {
 
     // 根据用户名获取用户
-    TesUser getUserByUsername(String username);
+    TesUser getUserByNo(String no);
 
     // 注册
     TesUser register(TesUser tesUser);
 
     /**
      * 登录
-     * @param username
+     * @param no
      * @param password
      * @return 生成的JWT的token
      */
-    String login(String username, String password);
+    String login(String no, String password);
 
     // 获取用户的所有权限
     List<TesPermission> getPermissionList(Long userId);
 
     List<TesUser> findAll();
 
-    TesUser findById(Integer id);
+    TesUser findById(Long id);
 
     int create(TesUser tesUserParam);
 
@@ -46,4 +44,12 @@ public interface TesUserService {
     TesRole findRoleById(Long id);
 
     int updateRole(Long userId, Long roleId);
+
+    List<TesCourse> findCourseListById(Long userId);
+
+    TesClass findClassById(Long userId);
+
+    TesDepartment findDeptById(Long userId);
+
+    TesSemester findSemesterById(Long userId);
 }

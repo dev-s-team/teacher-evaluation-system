@@ -2,6 +2,7 @@ package com.csmaxwell.tes.controller;
 
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesRole;
+import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

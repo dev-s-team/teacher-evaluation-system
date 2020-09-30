@@ -19,6 +19,12 @@ public class TesCourse {
     private String num;
 
     /**
+     * 学期id
+     */
+    @Column(name = "semester_id")
+    private Long semesterId;
+
+    /**
      * @return id
      */
     public Long getId() {
@@ -68,6 +74,24 @@ public class TesCourse {
         this.num = num;
     }
 
+    /**
+     * 获取学期id
+     *
+     * @return semester_id - 学期id
+     */
+    public Long getSemesterId() {
+        return semesterId;
+    }
+
+    /**
+     * 设置学期id
+     *
+     * @param semesterId 学期id
+     */
+    public void setSemesterId(Long semesterId) {
+        this.semesterId = semesterId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -77,6 +101,7 @@ public class TesCourse {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", num=").append(num);
+        sb.append(", semesterId=").append(semesterId);
         sb.append("]");
         return sb.toString();
     }
@@ -95,7 +120,8 @@ public class TesCourse {
         TesCourse other = (TesCourse) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getNum() == null ? other.getNum() == null : this.getNum().equals(other.getNum()));
+            && (this.getNum() == null ? other.getNum() == null : this.getNum().equals(other.getNum()))
+            && (this.getSemesterId() == null ? other.getSemesterId() == null : this.getSemesterId().equals(other.getSemesterId()));
     }
 
     @Override
@@ -105,6 +131,7 @@ public class TesCourse {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getNum() == null) ? 0 : getNum().hashCode());
+        result = prime * result + ((getSemesterId() == null) ? 0 : getSemesterId().hashCode());
         return result;
     }
 }

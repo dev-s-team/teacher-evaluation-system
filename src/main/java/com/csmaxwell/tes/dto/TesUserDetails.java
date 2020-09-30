@@ -40,7 +40,7 @@ public class TesUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return tesUser.getUsername();
+        return tesUser.getNo();
     }
 
     @Override
