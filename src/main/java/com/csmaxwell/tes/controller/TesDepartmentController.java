@@ -46,6 +46,14 @@ public class TesDepartmentController {
         return CommonResult.success(CommonPage.restPage(departmentList));
     }
 
+    @ApiOperation(value = "查询所有")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesDepartment>> all() {
+        List<TesDepartment> deptList = tesDepartmentService.all();
+        return CommonResult.success(deptList);
+    }
+
     @ApiOperation(value = "院系删除")
     @RequestMapping(value = "/deleteByid/{departmentId}" , method = RequestMethod.DELETE)
     @ResponseBody

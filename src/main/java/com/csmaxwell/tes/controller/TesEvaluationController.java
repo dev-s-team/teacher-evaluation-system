@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Api(tags = "TesEvaluationController", description = "评教管理")
 @RestController
-@RequestMapping("/evaluation")
+@RequestMapping("/eval")
 public class TesEvaluationController {
 
     @Autowired
@@ -74,8 +74,7 @@ public class TesEvaluationController {
                                                      @PathVariable(value = "target_id", required = false) Long targetId,
                                                      @PathVariable(value = "course_id", required = false) Long courseId,
                                                      @PathVariable(value = "semester_id", required = false) Long semesterId,
-                                                     @RequestBody TesEvaluationControl tesEvaluationControl
-                                                    ) {
+                                                     @RequestBody TesEvaluationControl tesEvaluationControl) {
 
         List<TesEvaluationControl> evlControlList = tesEvaluationControlService.tecList(semesterId);
 
@@ -115,34 +114,39 @@ public class TesEvaluationController {
         }
     }
 
-    @ApiOperation(value = "根据用户id查询评教课程")
-    @RequestMapping(value = "/findCourse/{userId}", method = RequestMethod.GET)
+    @ApiOperation(value = "根据用户编号查询评教课程")
+    @RequestMapping(value = "/courseList/{no}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<TesUserEvalDto>> findCourse(@PathVariable("userId") Long userId,
-                                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        TesUserEvalDto userEvalDto = new TesUserEvalDto();
+    public CommonResult<List<TesUserEvalDto>> findCourse(@PathVariable("no") String no) {
+
         List<TesUserEvalDto> userEvalDtoList = new ArrayList<>();
+        // 获取评教对象
+        TesUser tesUser = tesUserService.findByNo(no);
+        Long id = tesUser.getId();
         // 获取评教人角色
-        TesRole tesRole = tesUserService.findRoleById(userId);
+        TesRole tesRole = tesUserService.findRoleById(id);
         // 获取班级信息
-        TesClass tesClass = tesUserService.findClassById(userId);
+        TesClass tesClass = tesUserService.findClassById(id);
         // 获取院系信息
-        TesDepartment tesDept = tesUserService.findDeptById(userId);
+        TesDepartment tesDept = tesUserService.findDeptById(id);
         // 获取学期信息
-        TesSemester tesSemester = tesUserService.findSemesterById(userId);
+        TesSemester tesSemester = tesUserService.findSemesterById(id);
 
         // 查询用户有哪些课程
-        List<TesCourse> courseList = tesUserService.findCourseListById(userId);
+        List<TesCourse> courseList = tesUserService.findCourseListById(id);
 
         // 根据课程查询
         for (TesCourse course : courseList) {
+            TesUserEvalDto userEvalDto = new TesUserEvalDto();
+
+            System.out.println(course.getName());
             // 查询评教目标信息
             TesUser targetUser = tesCourseService.findUserInfoById(course.getNum());
 
-            userEvalDto.setUserId(userId);
+            userEvalDto.setUserId(id);
             userEvalDto.setRoleId(tesRole.getId());
             userEvalDto.setTargetId(targetUser.getId());
+            userEvalDto.setTargetName(targetUser.getUsername());
             userEvalDto.setCourseId(course.getId());
             userEvalDto.setCourseName(course.getName());
             userEvalDto.setClassId(tesClass.getId());
@@ -154,6 +158,6 @@ public class TesEvaluationController {
             userEvalDtoList.add(userEvalDto);
         }
 
-        return CommonResult.success(CommonPage.restPage(userEvalDtoList));
+        return CommonResult.success(userEvalDtoList);
     }
 }

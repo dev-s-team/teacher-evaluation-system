@@ -1,13 +1,20 @@
 package com.csmaxwell.tes.service.impl;
 
 import com.csmaxwell.tes.dao.TesRoleMapper;
+import com.csmaxwell.tes.dao.TesRoleMenuMapper;
+import com.csmaxwell.tes.dao.TesRolePermissionMapper;
 import com.csmaxwell.tes.domain.TesMenu;
 import com.csmaxwell.tes.domain.TesRole;
+import com.csmaxwell.tes.domain.TesRoleMenu;
+import com.csmaxwell.tes.domain.TesRolePermission;
 import com.csmaxwell.tes.service.TesRoleService;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -22,6 +29,10 @@ public class TesRoleServiceImpl implements TesRoleService {
 
     @Autowired
     private TesRoleMapper tesRoleMapper;
+    @Autowired
+    private TesRolePermissionMapper tesRolePermissionMapper;
+    @Autowired
+    private TesRoleMenuMapper tesRoleMenuMapper;
 
     @Override
     public List<TesRole> selectAll() {

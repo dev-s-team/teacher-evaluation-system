@@ -1,5 +1,6 @@
 package com.csmaxwell.tes.controller;
 
+import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesRole;
 import com.csmaxwell.tes.domain.TesUser;
@@ -69,6 +70,16 @@ public class TesRoleController {
             commonResult = CommonResult.failed("修改角色信息失败");
         }
         return commonResult;
+    }
+
+    @ApiOperation(value = "分页查询角色信息")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<TesRole>> list(@RequestParam(value = "keyword", required = false) String keyword,
+                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
+        List<TesRole> list = tesRoleService.list(keyword, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(list));
     }
 
 }

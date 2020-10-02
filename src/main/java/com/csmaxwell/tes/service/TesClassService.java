@@ -16,4 +16,6 @@ public interface TesClassService{
     int update(Long classId, TesClass tesClass);
 
     List<TesClass> findAll(String keyword, Integer pageSize, Integer pageNum);
+
+    List<TesClass> all();
 }

@@ -68,6 +68,14 @@ public class TesClassController {
         return CommonResult.success(CommonPage.restPage(classList));
     }
 
+    @ApiOperation(value = "查询所有")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesClass>> all() {
+        List<TesClass> classList = tesClassService.all();
+        return CommonResult.success(classList);
+    }
+
     @ApiOperation(value = "查询班级信息")
     @RequestMapping(value = "/reade/{classId}", method = RequestMethod.GET)
     @ResponseBody
