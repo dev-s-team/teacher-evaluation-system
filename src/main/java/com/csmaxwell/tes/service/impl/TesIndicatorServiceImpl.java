@@ -72,4 +72,13 @@ public class TesIndicatorServiceImpl  implements TesIndicatorService {
         List<TesIndicator> indicators = tesIndicatorMapper.selectByExample(example);
         return indicators.get(0);
     }
+
+    @Override
+    public int updateStatus(Long id, Byte status) {
+        TesIndicator indicator = new TesIndicator();
+        indicator.setId(id);
+        indicator.setStatus(status);
+        int count = tesIndicatorMapper.updateByPrimaryKeySelective(indicator);
+        return count;
+    }
 }

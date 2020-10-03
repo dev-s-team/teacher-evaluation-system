@@ -68,13 +68,12 @@ public class TesEvaluationController {
     @ApiOperation(value = "开始评教")
     @RequestMapping(value = "/startEvaluation", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:evaluation:startEvaluation')")
+    // @PreAuthorize("hasAuthority('pms:evaluation:startEvaluation')")
     public CommonResult<List<TesIndicator>> list(@PathVariable(value = "user_id", required = false) Long userId,
                                                      @PathVariable(value = "role_id", required = false) Long roleId,
                                                      @PathVariable(value = "target_id", required = false) Long targetId,
                                                      @PathVariable(value = "course_id", required = false) Long courseId,
-                                                     @PathVariable(value = "semester_id", required = false) Long semesterId,
-                                                     @RequestBody TesEvaluationControl tesEvaluationControl) {
+                                                     @PathVariable(value = "semester_id", required = false) Long semesterId) {
 
         List<TesEvaluationControl> evlControlList = tesEvaluationControlService.tecList(semesterId);
 

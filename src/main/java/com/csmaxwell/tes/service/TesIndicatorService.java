@@ -18,4 +18,6 @@ public interface TesIndicatorService {
     List<TesIndicator> list(String keyword, Integer pageSize, Integer pageNum);
 
     TesIndicator indicatorList(Long indicatorId);
+
+    int updateStatus(Long id, Byte status);
 }
