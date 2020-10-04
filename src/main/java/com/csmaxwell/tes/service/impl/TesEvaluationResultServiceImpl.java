@@ -41,7 +41,7 @@ public class TesEvaluationResultServiceImpl implements TesEvaluationResultServic
     public List<TesEvaluationResult> select(Long userId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         Example example = new Example(TesEvaluationResult.class);
-        example.createCriteria().andEqualTo("user_id", userId);
+        example.createCriteria().andEqualTo("userId", userId);
         return tesEvaluationResultMapper.selectByExample(example);
     }
 

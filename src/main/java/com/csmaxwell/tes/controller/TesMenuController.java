@@ -65,15 +65,41 @@ public class TesMenuController {
         return commonResult;
     }
 
-    @ApiOperation("查询列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ApiOperation("切换显示状态")
+    @RequestMapping(value = "/updateHidden/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<TesMenu>> list(@RequestParam(value = "keyword", required = false) String keyword,
+    public CommonResult updateHidden(@PathVariable("id") Long id, @RequestBody TesMenu tesMenu) {
+        CommonResult commonResult;
+        int count = tesMenuService.updateHidden(id, tesMenu);
+        if (count == 1) {
+            commonResult = CommonResult.success(null);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+
+    @ApiOperation("查询一级列表")
+    @RequestMapping(value = "/list/{parentId}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<TesMenu>> firstList(@PathVariable(value = "parentId") Long parentId,
                                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<TesMenu> list = tesMenuService.list(keyword, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(list));
+        List<TesMenu> menuList = tesMenuService.list(parentId, pageSize, pageNum);
+        System.out.println(menuList);
+        return CommonResult.success(CommonPage.restPage(menuList));
     }
+
+//    @ApiOperation("查询二级列表")
+//    @RequestMapping(value = "/secondtList/{id}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public CommonResult<CommonPage<TesMenu>> secondList(@PathVariable("id") Long id,
+//                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+//                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+//        List<TesMenu> menuList = tesMenuService.secondList(id, pageSize, pageNum);
+//        System.out.println(menuList);
+//        return CommonResult.success(CommonPage.restPage(menuList));
+//    }
 
     @ApiOperation("根据id查询")
     @RequestMapping(value = "{id}", method = RequestMethod.GET)

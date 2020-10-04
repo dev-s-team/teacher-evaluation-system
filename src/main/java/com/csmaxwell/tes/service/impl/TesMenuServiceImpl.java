@@ -39,13 +39,10 @@ public class TesMenuServiceImpl implements TesMenuService {
     }
 
     @Override
-    public List<TesMenu> list(String keyword, Integer pageSize, Integer pageNum) {
+    public List<TesMenu> list(Long parentId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         Example example = new Example(TesMenu.class);
-        Example.Criteria criteria = example.createCriteria();
-        if (!StringUtils.isEmpty(keyword)) {
-            criteria.andLike("title", "%" + keyword + "%");
-        }
+        example.createCriteria().andEqualTo("parentId",  parentId );
         return tesMenuMapper.selectByExample(example);
     }
 
@@ -54,5 +51,20 @@ public class TesMenuServiceImpl implements TesMenuService {
         TesMenu tesMenu = new TesMenu();
         tesMenu.setId(id);
         return tesMenuMapper.selectOne(tesMenu);
+    }
+
+    @Override
+    public int updateHidden(Long id, TesMenu tesMenu) {
+        tesMenu.setId(id);
+        int count = tesMenuMapper.updateByPrimaryKeySelective(tesMenu);
+        return count;
+    }
+
+    @Override
+    public List<TesMenu> secondList(Long id, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+        Example example = new Example(TesMenu.class);
+        example.createCriteria().andEqualTo("parentId", id);
+        return tesMenuMapper.selectByExample(example);
     }
 }
