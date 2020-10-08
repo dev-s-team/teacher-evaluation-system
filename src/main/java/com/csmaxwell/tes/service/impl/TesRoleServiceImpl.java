@@ -3,10 +3,7 @@ package com.csmaxwell.tes.service.impl;
 import com.csmaxwell.tes.dao.TesRoleMapper;
 import com.csmaxwell.tes.dao.TesRoleMenuMapper;
 import com.csmaxwell.tes.dao.TesRolePermissionMapper;
-import com.csmaxwell.tes.domain.TesMenu;
-import com.csmaxwell.tes.domain.TesRole;
-import com.csmaxwell.tes.domain.TesRoleMenu;
-import com.csmaxwell.tes.domain.TesRolePermission;
+import com.csmaxwell.tes.domain.*;
 import com.csmaxwell.tes.service.TesRoleService;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -100,6 +97,23 @@ public class TesRoleServiceImpl implements TesRoleService {
         }
         List<TesRole> roleList = tesRoleMapper.selectByExample(example);
         return roleList;
+    }
+
+    @Override
+    public int updateStatus(Long id, TesRole tesRole) {
+
+        tesRole.setId(id);
+        int count = tesRoleMapper.updateByPrimaryKeySelective(tesRole);
+        return count;
+    }
+
+    @Override
+    public List<TesRoleMenu> listRoleMenu(Long roleId) {
+
+        Example example = new Example(TesRoleMenu.class);
+        example.createCriteria().andEqualTo("roleId", roleId);
+        List<TesRoleMenu> tesRoleMenuses = tesRoleMenuMapper.selectByExample(example);
+        return tesRoleMenuses;
     }
 
 }

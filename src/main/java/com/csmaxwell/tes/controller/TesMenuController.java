@@ -7,6 +7,7 @@ import com.csmaxwell.tes.service.TesMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class TesMenuController {
     @ApiOperation("新增菜单项")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
+    @PreAuthorize("hasAuthority('ums:menu:create')")
     public CommonResult create(@RequestBody TesMenu tesMenu) {
         CommonResult commonResult;
         int count = tesMenuService.create(tesMenu);
@@ -40,6 +42,7 @@ public class TesMenuController {
     @ApiOperation("删除菜单项")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @ResponseBody
+    @PreAuthorize("hasAuthority('ums:menu:delete')")
     public CommonResult delete(@PathVariable("id") Long id) {
         CommonResult commonResult;
         int count = tesMenuService.delete(id);
@@ -54,6 +57,7 @@ public class TesMenuController {
     @ApiOperation("更新菜单项")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
+    @PreAuthorize("hasAuthority('ums:menu:update')")
     public CommonResult update(@PathVariable("id") Long id, @RequestBody TesMenu tesMenu) {
         CommonResult commonResult;
         int count = tesMenuService.update(id, tesMenu);
@@ -79,9 +83,10 @@ public class TesMenuController {
         return commonResult;
     }
 
-    @ApiOperation("查询一级列表")
+    @ApiOperation("查询菜单列表")
     @RequestMapping(value = "/list/{parentId}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("hasAuthority('ums:menu:read')")
     public CommonResult<CommonPage<TesMenu>> firstList(@PathVariable(value = "parentId") Long parentId,
                                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
@@ -90,20 +95,20 @@ public class TesMenuController {
         return CommonResult.success(CommonPage.restPage(menuList));
     }
 
-//    @ApiOperation("查询二级列表")
-//    @RequestMapping(value = "/secondtList/{id}", method = RequestMethod.GET)
-//    @ResponseBody
-//    public CommonResult<CommonPage<TesMenu>> secondList(@PathVariable("id") Long id,
-//                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-//                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-//        List<TesMenu> menuList = tesMenuService.secondList(id, pageSize, pageNum);
-//        System.out.println(menuList);
-//        return CommonResult.success(CommonPage.restPage(menuList));
-//    }
+    @ApiOperation("查询所有菜单列表")
+    @RequestMapping(value = "/treeList", method = RequestMethod.GET)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ums:menu:read')")
+    public CommonResult<List<TesMenu>> treeList() {
+        List<TesMenu> menuList = tesMenuService.treeList();
+        System.out.println(menuList);
+        return CommonResult.success(menuList);
+    }
 
     @ApiOperation("根据id查询")
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("hasAuthority('ums:menu:read')")
     public CommonResult<TesMenu> select(@PathVariable("id") Long id) {
         TesMenu tesMenu = tesMenuService.select(id);
         if (tesMenu != null) {

@@ -67,4 +67,10 @@ public class TesMenuServiceImpl implements TesMenuService {
         example.createCriteria().andEqualTo("parentId", id);
         return tesMenuMapper.selectByExample(example);
     }
+
+    @Override
+    public List<TesMenu> treeList() {
+        List<TesMenu> tesMenus = tesMenuMapper.selectAll();
+        return tesMenus;
+    }
 }

@@ -28,7 +28,7 @@ public class TesSemesterController {
     @ApiOperation(value = "新增批次")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:semester:create')")
+    @PreAuthorize("hasAuthority('ems:batch:create')")
     public CommonResult create(@RequestBody TesSemester tesSemesterParam) {
         CommonResult commonResult;
         int count = tesSemesterService.create(tesSemesterParam);
@@ -43,7 +43,7 @@ public class TesSemesterController {
     @ApiOperation(value = "查询批次信息")
     @RequestMapping(value = "/reade/{semesterId}", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:semester:reade')")
+    @PreAuthorize("hasAuthority('ems:batch:reade')")
     public CommonResult reade(@PathVariable Long semesterId) {
         TesSemester tesSemester = tesSemesterService.select(semesterId);
         if (tesSemester != null) {
@@ -56,7 +56,7 @@ public class TesSemesterController {
     @ApiOperation(value = "更新批次信息")
     @RequestMapping(value = "/update/{semesterId}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:semester:update')")
+    @PreAuthorize("hasAuthority('ems:batch:update')")
     public CommonResult update(@PathVariable Long semesterId ,@RequestBody TesSemester tesSemester) {
         int count = tesSemesterService.update(semesterId,tesSemester);
         if (count == 1) {

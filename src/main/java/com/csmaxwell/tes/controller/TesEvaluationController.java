@@ -106,7 +106,7 @@ public class TesEvaluationController {
     @ApiOperation(value = "查询评教结果")
     @RequestMapping(value = "/reade", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:evaluationResult:reade')")
+    @PreAuthorize("hasAuthority('pms:evaluationResult:read')")
     public CommonResult reade() {
         List<TesEvaluation> tesEvaluations = tesEvaluationService.select();
         if (tesEvaluations != null) {
@@ -163,6 +163,4 @@ public class TesEvaluationController {
 
         return CommonResult.success(userEvalDtoList);
     }
-
-
 }

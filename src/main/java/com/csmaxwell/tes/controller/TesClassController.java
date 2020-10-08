@@ -33,7 +33,7 @@ public class TesClassController {
     @ApiOperation(value = "新增班级")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:class:create')")
+    @PreAuthorize("hasAuthority('lms:class:create')")
     public CommonResult create(@RequestBody TesClass tesClassParam) {
         CommonResult commonResult;
         int count = tesClassService.create(tesClassParam);
@@ -48,7 +48,7 @@ public class TesClassController {
     @ApiOperation(value = "删除班级")
     @RequestMapping(value = "/delete/{classId}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:class:delete')")
+    @PreAuthorize("hasAuthority('lms:class:delete')")
     public CommonResult delete(@PathVariable Long classId) {
         int count = tesClassService.delete(classId);
         if (count ==1) {
@@ -79,8 +79,8 @@ public class TesClassController {
     @ApiOperation(value = "查询班级信息")
     @RequestMapping(value = "/reade/{classId}", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:class:reade')")
-    public CommonResult reade(@PathVariable Long classId) {
+    @PreAuthorize("hasAuthority('lms:class:reade')")
+    public CommonResult reade(@RequestParam Long classId) {
         TesClass tesClass = tesClassService.select(classId);
         if (tesClass != null) {
             return CommonResult.success(tesClass);
@@ -92,13 +92,16 @@ public class TesClassController {
     @ApiOperation(value = "更新班级信息")
     @RequestMapping(value = "/update/{classId}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:class:update')")
-    public CommonResult update(@PathVariable Long classId ,@RequestBody TesClass tesClass) {
+    @PreAuthorize("hasAuthority('lms:class:update')")
+    public CommonResult update(@RequestParam Long classId ,@RequestBody TesClass tesClass) {
+        CommonResult commonResult;
         int count = tesClassService.update(classId,tesClass);
-        if (count == 1) {
-            return CommonResult.success("更新班级信息成功");
-        } else {
-            return CommonResult.failed("更新班级信息失败");
+        if (count == 1){
+            commonResult=CommonResult.success(null);
+        }else {
+            commonResult=CommonResult.failed();
         }
+        return commonResult;
+
     }
 }

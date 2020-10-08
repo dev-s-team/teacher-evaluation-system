@@ -71,7 +71,7 @@ public class TesDepartmentController {
     @ApiOperation(value = "院系修改")
     @RequestMapping(value = "/update/{departmentId}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable Long departmentId, TesDepartment departmentDto){
+    public CommonResult update(@PathVariable Long departmentId,@RequestBody TesDepartment departmentDto){
         CommonResult commonResult;
         int count=tesDepartmentService.update(departmentId,departmentDto);
         if (count == 1){

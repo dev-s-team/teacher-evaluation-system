@@ -66,8 +66,8 @@ public class TesIndicatorController {
     @ApiOperation(value = "查询指标信息")
     @RequestMapping(value = "/reade/{indicatorId}", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:indicator:reade')")
-    public CommonResult reade(@PathVariable Long indicatorId) {
+    @PreAuthorize("hasAuthority('pms:indicator:read')")
+    public CommonResult reade(@RequestParam Long indicatorId) {
         TesIndicator tesindicator = tesIndicatorService.select(indicatorId);
         if (tesindicator != null) {
             return CommonResult.success(tesindicator);

@@ -22,4 +22,6 @@ public interface TesMenuService {
     int updateHidden(Long id, TesMenu tesMenu);
 
     List<TesMenu> secondList(Long id, Integer pageSize, Integer pageNum);
+
+    List<TesMenu> treeList();
 }

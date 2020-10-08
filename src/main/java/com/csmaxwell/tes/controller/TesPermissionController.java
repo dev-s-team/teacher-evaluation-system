@@ -39,6 +39,7 @@ public class TesPermissionController {
     @ApiOperation(value = "获取权限列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("hasAuthority('ums:permission:read')")
     public CommonResult<CommonPage<TesPermission>> list(@RequestParam(value = "keyword", required = false) String keyword,
                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
@@ -49,6 +50,7 @@ public class TesPermissionController {
     @ApiOperation(value = "新增权限")
     @RequestMapping(value = "/addPermission", method = RequestMethod.POST)
     @ResponseBody
+    @PreAuthorize("hasAuthority('ums:permission:create')")
     public CommonResult<TesPermission> addPermission(@RequestBody TesPermission tesPermissionParam, BindingResult result) {
         TesPermission tesPermission = tesPermissionService.addPermission(tesPermissionParam);
         if (tesPermission == null) {
@@ -60,7 +62,7 @@ public class TesPermissionController {
     @ApiOperation(value = "删除权限")
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:user:delete')")
+    @PreAuthorize("hasAuthority('ums:permission:delete')")
     public CommonResult delete(@PathVariable long id) {
         int count = tesPermissionService.delete(id);
         if (count == 1) {
@@ -73,7 +75,7 @@ public class TesPermissionController {
     @ApiOperation(value = "根据id更新权限状态")
     @RequestMapping(value = "/update/{id}",method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:user:update')")
+    @PreAuthorize("hasAuthority('ums:permission:update')")
     public CommonResult update(@PathVariable Long id,
                                @RequestBody TesPermission tesPermission) {
         int count = tesPermissionService.update(id,tesPermission);
