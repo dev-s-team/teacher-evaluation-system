@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(tags = "TesSemesterController", description = "批次管理")
 @RestController
 @RequestMapping("/semester")
@@ -62,6 +64,14 @@ public class TesSemesterController {
         } else {
             return CommonResult.failed("更新用户信息失败");
         }
+    }
+
+    @ApiOperation("获取学期列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesSemester>> list() {
+        List<TesSemester> semesterList = tesSemesterService.list();
+        return CommonResult.success(semesterList);
     }
 
 

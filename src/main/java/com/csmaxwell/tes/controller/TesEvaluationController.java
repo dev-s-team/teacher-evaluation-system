@@ -3,6 +3,7 @@ package com.csmaxwell.tes.controller;
 
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
+import com.csmaxwell.tes.common.constant.EvalOption;
 import com.csmaxwell.tes.dao.TesCourseMapper;
 import com.csmaxwell.tes.domain.*;
 import com.csmaxwell.tes.dto.TesUserEvalDto;
@@ -20,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,12 +72,13 @@ public class TesEvaluationController {
     @RequestMapping(value = "/startEvaluation", method = RequestMethod.POST)
     @ResponseBody
     // @PreAuthorize("hasAuthority('pms:evaluation:startEvaluation')")
-    public CommonResult<List<TesIndicator>> list(@PathVariable(value = "user_id", required = false) Long userId,
-                                                     @PathVariable(value = "role_id", required = false) Long roleId,
-                                                     @PathVariable(value = "target_id", required = false) Long targetId,
-                                                     @PathVariable(value = "course_id", required = false) Long courseId,
-                                                     @PathVariable(value = "semester_id", required = false) Long semesterId) {
-
+    public CommonResult<List<TesIndicator>> list(@RequestParam(value = "userId", required = false) Long userId,
+                                                     @RequestParam(value = "roleId", required = false) Long roleId,
+                                                     @RequestParam(value = "targetId", required = false) Long targetId,
+                                                     @RequestParam(value = "courseId", required = false) Long courseId,
+                                                     @RequestParam(value = "semesterId", required = false) Long semesterId) {
+        System.out.println("学期id: " + semesterId);
+        System.out.println("用户id: " + userId);
         List<TesEvaluationControl> evlControlList = tesEvaluationControlService.tecList(semesterId);
 
         TesEvaluationControl evalControl = evlControlList.get(0);
@@ -159,4 +163,6 @@ public class TesEvaluationController {
 
         return CommonResult.success(userEvalDtoList);
     }
+
+
 }

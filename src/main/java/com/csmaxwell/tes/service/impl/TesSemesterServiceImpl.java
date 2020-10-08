@@ -7,6 +7,8 @@ import com.csmaxwell.tes.service.TesSemesterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TesSemesterServiceImpl implements TesSemesterService {
 
@@ -31,6 +33,11 @@ public class TesSemesterServiceImpl implements TesSemesterService {
         tesSemester.setId(semesterId);
         int count = tesSemesterMapper.updateByPrimaryKeySelective(tesSemester);
         return count;
+    }
+
+    @Override
+    public List<TesSemester> list() {
+        return tesSemesterMapper.selectAll();
     }
 
 
