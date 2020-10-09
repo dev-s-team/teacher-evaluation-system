@@ -3,9 +3,7 @@ package com.csmaxwell.tes.controller;
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesClass;
-import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesClassService;
-import com.csmaxwell.tes.service.TesRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -13,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
@@ -93,7 +90,7 @@ public class TesClassController {
     @RequestMapping(value = "/update/{classId}", method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasAuthority('lms:class:update')")
-    public CommonResult update(@RequestParam Long classId ,@RequestBody TesClass tesClass) {
+    public CommonResult update(@PathVariable Long classId ,@RequestBody TesClass tesClass) {
         CommonResult commonResult;
         int count = tesClassService.update(classId,tesClass);
         if (count == 1){
