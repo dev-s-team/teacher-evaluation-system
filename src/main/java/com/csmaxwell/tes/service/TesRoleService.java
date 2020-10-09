@@ -27,4 +27,8 @@ public interface TesRoleService {
     int updateStatus(Long id, TesRole tesRole);
 
     List<TesRoleMenu> listRoleMenu(Long roleId);
+
+    int insertMenu(Long roleId, Long menuIds);
+
+    int delRoleMenu(Long roleId);
 }

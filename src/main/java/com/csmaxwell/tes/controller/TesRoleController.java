@@ -5,8 +5,10 @@ import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.*;
 import com.csmaxwell.tes.service.TesRoleService;
 import com.csmaxwell.tes.service.TesMenuService;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -121,6 +123,36 @@ public class TesRoleController {
             System.out.println(allMenuLists);
         }
         return CommonResult.success(allMenuLists);
+    }
+
+    @ApiOperation(value = "分配菜单")
+    @RequestMapping(value = "/allocMenu", method = RequestMethod.POST)
+    @ResponseBody
+//    @PreAuthorize("hasAuthority('ums:role:create')")
+    public CommonResult allocMenu(@RequestParam("roleId") Long roleId,@RequestParam("menuIds") List<Long> menuIds) {
+        CommonResult commonResult;
+//        List<TesRoleMenu> tesRoleMenu = new ArrayList<TesRoleMenu>();
+//        TesRoleMenu tesRoleMenu = new TesRoleMenu();
+//        BeanUtils.copyProperties(tesRoleParam, tesRoleMenu);
+        System.out.println(menuIds+"`111222333");
+        int count = 0;
+        try {
+           int count1 = tesRoleService.delRoleMenu(roleId);
+        } catch (Exception e) {
+            System.out.println("删除菜单失败");
+        }
+        for (Long menuId : menuIds) {
+
+            count = tesRoleService.insertMenu(roleId,menuId);
+        }
+
+
+        if (count == 1) {
+            commonResult = CommonResult.success(null);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
     }
 
 }
