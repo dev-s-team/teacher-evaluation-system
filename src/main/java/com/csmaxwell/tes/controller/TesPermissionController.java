@@ -74,11 +74,12 @@ public class TesPermissionController {
     @ApiOperation(value = "查询权限是否有角色使用")
     @RequestMapping(value = "/deleteSelect/{id}",method = RequestMethod.GET)
     @ResponseBody
-    public int deleteSelect(@PathVariable long id){
+    public CommonResult deleteSelect(@PathVariable long id){
         int count = tesPermissionService.deleteSelect(id);
-        return count;
-//        if (count == 1) {
-//            return CommonResult.success("该权限有角色使用不能删除");
+        return CommonResult.success(count);
+//        return count;
+//        if (count >= 1) {
+//            return CommonResult.success(count);
 //        } else {
 //            return CommonResult.failed("是否删除该权限");
 //        }
