@@ -46,19 +46,19 @@ public class TesRoleController {
     }
 
     @ApiOperation("获取所有角色信息")
-    @RequestMapping(value = "/findAll", method =  RequestMethod.GET)
+    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public CommonResult<List<TesRole>> findAll() {
 
         return CommonResult.success(tesRoleService.selectAll());
     }
 
     @ApiOperation("删除角色信息")
-    @RequestMapping(value = "/deleteByid/{roleId}", method =  RequestMethod.POST)
+    @RequestMapping(value = "/deleteByid/{roleId}", method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasAuthority('ums:role:delete')")
     public CommonResult delete(@PathVariable Long roleId) {
         CommonResult commonResult;
-        int count=tesRoleService.delete(roleId);
+        int count = tesRoleService.delete(roleId);
         if (count == 1) {
             commonResult = CommonResult.success(null);
         } else {
@@ -71,7 +71,8 @@ public class TesRoleController {
     @RequestMapping(value = "/update/{roleId}", method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasAuthority('ums:role:update')")
-    public CommonResult update(@PathVariable("roleId") Long roleId, @RequestBody TesRole tesRoleDto) {
+    public CommonResult update(@PathVariable("roleId") Long roleId,
+                               @RequestBody TesRole tesRoleDto) {
         CommonResult commonResult;
         int count = tesRoleService.update(roleId, tesRoleDto);
         if (count == 1) {
@@ -99,9 +100,12 @@ public class TesRoleController {
     @ApiOperation(value = "分页查询角色信息")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<TesRole>> list(@RequestParam(value = "keyword", required = false) String keyword,
-                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
+    public CommonResult<CommonPage<TesRole>> list(@RequestParam(value = "keyword", required =
+            false) String keyword,
+                                                  @RequestParam(value = "pageNum", defaultValue =
+                                                          "1") Integer pageNum,
+                                                  @RequestParam(value = "pageSize", defaultValue
+                                                          = "5") Integer pageSize) {
         List<TesRole> list = tesRoleService.list(keyword, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(list));
     }
@@ -129,23 +133,23 @@ public class TesRoleController {
     @RequestMapping(value = "/allocMenu", method = RequestMethod.POST)
     @ResponseBody
 //    @PreAuthorize("hasAuthority('ums:role:create')")
-    public CommonResult allocMenu(@RequestParam("roleId") Long roleId,@RequestParam("menuIds") List<Long> menuIds) {
+    public CommonResult allocMenu(@RequestParam("roleId") Long roleId,
+                                  @RequestParam("menuIds") List<Long> menuIds) {
         CommonResult commonResult;
 //        List<TesRoleMenu> tesRoleMenu = new ArrayList<TesRoleMenu>();
 //        TesRoleMenu tesRoleMenu = new TesRoleMenu();
 //        BeanUtils.copyProperties(tesRoleParam, tesRoleMenu);
-        System.out.println(menuIds+"`111222333");
+        System.out.println(menuIds + "`111222333");
         int count = 0;
         try {
-           int count1 = tesRoleService.delRoleMenu(roleId);
+            int count1 = tesRoleService.delRoleMenu(roleId);
         } catch (Exception e) {
             System.out.println("删除菜单失败");
         }
         for (Long menuId : menuIds) {
 
-            count = tesRoleService.insertMenu(roleId,menuId);
+            count = tesRoleService.insertMenu(roleId, menuId);
         }
-
 
         if (count == 1) {
             commonResult = CommonResult.success(null);

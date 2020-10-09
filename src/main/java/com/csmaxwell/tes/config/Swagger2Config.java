@@ -1,5 +1,6 @@
 package com.csmaxwell.tes.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -21,6 +22,7 @@ import java.util.List;
  * Swagger2API文档配置
  * Created by maxwell on 2020/9/14.
  */
+@EnableKnife4j
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {

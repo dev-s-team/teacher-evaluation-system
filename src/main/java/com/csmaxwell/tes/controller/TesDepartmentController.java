@@ -55,7 +55,7 @@ public class TesDepartmentController {
     }
 
     @ApiOperation(value = "院系删除")
-    @RequestMapping(value = "/deleteByid/{departmentId}" , method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteById/{departmentId}" , method = RequestMethod.POST)
     @ResponseBody
     public CommonResult delete(@PathVariable Long departmentId){
         CommonResult commonResult;

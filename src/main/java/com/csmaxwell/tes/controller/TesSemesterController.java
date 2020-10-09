@@ -74,5 +74,4 @@ public class TesSemesterController {
         return CommonResult.success(semesterList);
     }
 
-
 }

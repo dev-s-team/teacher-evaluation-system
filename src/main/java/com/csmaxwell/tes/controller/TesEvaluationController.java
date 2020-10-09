@@ -163,4 +163,13 @@ public class TesEvaluationController {
 
         return CommonResult.success(userEvalDtoList);
     }
+
+    @ApiOperation("评教控制列表")
+    @RequestMapping(value = "/control/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesEvaluationControl>> controlList() {
+        List<TesEvaluationControl> controlList = tesEvaluationControlService.list();
+        return CommonResult.success(controlList);
+    }
+
 }
