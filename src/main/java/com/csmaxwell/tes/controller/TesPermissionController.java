@@ -3,7 +3,6 @@ package com.csmaxwell.tes.controller;
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesPermission;
-import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesPermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -71,6 +70,20 @@ public class TesPermissionController {
             return CommonResult.failed("删除权限失败");
         }
     }
+
+    @ApiOperation(value = "查询权限是否有角色使用")
+    @RequestMapping(value = "/deleteSelect/{id}",method = RequestMethod.GET)
+    @ResponseBody
+    public int deleteSelect(@PathVariable long id){
+        int count = tesPermissionService.deleteSelect(id);
+        return count;
+//        if (count == 1) {
+//            return CommonResult.success("该权限有角色使用不能删除");
+//        } else {
+//            return CommonResult.failed("是否删除该权限");
+//        }
+    }
+
 
     @ApiOperation(value = "根据id更新权限状态")
     @RequestMapping(value = "/update/{id}",method = RequestMethod.POST)
