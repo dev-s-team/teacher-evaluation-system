@@ -3,6 +3,7 @@ package com.csmaxwell.tes.controller;
 
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
+import com.csmaxwell.tes.common.constant.EvalOption;
 import com.csmaxwell.tes.dao.TesCourseMapper;
 import com.csmaxwell.tes.domain.*;
 import com.csmaxwell.tes.dto.TesUserEvalDto;
@@ -20,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +32,7 @@ import java.util.List;
  */
 @Api(tags = "TesEvaluationController", description = "评教管理")
 @RestController
-@RequestMapping("/evaluation")
+@RequestMapping("/eval")
 public class TesEvaluationController {
 
     @Autowired
@@ -68,15 +71,14 @@ public class TesEvaluationController {
     @ApiOperation(value = "开始评教")
     @RequestMapping(value = "/startEvaluation", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:evaluation:startEvaluation')")
-    public CommonResult<List<TesIndicator>> list(@PathVariable(value = "user_id", required = false) Long userId,
-                                                     @PathVariable(value = "role_id", required = false) Long roleId,
-                                                     @PathVariable(value = "target_id", required = false) Long targetId,
-                                                     @PathVariable(value = "course_id", required = false) Long courseId,
-                                                     @PathVariable(value = "semester_id", required = false) Long semesterId,
-                                                     @RequestBody TesEvaluationControl tesEvaluationControl
-                                                    ) {
-
+    // @PreAuthorize("hasAuthority('pms:evaluation:startEvaluation')")
+    public CommonResult<List<TesIndicator>> list(@RequestParam(value = "userId", required = false) Long userId,
+                                                     @RequestParam(value = "roleId", required = false) Long roleId,
+                                                     @RequestParam(value = "targetId", required = false) Long targetId,
+                                                     @RequestParam(value = "courseId", required = false) Long courseId,
+                                                     @RequestParam(value = "semesterId", required = false) Long semesterId) {
+        System.out.println("学期id: " + semesterId);
+        System.out.println("用户id: " + userId);
         List<TesEvaluationControl> evlControlList = tesEvaluationControlService.tecList(semesterId);
 
         TesEvaluationControl evalControl = evlControlList.get(0);
@@ -104,7 +106,7 @@ public class TesEvaluationController {
     @ApiOperation(value = "查询评教结果")
     @RequestMapping(value = "/reade", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:evaluationResult:reade')")
+    @PreAuthorize("hasAuthority('pms:evaluationResult:read')")
     public CommonResult reade() {
         List<TesEvaluation> tesEvaluations = tesEvaluationService.select();
         if (tesEvaluations != null) {
@@ -115,34 +117,39 @@ public class TesEvaluationController {
         }
     }
 
-    @ApiOperation(value = "根据用户id查询评教课程")
-    @RequestMapping(value = "/findCourse/{userId}", method = RequestMethod.GET)
+    @ApiOperation(value = "根据用户编号查询评教课程")
+    @RequestMapping(value = "/courseList/{no}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<TesUserEvalDto>> findCourse(@PathVariable("userId") Long userId,
-                                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        TesUserEvalDto userEvalDto = new TesUserEvalDto();
+    public CommonResult<List<TesUserEvalDto>> findCourse(@PathVariable("no") String no) {
+
         List<TesUserEvalDto> userEvalDtoList = new ArrayList<>();
+        // 获取评教对象
+        TesUser tesUser = tesUserService.findByNo(no);
+        Long id = tesUser.getId();
         // 获取评教人角色
-        TesRole tesRole = tesUserService.findRoleById(userId);
+        TesRole tesRole = tesUserService.findRoleById(id);
         // 获取班级信息
-        TesClass tesClass = tesUserService.findClassById(userId);
+        TesClass tesClass = tesUserService.findClassById(id);
         // 获取院系信息
-        TesDepartment tesDept = tesUserService.findDeptById(userId);
+        TesDepartment tesDept = tesUserService.findDeptById(id);
         // 获取学期信息
-        TesSemester tesSemester = tesUserService.findSemesterById(userId);
+        TesSemester tesSemester = tesUserService.findSemesterById(id);
 
         // 查询用户有哪些课程
-        List<TesCourse> courseList = tesUserService.findCourseListById(userId);
+        List<TesCourse> courseList = tesUserService.findCourseListById(id);
 
         // 根据课程查询
         for (TesCourse course : courseList) {
+            TesUserEvalDto userEvalDto = new TesUserEvalDto();
+
+            System.out.println(course.getName());
             // 查询评教目标信息
             TesUser targetUser = tesCourseService.findUserInfoById(course.getNum());
 
-            userEvalDto.setUserId(userId);
+            userEvalDto.setUserId(id);
             userEvalDto.setRoleId(tesRole.getId());
             userEvalDto.setTargetId(targetUser.getId());
+            userEvalDto.setTargetName(targetUser.getUsername());
             userEvalDto.setCourseId(course.getId());
             userEvalDto.setCourseName(course.getName());
             userEvalDto.setClassId(tesClass.getId());
@@ -154,6 +161,15 @@ public class TesEvaluationController {
             userEvalDtoList.add(userEvalDto);
         }
 
-        return CommonResult.success(CommonPage.restPage(userEvalDtoList));
+        return CommonResult.success(userEvalDtoList);
     }
+
+    @ApiOperation("评教控制列表")
+    @RequestMapping(value = "/control/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesEvaluationControl>> controlList() {
+        List<TesEvaluationControl> controlList = tesEvaluationControlService.list();
+        return CommonResult.success(controlList);
+    }
+
 }

@@ -1,13 +1,18 @@
 package com.csmaxwell.tes.service.impl;
 
 import com.csmaxwell.tes.dao.TesRoleMapper;
-import com.csmaxwell.tes.domain.TesMenu;
-import com.csmaxwell.tes.domain.TesRole;
+import com.csmaxwell.tes.dao.TesRoleMenuMapper;
+import com.csmaxwell.tes.dao.TesRolePermissionMapper;
+import com.csmaxwell.tes.domain.*;
 import com.csmaxwell.tes.service.TesRoleService;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -22,6 +27,10 @@ public class TesRoleServiceImpl implements TesRoleService {
 
     @Autowired
     private TesRoleMapper tesRoleMapper;
+    @Autowired
+    private TesRolePermissionMapper tesRolePermissionMapper;
+    @Autowired
+    private TesRoleMenuMapper tesRoleMenuMapper;
 
     @Override
     public List<TesRole> selectAll() {
@@ -89,6 +98,41 @@ public class TesRoleServiceImpl implements TesRoleService {
         }
         List<TesRole> roleList = tesRoleMapper.selectByExample(example);
         return roleList;
+    }
+
+    @Override
+    public int updateStatus(Long id, TesRole tesRole) {
+
+        tesRole.setId(id);
+        int count = tesRoleMapper.updateByPrimaryKeySelective(tesRole);
+        return count;
+    }
+
+    @Override
+    public List<TesRoleMenu> listRoleMenu(Long roleId) {
+
+        Example example = new Example(TesRoleMenu.class);
+        example.createCriteria().andEqualTo("roleId", roleId);
+        List<TesRoleMenu> tesRoleMenuses = tesRoleMenuMapper.selectByExample(example);
+        return tesRoleMenuses;
+    }
+
+    @Override
+    public int insertMenu(Long roleId, Long menuId) {
+        TesRoleMenu tesRoleMenu = new TesRoleMenu();
+        tesRoleMenu.setRoleId(roleId);
+        tesRoleMenu.setMenuId(menuId);
+        int count = tesRoleMenuMapper.insert(tesRoleMenu);
+        return count;
+    }
+
+    @Override
+    public int delRoleMenu(Long roleId) {
+        Example example = new Example(TesRoleMenu.class);
+        example.createCriteria().andEqualTo("roleId", roleId);
+        int count1 = tesRoleMenuMapper.deleteByExample(example);
+        System.out.println(count1+"count1");
+        return count1;
     }
 
 }

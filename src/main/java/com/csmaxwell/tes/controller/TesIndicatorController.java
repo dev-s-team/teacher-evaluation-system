@@ -41,7 +41,7 @@ public class TesIndicatorController {
     }
 
     @ApiOperation(value = "删除指标")
-    @RequestMapping(value = "/delete/{indicatorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{indicatorId}", method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasAuthority('pms:indicator:delete')")
     public CommonResult delete(@PathVariable Long indicatorId) {
@@ -66,8 +66,8 @@ public class TesIndicatorController {
     @ApiOperation(value = "查询指标信息")
     @RequestMapping(value = "/reade/{indicatorId}", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:indicator:reade')")
-    public CommonResult reade(@PathVariable Long indicatorId) {
+    @PreAuthorize("hasAuthority('pms:indicator:read')")
+    public CommonResult reade(@RequestParam Long indicatorId) {
         TesIndicator tesindicator = tesIndicatorService.select(indicatorId);
         if (tesindicator != null) {
             return CommonResult.success(tesindicator);
@@ -82,6 +82,18 @@ public class TesIndicatorController {
     @PreAuthorize("hasAuthority('pms:indicator:update')")
     public CommonResult update(@PathVariable Long indicatorId ,@RequestBody TesIndicator tesindicator) {
         int count = tesIndicatorService.update(indicatorId,tesindicator);
+        if (count == 1) {
+            return CommonResult.success("更新指标信息成功");
+        } else {
+            return CommonResult.failed("更新指标信息失败");
+        }
+    }
+
+    @ApiOperation(value = "更新指标状态")
+    @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateStatus(@PathVariable("id") Long id, @RequestParam("status") Byte status) {
+        int count = tesIndicatorService.updateStatus(id, status);
         if (count == 1) {
             return CommonResult.success("更新指标信息成功");
         } else {

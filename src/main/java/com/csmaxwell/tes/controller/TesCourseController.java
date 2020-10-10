@@ -33,7 +33,7 @@ public class TesCourseController {
     @ApiOperation("获取所有课程列表")
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:course:read')")
+    @PreAuthorize("hasAuthority('lms:course:read')")
     public CommonResult<CommonPage<TesCourse>> list(@RequestParam(value = "keyword", required = false) String keyword,
                                                     @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
@@ -44,7 +44,7 @@ public class TesCourseController {
     @ApiOperation("根据id查询课程信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:course:read')")
+    @PreAuthorize("hasAuthority('lms:course:read')")
     public CommonResult<TesCourse> findCourseById(@PathVariable("id") Long id) {
         TesCourse tesCourse = tesCourseService.findById(id);
         if (tesCourse != null) {
@@ -57,7 +57,7 @@ public class TesCourseController {
     @ApiOperation("创建课程")
     @RequestMapping(value = "create", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:course:create')")
+    @PreAuthorize("hasAuthority('lms:course:create')")
     public CommonResult create(@RequestBody TesCourse tesCourseParam) {
         CommonResult commonResult;
         int count = tesCourseService.create(tesCourseParam);
@@ -72,7 +72,7 @@ public class TesCourseController {
     @ApiOperation("根据id更新课程信息")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:course:update')")
+    @PreAuthorize("hasAuthority('lms:course:update')")
     public CommonResult update(@PathVariable("id") Long id, @RequestBody TesCourse tesCourseDto, BindingResult result) {
         CommonResult commonResult;
         int count = tesCourseService.update(id, tesCourseDto);
@@ -89,7 +89,7 @@ public class TesCourseController {
     @ApiOperation("根据id删除课程")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:course:delete')")
+    @PreAuthorize("hasAuthority('lms:course:delete')")
     public CommonResult delete(@PathVariable("id") Long id) {
         CommonResult commonResult;
         int count = tesCourseService.delete(id);

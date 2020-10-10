@@ -121,7 +121,7 @@ public class TesUserController {
     @ApiOperation(value = "新增用户")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:user:create')")
+    @PreAuthorize("hasAuthority('ums:user:create')")
     public CommonResult create(@RequestBody TesUser tesUserParam) {
         CommonResult commonResult;
         int count = tesUserService.create(tesUserParam);
@@ -136,7 +136,7 @@ public class TesUserController {
     @ApiOperation(value = "删除用户")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:user:delete')")
+    @PreAuthorize("hasAuthority('ums:user:delete')")
     public CommonResult delete(@PathVariable Long id) {
         int count = tesUserService.delete(id);
         if (count ==1) {
@@ -149,7 +149,7 @@ public class TesUserController {
     @ApiOperation(value = "查询用户信息")
     @RequestMapping(value = "/reade/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:user:reade')")
+    @PreAuthorize("hasAuthority('ums:user:reade')")
     public CommonResult reade(@PathVariable Long userId) {
         TesUser tesUser = tesUserService.select(userId);
         if (tesUser != null) {
@@ -162,7 +162,7 @@ public class TesUserController {
     @ApiOperation(value = "更新用户信息")
     @RequestMapping(value = "/update/{userId}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:user:update')")
+    @PreAuthorize("hasAuthority('ums:user:update')")
     public CommonResult update(@PathVariable Long userId ,@RequestBody TesUser tesUser) {
         int count = tesUserService.update(userId,tesUser);
         if (count == 1) {

@@ -52,4 +52,9 @@ public class TesDepartmentServiceImpl implements TesDepartmentService {
         int count=tesDepartmentMapper.updateByPrimaryKeySelective(departmentDto);
         return count;
     }
+
+    @Override
+    public List<TesDepartment> all() {
+        return tesDepartmentMapper.selectAll();
+    }
 }

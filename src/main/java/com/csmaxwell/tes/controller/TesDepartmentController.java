@@ -46,8 +46,16 @@ public class TesDepartmentController {
         return CommonResult.success(CommonPage.restPage(departmentList));
     }
 
+    @ApiOperation(value = "查询所有")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesDepartment>> all() {
+        List<TesDepartment> deptList = tesDepartmentService.all();
+        return CommonResult.success(deptList);
+    }
+
     @ApiOperation(value = "院系删除")
-    @RequestMapping(value = "/deleteByid/{departmentId}" , method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteById/{departmentId}" , method = RequestMethod.POST)
     @ResponseBody
     public CommonResult delete(@PathVariable Long departmentId){
         CommonResult commonResult;
@@ -63,7 +71,7 @@ public class TesDepartmentController {
     @ApiOperation(value = "院系修改")
     @RequestMapping(value = "/update/{departmentId}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable Long departmentId, TesDepartment departmentDto){
+    public CommonResult update(@PathVariable Long departmentId,@RequestBody TesDepartment departmentDto){
         CommonResult commonResult;
         int count=tesDepartmentService.update(departmentId,departmentDto);
         if (count == 1){

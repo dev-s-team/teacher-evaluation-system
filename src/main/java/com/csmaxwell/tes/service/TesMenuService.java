@@ -15,7 +15,13 @@ public interface TesMenuService {
 
     int update(Long id, TesMenu tesMenu);
 
-    List<TesMenu> list(String keyword, Integer pageSize, Integer pageNum);
+    List<TesMenu> list(Long parentId, Integer pageSize, Integer pageNum);
 
     TesMenu select(Long id);
+
+    int updateHidden(Long id, TesMenu tesMenu);
+
+    List<TesMenu> secondList(Long id, Integer pageSize, Integer pageNum);
+
+    List<TesMenu> treeList();
 }

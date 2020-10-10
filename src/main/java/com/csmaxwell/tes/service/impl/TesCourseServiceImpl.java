@@ -79,8 +79,9 @@ public class TesCourseServiceImpl implements TesCourseService {
         // 通过用户课程列表，查询角色为3(老师)
         for (TesUserCourse userCourse : userCourseList) {
             Example example2 = new Example(TesUser.class);
-            example2.createCriteria().andEqualTo("no", userCourse.getUserNo());
-            example2.createCriteria().andEqualTo("roleId", 3L);
+            Example.Criteria criteria = example2.createCriteria();
+            criteria.andEqualTo("no", userCourse.getUserNo());
+            criteria.andEqualTo("roleId", 3L);
             List<TesUser> userList = tesUserMapper.selectByExample(example2);
             if (userList.size() != 0) {
                 tesUser = userList.get(0);

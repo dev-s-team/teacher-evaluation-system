@@ -2,6 +2,7 @@ package com.csmaxwell.tes.service.impl;
 
 import com.csmaxwell.tes.dao.TesPermissionMapper;
 import com.csmaxwell.tes.domain.TesPermission;
+import com.csmaxwell.tes.domain.TesRolePermission;
 import com.csmaxwell.tes.service.TesPermissionService;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -65,6 +66,12 @@ public class TesPermissionServiceImpl implements TesPermissionService {
     @Override
     public int delete(Long permissionId) {
         int count = tesPermissionMapper.deleteByPrimaryKey(permissionId);
+        return count;
+    }
+
+    @Override
+    public int deleteSelect(Long id) {
+        int count = tesPermissionMapper.deleteSelect(id);
         return count;
     }
 

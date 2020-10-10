@@ -10,4 +10,6 @@ public interface TesEvaluationControlService {
     TesEvaluationControl select(Long semesterId, TesEvaluationControl tesEvaluationControl);
 
     List<TesEvaluationControl> tecList(Long semesterId);
+
+    List<TesEvaluationControl> list();
 }

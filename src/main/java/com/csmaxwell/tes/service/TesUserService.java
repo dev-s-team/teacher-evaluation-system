@@ -52,4 +52,6 @@ public interface TesUserService {
     TesDepartment findDeptById(Long userId);
 
     TesSemester findSemesterById(Long userId);
+
+    TesUser findByNo(String no);
 }

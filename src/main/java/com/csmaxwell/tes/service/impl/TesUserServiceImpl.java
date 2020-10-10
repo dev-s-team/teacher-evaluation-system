@@ -224,4 +224,11 @@ public class TesUserServiceImpl implements TesUserService {
         List<TesSemester> semesterList = tesSemesterMapper.selectByExample(example);
         return semesterList.get(0);
     }
+
+    @Override
+    public TesUser findByNo(String no) {
+        Example example = new Example(TesUser.class);
+        example.createCriteria().andEqualTo("no", no);
+        return tesUserMapper.selectByExample(example).get(0);
+    }
 }

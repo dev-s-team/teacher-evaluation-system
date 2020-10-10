@@ -12,4 +12,6 @@ public interface TesDepartmentService {
     int delete(Long departmentId);
 
     int update(Long departmentId, TesDepartment departmentDto);
+
+    List<TesDepartment> all();
 }

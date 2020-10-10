@@ -8,6 +8,7 @@ public class TesUserEvalDto {
     private Long userId; // 评教人id
     private Long roleId; // 评教人角色
     private Long targetId; // 目标人id
+    private String targetName; // 目标姓名
     private Long courseId; // 课程id
     private String courseName; // 课程名
     private Long classId; // 班级id
@@ -16,6 +17,14 @@ public class TesUserEvalDto {
     private String deptName; // 院系名称
     private Long semesterId; // 学期id
     private String semesterName; // 学期名
+
+    public String getTargetName() {
+        return targetName;
+    }
+
+    public void setTargetName(String targetName) {
+        this.targetName = targetName;
+    }
 
     public Long getUserId() {
         return userId;

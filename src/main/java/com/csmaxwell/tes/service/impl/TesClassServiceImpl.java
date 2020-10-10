@@ -53,4 +53,9 @@ public class TesClassServiceImpl implements TesClassService {
         List<TesClass> classList = tesClassMapper.selectByExample(example);
         return classList;
     }
+
+    @Override
+    public List<TesClass> all() {
+        return tesClassMapper.selectAll();
+    }
 }

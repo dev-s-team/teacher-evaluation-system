@@ -3,9 +3,7 @@ package com.csmaxwell.tes.controller;
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesClass;
-import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesClassService;
-import com.csmaxwell.tes.service.TesRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -13,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
@@ -33,7 +30,7 @@ public class TesClassController {
     @ApiOperation(value = "新增班级")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:class:create')")
+    @PreAuthorize("hasAuthority('lms:class:create')")
     public CommonResult create(@RequestBody TesClass tesClassParam) {
         CommonResult commonResult;
         int count = tesClassService.create(tesClassParam);
@@ -48,7 +45,7 @@ public class TesClassController {
     @ApiOperation(value = "删除班级")
     @RequestMapping(value = "/delete/{classId}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:class:delete')")
+    @PreAuthorize("hasAuthority('lms:class:delete')")
     public CommonResult delete(@PathVariable Long classId) {
         int count = tesClassService.delete(classId);
         if (count ==1) {
@@ -68,11 +65,19 @@ public class TesClassController {
         return CommonResult.success(CommonPage.restPage(classList));
     }
 
+    @ApiOperation(value = "查询所有")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesClass>> all() {
+        List<TesClass> classList = tesClassService.all();
+        return CommonResult.success(classList);
+    }
+
     @ApiOperation(value = "查询班级信息")
     @RequestMapping(value = "/reade/{classId}", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:class:reade')")
-    public CommonResult reade(@PathVariable Long classId) {
+    @PreAuthorize("hasAuthority('lms:class:reade')")
+    public CommonResult reade(@RequestParam Long classId) {
         TesClass tesClass = tesClassService.select(classId);
         if (tesClass != null) {
             return CommonResult.success(tesClass);
@@ -84,13 +89,16 @@ public class TesClassController {
     @ApiOperation(value = "更新班级信息")
     @RequestMapping(value = "/update/{classId}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('pms:class:update')")
+    @PreAuthorize("hasAuthority('lms:class:update')")
     public CommonResult update(@PathVariable Long classId ,@RequestBody TesClass tesClass) {
+        CommonResult commonResult;
         int count = tesClassService.update(classId,tesClass);
-        if (count == 1) {
-            return CommonResult.success("更新班级信息成功");
-        } else {
-            return CommonResult.failed("更新班级信息失败");
+        if (count == 1){
+            commonResult=CommonResult.success(null);
+        }else {
+            commonResult=CommonResult.failed();
         }
+        return commonResult;
+
     }
 }

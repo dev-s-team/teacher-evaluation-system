@@ -2,6 +2,7 @@ package com.csmaxwell.tes.controller;
 
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
+import com.csmaxwell.tes.common.constant.EvalOption;
 import com.csmaxwell.tes.domain.TesEvaluationResult;
 import com.csmaxwell.tes.service.TesEvaluationResultService;
 import io.swagger.annotations.Api;
@@ -9,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -55,6 +58,24 @@ public class TesEvaluationResultController {
                                                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<TesEvaluationResult> list = tesEvaluationResultService.select(userId, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(list));
+    }
+
+    @ApiOperation("提交评教结果")
+    @RequestMapping(value = "/commit", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult commitEval(@RequestParam("userId") Long userId,
+                                   @RequestParam("roleId") Long roleId,
+                                   @RequestParam("targetId") Long targetId,
+                                   @RequestParam("courseId") Long courseId,
+                                   @RequestParam("radios") List<String> radios,
+                                   @RequestParam("weights") List<String> weights) {
+        int count = tesEvaluationResultService.commit(userId, roleId, targetId, courseId, radios, weights);
+        if (count == 1) {
+            return CommonResult.success(null);
+        } else {
+            return CommonResult.failed();
+        }
+
     }
 
 
