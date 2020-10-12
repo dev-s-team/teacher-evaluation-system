@@ -1,11 +1,8 @@
 package com.csmaxwell.tes.controller;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.poi.excel.ExcelReader;
-import cn.hutool.poi.excel.ExcelUtil;
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
+import com.csmaxwell.tes.common.util.POIUtil;
 import com.csmaxwell.tes.domain.TesMenu;
 import com.csmaxwell.tes.domain.TesPermission;
 import com.csmaxwell.tes.domain.TesRole;
@@ -27,10 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * 用户管理
@@ -206,6 +200,7 @@ public class TesUserController {
     @ResponseBody
     public CommonResult upload(@RequestParam("excelFile") MultipartFile excelFile) throws IOException {
         String fileName = excelFile.getOriginalFilename();
+
         // 上传文件为空
         if (StringUtils.isEmpty(excelFile)) {
             return CommonResult.failed("不能上传空文件");
@@ -218,16 +213,30 @@ public class TesUserController {
         if (fileName.lastIndexOf(".") != -1 && !".xlsx".equals(fileName.substring(fileName.lastIndexOf(".")))) {
             return CommonResult.failed("文件格式不正确");
         }
-        // 读取数据
-        ExcelReader reader = ExcelUtil.getReader(excelFile.getInputStream(), 0);
-        List<Map<String, Object>> maps = reader.readAll();
-        for (Map<String, Object> map : maps) {
-            for (String key : map.keySet()) {
-                System.out.println(key);
-                System.out.println(map.get(key));
-            }
+
+        List<String[]> list = POIUtil.readExcel(excelFile);
+        List<TesUser> data = new ArrayList<>();
+        for (String[] strings : list) {
+            String no = strings[0];
+            String username = strings[1];
+            String gender = strings[2];
+            Long semesterId = Long.valueOf(strings[3]);
+            Long roleId = Long.valueOf(strings[4]);
+            String classNo = strings[5];
+            String deptNo = strings[6];
+            Integer status = Integer.valueOf(strings[7]);
+
+            TesUser tesUser = new TesUser(no, username, gender, semesterId, roleId, classNo, deptNo, status);
+            data.add(tesUser);
         }
 
-        return null;
+        for (TesUser datum : data) {
+            System.out.println(datum);
+        }
+
+        tesUserService.add(data);
+
+        return CommonResult.success("导入成功");
     }
+
 }

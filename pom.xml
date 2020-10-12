@@ -22,7 +22,6 @@
         <hutool.version>5.4.0</hutool.version>
         <freemarker.version>2.3.23</freemarker.version>
         <poi.version>4.1.2</poi.version>
-        <poi-ooxml.version>4.1.2</poi-ooxml.version>
         <druid.version>1.1.21</druid.version>
         <swagger2.version>2.7.0</swagger2.version>
         <swagger-ui.version>2.7.0</swagger-ui.version>
@@ -118,11 +117,10 @@
             <artifactId>poi</artifactId>
             <version>${poi.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>${poi-ooxml.version}</version>
+            <version>${poi.version}</version>
         </dependency>
 
         <dependency>
@@ -161,6 +159,14 @@
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>2.0.4</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.10</version>
+        </dependency>
+
 
     </dependencies>
 

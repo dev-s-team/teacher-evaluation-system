@@ -231,4 +231,17 @@ public class TesUserServiceImpl implements TesUserService {
         example.createCriteria().andEqualTo("no", no);
         return tesUserMapper.selectByExample(example).get(0);
     }
+
+    /**
+     * 批量导入用户
+     * @param data
+     */
+    @Override
+    public void add(List<TesUser> data) {
+        for (TesUser user : data) {
+            String encodePassword = passwordEncoder.encode("123456");
+            user.setPassword(encodePassword);
+            int count = tesUserMapper.insertSelective(user);
+        }
+    }
 }

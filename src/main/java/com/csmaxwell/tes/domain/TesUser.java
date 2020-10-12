@@ -57,6 +57,22 @@ public class TesUser {
      */
     private Integer status;
 
+    public TesUser() {
+
+    }
+
+    public TesUser(String no, String username, String gender, Long semesterId, Long roleId,
+                   String classNo, String deptNo, Integer status) {
+        this.no = no;
+        this.username = username;
+        this.gender = gender;
+        this.semesterId = semesterId;
+        this.roleId = roleId;
+        this.classNo = classNo;
+        this.deptNo = deptNo;
+        this.status = status;
+    }
+
     /**
      * @return id
      */

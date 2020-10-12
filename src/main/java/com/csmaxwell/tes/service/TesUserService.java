@@ -54,4 +54,6 @@ public interface TesUserService {
     TesSemester findSemesterById(Long userId);
 
     TesUser findByNo(String no);
+
+    void add(List<TesUser> data);
 }
