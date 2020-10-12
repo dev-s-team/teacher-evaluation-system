@@ -17,7 +17,7 @@ public class TesClass {
      * 院系编号
      */
     @Column(name = "dept_no")
-    private Long deptNo;
+    private String deptNo;
 
     /**
      * 班级编号
@@ -61,7 +61,7 @@ public class TesClass {
      *
      * @return dept_no - 院系编号
      */
-    public Long getDeptNo() {
+    public String getDeptNo() {
         return deptNo;
     }
 
@@ -70,7 +70,7 @@ public class TesClass {
      *
      * @param deptNo 院系编号
      */
-    public void setDeptNo(Long deptNo) {
+    public void setDeptNo(String deptNo) {
         this.deptNo = deptNo;
     }
 
