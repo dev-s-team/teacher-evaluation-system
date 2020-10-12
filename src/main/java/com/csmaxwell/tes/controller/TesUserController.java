@@ -239,4 +239,36 @@ public class TesUserController {
         return CommonResult.success("导入成功");
     }
 
+    @ApiOperation(value = "查询学生人数")
+    @RequestMapping(value = "/selectStudent", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectStudent( ){
+        int count = tesUserService.countStudent();
+        return CommonResult.success(count);
+    }
+
+    @ApiOperation(value = "查询教师人数")
+    @RequestMapping(value = "/selectTeacher", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectTeacher( ){
+        int count = tesUserService.countTeacher();
+        return CommonResult.success(count);
+    }
+
+    @ApiOperation(value = "查询班级数")
+    @RequestMapping(value = "/selectClass", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectClass( ){
+        int count = tesUserService.countClass();
+        return CommonResult.success(count);
+    }
+
+    @ApiOperation(value = "查询学院数")
+    @RequestMapping(value = "/selectDepartment", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectDepartment( ){
+        int count = tesUserService.countDepartment();
+        return CommonResult.success(count);
+    }
+
 }

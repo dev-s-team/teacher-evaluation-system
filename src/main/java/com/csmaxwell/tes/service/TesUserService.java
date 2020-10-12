@@ -56,4 +56,12 @@ public interface TesUserService {
     TesUser findByNo(String no);
 
     void add(List<TesUser> data);
+
+    int countStudent();
+
+    int countTeacher();
+
+    int countClass();
+
+    int countDepartment();
 }

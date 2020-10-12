@@ -244,4 +244,44 @@ public class TesUserServiceImpl implements TesUserService {
             int count = tesUserMapper.insertSelective(user);
         }
     }
+
+    /*
+    * 查询学生人数
+    * */
+    public int countStudent(){
+        Example example = new Example(TesUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("roleId",4L);
+        int count = tesUserMapper.selectCountByExample(example);
+        return count;
+    }
+
+    /*
+    * 查询教师人数
+    * */
+    public int countTeacher(){
+        Example example = new Example(TesUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("roleId",3L);
+        int count = tesUserMapper.selectCountByExample(example);
+        return count;
+    }
+
+    /*
+     * 查询班级数
+     * */
+    public int countClass(){
+        TesClass tesClass = new TesClass();
+        int count = tesClassMapper.selectCount(tesClass);
+        return count;
+    }
+
+    /*
+     * 查询学院数
+     * */
+    public int countDepartment(){
+        TesDepartment tesDepartment = new TesDepartment();
+        int count = tesDepartmentMapper.selectCount(tesDepartment);
+        return count;
+    }
 }
