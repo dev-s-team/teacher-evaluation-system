@@ -44,6 +44,8 @@ public class TesEvaluationController {
     private TesUserService tesUserService;
     @Autowired
     private TesCourseService tesCourseService;
+    @Autowired
+    private TesSemesterService tesSemesterService;
 
     @ApiOperation(value = "发布评教")
     @RequestMapping(value = "/update/{evaluationControlId}", method = RequestMethod.POST)
@@ -79,7 +81,7 @@ public class TesEvaluationController {
         TesEvaluationControl evalControl = evlControlList.get(0);
         System.out.println(evalControl);
 
-        List<TesEvaluation> evaluationList = tesEvaluationService.teList(evalControl.getId());
+        List<TesEvaluation> evaluationList = tesEvaluationService.teList(evalControl.getId(), roleId);
         System.out.println(evaluationList);
 
         TesIndicator indicatorList = null;
@@ -127,8 +129,8 @@ public class TesEvaluationController {
         TesClass tesClass = tesUserService.findClassById(id);
         // 获取院系信息
         TesDepartment tesDept = tesUserService.findDeptById(id);
-        // 获取学期信息
-        TesSemester tesSemester = tesUserService.findSemesterById(id);
+
+
 
         // 查询用户有哪些课程
         List<TesCourse> courseList = tesUserService.findCourseListById(id);
@@ -136,6 +138,11 @@ public class TesEvaluationController {
         // 根据课程查询
         for (TesCourse course : courseList) {
             TesUserEvalDto userEvalDto = new TesUserEvalDto();
+
+            // 根据课程获取学期id
+            Long semesterId = course.getSemesterId();
+            // 获取学期信息
+            TesSemester tesSemester = tesSemesterService.select(semesterId);
 
             System.out.println(course.getName());
             // 查询评教目标信息

@@ -10,10 +10,23 @@
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="gender" jdbcType="CHAR" property="gender" />
-    <result column="semester_id" jdbcType="BIGINT" property="semesterId" />
     <result column="role_id" jdbcType="BIGINT" property="roleId" />
     <result column="class_no" jdbcType="VARCHAR" property="classNo" />
     <result column="dept_no" jdbcType="VARCHAR" property="deptNo" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
+
+  <select id="getPermissionList" parameterType="long" resultType="com.csmaxwell.tes.domain.TesPermission">
+    SELECT
+	    tp.*
+    FROM
+        tes_user tu,
+        tes_role tr,
+        tes_role_permission trp,
+        tes_permission tp
+    WHERE tu.role_id = tr.id
+	AND tr.id = trp.role_id
+	AND trp.permission_id = tp.id
+	AND tu.id = #{userId}
+  </select>
 </mapper>

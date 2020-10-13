@@ -74,7 +74,7 @@ public class TesIndicatorServiceImpl  implements TesIndicatorService {
     }
 
     @Override
-    public int updateStatus(Long id, Byte status) {
+    public int updateStatus(Long id, Integer status) {
         TesIndicator indicator = new TesIndicator();
         indicator.setId(id);
         indicator.setStatus(status);

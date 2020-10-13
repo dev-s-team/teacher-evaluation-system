@@ -23,7 +23,7 @@ public class TesIndicator {
     /**
      * 0: 不生效 1: 生效
      */
-    private Byte status;
+    private Integer status;
 
     /**
      * 创建时间
@@ -86,7 +86,7 @@ public class TesIndicator {
      *
      * @return status - 0: 不生效 1: 生效
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -95,7 +95,7 @@ public class TesIndicator {
      *
      * @param status 0: 不生效 1: 生效
      */
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

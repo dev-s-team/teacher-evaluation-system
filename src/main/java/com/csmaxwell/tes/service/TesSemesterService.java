@@ -21,4 +21,6 @@ public interface TesSemesterService {
     int updateEval(List<String> studentIds, List<String> teacherIds, List<String> leaderIds, String name, Integer semesterId);
 
     int deleteEval(List<String> studentIds, List<String> teacherIds, List<String> leaderIds, Integer semesterId);
+
+    List<TesSemester> all();
 }

@@ -92,7 +92,7 @@ public class TesIndicatorController {
     @ApiOperation(value = "更新指标状态")
     @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult updateStatus(@PathVariable("id") Long id, @RequestParam("status") Byte status) {
+    public CommonResult updateStatus(@PathVariable("id") Long id, @RequestParam("status") Integer status) {
         int count = tesIndicatorService.updateStatus(id, status);
         if (count == 1) {
             return CommonResult.success("更新指标信息成功");

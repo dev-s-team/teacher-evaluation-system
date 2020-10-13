@@ -160,6 +160,11 @@ public class TesSemesterServiceImpl implements TesSemesterService {
     }
 
     @Override
+    public List<TesSemester> all() {
+        return tesSemesterMapper.selectAll();
+    }
+
+    @Override
     public TesSemester select(Long semesterId) {
         TesSemester tesSemester = tesSemesterMapper.selectByPrimaryKey(semesterId);
         return tesSemester;

@@ -191,7 +191,6 @@ public class TesUserServiceImpl implements TesUserService {
         for (TesUserCourse userCourse : userCourseList) {
             Example example2 = new Example(TesCourse.class);
             example2.createCriteria().andEqualTo("num", userCourse.getCourseNum());
-            example2.createCriteria().andEqualTo("semesterId", tesUser.getSemesterId());
             courseList.add(tesCourseMapper.selectByExample(example2).get(0));
         }
 
@@ -218,9 +217,8 @@ public class TesUserServiceImpl implements TesUserService {
 
     @Override
     public TesSemester findSemesterById(Long userId) {
-        TesUser tesUser = findById(userId);
         Example example = new Example(TesSemester.class);
-        example.createCriteria().andEqualTo("id", tesUser.getSemesterId());
+        // example.createCriteria().andEqualTo("id", tesUser.getSemesterId());
         List<TesSemester> semesterList = tesSemesterMapper.selectByExample(example);
         return semesterList.get(0);
     }
@@ -283,6 +281,14 @@ public class TesUserServiceImpl implements TesUserService {
         TesDepartment tesDepartment = new TesDepartment();
         int count = tesDepartmentMapper.selectCount(tesDepartment);
         return count;
+    }
+
+    @Override
+    public int updateStatus(Long id, Integer status) {
+        TesUser tesUser = new TesUser();
+        tesUser.setId(id);
+        tesUser.setStatus(status);
+        return tesUserMapper.updateByPrimaryKeySelective(tesUser);
     }
 
 }

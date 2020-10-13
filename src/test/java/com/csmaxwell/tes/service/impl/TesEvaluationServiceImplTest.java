@@ -30,27 +30,13 @@ class TesEvaluationServiceImplTest {
 
     @Test
     public void list() {
-        List<TesEvaluationControl> evlControlList = tesEvaluationControlService.tecList( 1L);
 
-        TesEvaluationControl evalControl = evlControlList.get(0);
-        System.out.println(evalControl);
-
-        List<TesEvaluation> evaluationList = tesEvaluationService.teList(evalControl.getId());
-        System.out.println(evaluationList);
-
-        TesIndicator indicatorList = null;
-        List<TesIndicator> allIndicatorLists = new ArrayList<TesIndicator>();
-
-
-        for (TesEvaluation tesEvaluation : evaluationList) {
-
-            indicatorList = tesIndicatorService.indicatorList(tesEvaluation.getIndicatorId());
-            System.out.println(indicatorList);
-            // TesIndicator tesIndicator = indicatorList.get(0);
-
-            allIndicatorLists.add(indicatorList);
-            System.out.println(allIndicatorLists);
-        }
 //        System.out.println(allIndicatorList);
+    }
+
+    @Test
+    public void updateById() {
+        int count = tesEvaluationService.updateById(7L);
+        System.out.println(count);
     }
 }

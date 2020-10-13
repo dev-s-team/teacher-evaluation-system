@@ -123,4 +123,12 @@ public class TesSemesterController {
         return CommonResult.success(semesterList);
     }
 
+    @ApiOperation("获取所有学期")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesSemester>> all() {
+        List<TesSemester> semesterList = tesSemesterService.all();
+        return CommonResult.success(semesterList);
+    }
+
 }

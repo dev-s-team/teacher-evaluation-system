@@ -4,10 +4,8 @@ import com.csmaxwell.tes.dao.TesEvaluationMapper;
 import com.csmaxwell.tes.dao.TesEvaluationControlMapper;
 import com.csmaxwell.tes.dao.TesUserMapper;
 import com.csmaxwell.tes.domain.TesEvaluation;
-import com.csmaxwell.tes.domain.TesUser;
-import com.csmaxwell.tes.dto.TesUserEvalDto;
+import com.csmaxwell.tes.domain.TesEvaluationControl;
 import com.csmaxwell.tes.service.TesEvaluationService;
-import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +30,15 @@ public class TesEvaluationServiceImpl implements TesEvaluationService {
 
     @Override
     public int updateById(Long evaluationControlId) {
-        int count = tesEvaluationControlMapper.updateById(evaluationControlId);
+
+        Example example = new Example(TesEvaluationControl.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("id", evaluationControlId);
+        criteria.andNotEqualTo("status", 1);
+        TesEvaluationControl tesEvaluationControl = new TesEvaluationControl();
+        tesEvaluationControl.setStatus(1);
+        int count = tesEvaluationControlMapper.updateByExampleSelective(tesEvaluationControl, example);
+
         return count;
     }
 
@@ -44,9 +50,12 @@ public class TesEvaluationServiceImpl implements TesEvaluationService {
 
 
     @Override
-    public List<TesEvaluation> teList(Long id) {
+    public List<TesEvaluation> teList(Long id, Long roleId) {
         Example example = new Example(TesEvaluation.class);
-        example.createCriteria().andEqualTo("evalCnotrolId", id);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("evalCnotrolId", id);
+        criteria.andEqualTo("roleId", roleId);
+
         List<TesEvaluation> evaluations = tesEvaluationMapper.selectByExample(example);
         return evaluations;
     }

@@ -8,11 +8,6 @@ import java.util.List;
 
 public interface TesRoleMapper extends Mapper<TesRole> {
 
-    /**
-     * 根据用户id获取菜单列表
-     * @param id
-     * @return
-     */
     List<TesMenu> getMenuList(Long id);
 
 }

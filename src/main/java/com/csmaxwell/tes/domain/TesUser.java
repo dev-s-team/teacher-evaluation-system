@@ -29,12 +29,6 @@ public class TesUser {
     private String gender;
 
     /**
-     * 学期id
-     */
-    @Column(name = "semester_id")
-    private Long semesterId;
-
-    /**
      * 角色id
      */
     @Column(name = "role_id")
@@ -56,22 +50,6 @@ public class TesUser {
      * 账号启用状态 0: 禁用 1: 启用
      */
     private Integer status;
-
-    public TesUser() {
-
-    }
-
-    public TesUser(String no, String username, String gender, Long semesterId, Long roleId,
-                   String classNo, String deptNo, Integer status) {
-        this.no = no;
-        this.username = username;
-        this.gender = gender;
-        this.semesterId = semesterId;
-        this.roleId = roleId;
-        this.classNo = classNo;
-        this.deptNo = deptNo;
-        this.status = status;
-    }
 
     /**
      * @return id
@@ -160,24 +138,6 @@ public class TesUser {
     }
 
     /**
-     * 获取学期id
-     *
-     * @return semester_id - 学期id
-     */
-    public Long getSemesterId() {
-        return semesterId;
-    }
-
-    /**
-     * 设置学期id
-     *
-     * @param semesterId 学期id
-     */
-    public void setSemesterId(Long semesterId) {
-        this.semesterId = semesterId;
-    }
-
-    /**
      * 获取角色id
      *
      * @return role_id - 角色id
@@ -260,7 +220,6 @@ public class TesUser {
         sb.append(", username=").append(username);
         sb.append(", password=").append(password);
         sb.append(", gender=").append(gender);
-        sb.append(", semesterId=").append(semesterId);
         sb.append(", roleId=").append(roleId);
         sb.append(", classNo=").append(classNo);
         sb.append(", deptNo=").append(deptNo);
@@ -286,7 +245,6 @@ public class TesUser {
             && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
             && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
             && (this.getGender() == null ? other.getGender() == null : this.getGender().equals(other.getGender()))
-            && (this.getSemesterId() == null ? other.getSemesterId() == null : this.getSemesterId().equals(other.getSemesterId()))
             && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()))
             && (this.getClassNo() == null ? other.getClassNo() == null : this.getClassNo().equals(other.getClassNo()))
             && (this.getDeptNo() == null ? other.getDeptNo() == null : this.getDeptNo().equals(other.getDeptNo()))
@@ -302,7 +260,6 @@ public class TesUser {
         result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
         result = prime * result + ((getGender() == null) ? 0 : getGender().hashCode());
-        result = prime * result + ((getSemesterId() == null) ? 0 : getSemesterId().hashCode());
         result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
         result = prime * result + ((getClassNo() == null) ? 0 : getClassNo().hashCode());
         result = prime * result + ((getDeptNo() == null) ? 0 : getDeptNo().hashCode());

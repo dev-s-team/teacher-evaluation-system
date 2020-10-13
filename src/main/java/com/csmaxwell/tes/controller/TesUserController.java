@@ -76,24 +76,20 @@ public class TesUserController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getUserInfo(Principal principal) {
-        System.out.println("哈哈哈哈");
         if (principal == null) {
             return CommonResult.unauthorized(null);
         }
         String no = principal.getName();
-        System.out.println("no是: " + no);
+
         TesUser tesUser = tesUserService.getUserByNo(no);
         HashMap<String, Object> data = new HashMap<>();
         data.put("username", tesUser.getUsername());
         List<TesMenu> menus = tesRoleService.getMenuList(tesUser.getId());
         data.put("menus", menus);
         TesRole tesRole = tesRoleService.findById(tesUser.getRoleId());
-        // if(CollUtil.isNotEmpty(roleList)){
-        //     List<String> roles = roleList.stream().map(UmsRole::getName).collect(Collectors.toList());
-        //     data.put("roles",roles);
-        // }
+
         data.put("roles", tesRole.getName());
-        System.out.println("获取用户信息");
+
         return CommonResult.success(data);
     }
 
@@ -166,6 +162,19 @@ public class TesUserController {
         }
     }
 
+    @ApiOperation("更新用户状态")
+    @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('ums:user:update')")
+    public CommonResult updateStatus(@PathVariable("id") Long id, @RequestParam("status") Integer status) {
+        int count = tesUserService.updateStatus(id, status);
+        if (count == 1) {
+            return CommonResult.success("更新状态成功");
+        } else {
+            return CommonResult.failed("更新状态失败");
+        }
+    }
+
     @ApiOperation(value = "获取用户列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
@@ -220,13 +229,19 @@ public class TesUserController {
             String no = strings[0];
             String username = strings[1];
             String gender = strings[2];
-            Long semesterId = Long.valueOf(strings[3]);
-            Long roleId = Long.valueOf(strings[4]);
-            String classNo = strings[5];
-            String deptNo = strings[6];
-            Integer status = Integer.valueOf(strings[7]);
+            Long roleId = Long.valueOf(strings[3]);
+            String classNo = strings[4];
+            String deptNo = strings[5];
+            Integer status = Integer.valueOf(strings[6]);
 
-            TesUser tesUser = new TesUser(no, username, gender, semesterId, roleId, classNo, deptNo, status);
+            TesUser tesUser = new TesUser();
+            tesUser.setNo(no);
+            tesUser.setUsername(username);
+            tesUser.setGender(gender);
+            tesUser.setRoleId(roleId);
+            tesUser.setClassNo(classNo);
+            tesUser.setDeptNo(deptNo);
+            tesUser.setStatus(status);
             data.add(tesUser);
         }
 
