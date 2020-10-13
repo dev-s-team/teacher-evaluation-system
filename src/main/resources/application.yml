@@ -5,9 +5,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/tes?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://120.27.235.21:3306/tes?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
-    password: 599890897
+    password: A1790001
 
 # mybatis设置
 mybatis:
