@@ -1,30 +1,25 @@
 package com.csmaxwell.tes.controller;
 
 
-import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
-import com.csmaxwell.tes.common.constant.EvalOption;
-import com.csmaxwell.tes.dao.TesCourseMapper;
 import com.csmaxwell.tes.domain.*;
 import com.csmaxwell.tes.dto.TesUserEvalDto;
 import com.csmaxwell.tes.service.*;
 import com.csmaxwell.tes.domain.TesEvaluation;
-import com.csmaxwell.tes.domain.TesEvaluationControl;
 import com.csmaxwell.tes.domain.TesIndicator;
 import com.csmaxwell.tes.service.TesEvaluationControlService;
 import com.csmaxwell.tes.service.TesEvaluationService;
 import com.csmaxwell.tes.service.TesIndicatorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.ognl.Evaluation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * S
@@ -170,6 +165,45 @@ public class TesEvaluationController {
     public CommonResult<List<TesEvaluationControl>> controlList() {
         List<TesEvaluationControl> controlList = tesEvaluationControlService.list();
         return CommonResult.success(controlList);
+    }
+
+    @ApiOperation("改变评教控制状态")
+    @RequestMapping(value = "/control/updateStatus/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateStatus(@PathVariable("id") Long semesterId, @RequestParam("status") Integer status) {
+        int count = tesEvaluationControlService.updateStatus(semesterId, status);
+        if (count > 0) {
+            return CommonResult.success(null);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+    @ApiOperation("获取评教指标")
+    @RequestMapping(value = "/evalItem/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult evalItem(@PathVariable("id") Long semesterId) {
+        List<TesEvaluationControl> evalControlList =
+                tesEvaluationControlService.tecList(semesterId);
+        Map<String, List> map = new HashMap<>();
+
+        // 学生
+        List<Integer> studentList = tesEvaluationService.findBySmsIdAndRoleId(evalControlList.get(0).getId(), 4L);
+        // 教师
+        List<Integer> teacherList = tesEvaluationService.findBySmsIdAndRoleId(evalControlList.get(0).getId(), 3L);
+        // 领导
+        List<Integer> leaderList = tesEvaluationService.findBySmsIdAndRoleId(evalControlList.get(0).getId(), 2L);
+
+        System.out.println(studentList);
+        System.out.println(teacherList);
+        System.out.println(leaderList);
+
+        map.put("student", studentList);
+        map.put("teacher", teacherList);
+        map.put("leader", leaderList);
+
+
+        return CommonResult.success(map);
     }
 
 }

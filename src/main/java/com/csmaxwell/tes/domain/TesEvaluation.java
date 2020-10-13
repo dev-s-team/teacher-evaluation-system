@@ -21,6 +21,12 @@ public class TesEvaluation {
     private Long indicatorId;
 
     /**
+     * 角色id
+     */
+    @Column(name = "role_id")
+    private Long roleId;
+
+    /**
      * @return id
      */
     public Long getId() {
@@ -70,6 +76,24 @@ public class TesEvaluation {
         this.indicatorId = indicatorId;
     }
 
+    /**
+     * 获取角色id
+     *
+     * @return role_id - 角色id
+     */
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    /**
+     * 设置角色id
+     *
+     * @param roleId 角色id
+     */
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -79,6 +103,7 @@ public class TesEvaluation {
         sb.append(", id=").append(id);
         sb.append(", evalCnotrolId=").append(evalCnotrolId);
         sb.append(", indicatorId=").append(indicatorId);
+        sb.append(", roleId=").append(roleId);
         sb.append("]");
         return sb.toString();
     }
@@ -97,7 +122,8 @@ public class TesEvaluation {
         TesEvaluation other = (TesEvaluation) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getEvalCnotrolId() == null ? other.getEvalCnotrolId() == null : this.getEvalCnotrolId().equals(other.getEvalCnotrolId()))
-            && (this.getIndicatorId() == null ? other.getIndicatorId() == null : this.getIndicatorId().equals(other.getIndicatorId()));
+            && (this.getIndicatorId() == null ? other.getIndicatorId() == null : this.getIndicatorId().equals(other.getIndicatorId()))
+            && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()));
     }
 
     @Override
@@ -107,6 +133,7 @@ public class TesEvaluation {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getEvalCnotrolId() == null) ? 0 : getEvalCnotrolId().hashCode());
         result = prime * result + ((getIndicatorId() == null) ? 0 : getIndicatorId().hashCode());
+        result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
         return result;
     }
 }

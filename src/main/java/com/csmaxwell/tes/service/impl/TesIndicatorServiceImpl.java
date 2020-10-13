@@ -81,4 +81,9 @@ public class TesIndicatorServiceImpl  implements TesIndicatorService {
         int count = tesIndicatorMapper.updateByPrimaryKeySelective(indicator);
         return count;
     }
+
+    @Override
+    public List<TesIndicator> all() {
+        return tesIndicatorMapper.selectAll();
+    }
 }

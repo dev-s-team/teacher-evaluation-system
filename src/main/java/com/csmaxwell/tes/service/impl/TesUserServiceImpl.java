@@ -284,4 +284,5 @@ public class TesUserServiceImpl implements TesUserService {
         int count = tesDepartmentMapper.selectCount(tesDepartment);
         return count;
     }
+
 }

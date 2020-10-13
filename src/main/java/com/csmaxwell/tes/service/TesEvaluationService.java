@@ -15,4 +15,6 @@ public interface TesEvaluationService {
 
 
     List<TesEvaluation> teList(Long id);
+
+    List<Integer> findBySmsIdAndRoleId(Long evalControlId, Long roleId);
 }

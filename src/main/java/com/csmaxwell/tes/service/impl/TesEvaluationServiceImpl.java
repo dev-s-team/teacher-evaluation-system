@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,6 +49,21 @@ public class TesEvaluationServiceImpl implements TesEvaluationService {
         example.createCriteria().andEqualTo("evalCnotrolId", id);
         List<TesEvaluation> evaluations = tesEvaluationMapper.selectByExample(example);
         return evaluations;
+    }
+
+    @Override
+    public List<Integer> findBySmsIdAndRoleId(Long evalControlId, Long roleId) {
+        Example example = new Example(TesEvaluation.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("evalCnotrolId", evalControlId);
+        criteria.andEqualTo("roleId", roleId);
+        List<TesEvaluation> evaluationList = tesEvaluationMapper.selectByExample(example);
+        List<Integer> list = new ArrayList<>();
+        for (TesEvaluation eval : evaluationList) {
+            list.add(Math.toIntExact(eval.getIndicatorId()));
+        }
+
+        return list;
     }
 
 }

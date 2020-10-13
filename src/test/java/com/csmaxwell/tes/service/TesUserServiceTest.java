@@ -25,4 +25,10 @@ class TesUserServiceTest {
             System.out.println(tesUser);
         }
     }
+
+    @Test
+    public void countStudent() {
+        int count = tesUserService.countStudent();
+        System.out.println(count);
+    }
 }

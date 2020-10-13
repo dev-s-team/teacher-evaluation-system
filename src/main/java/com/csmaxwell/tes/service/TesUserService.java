@@ -64,4 +64,5 @@ public interface TesUserService {
     int countClass();
 
     int countDepartment();
+
 }

@@ -8,5 +8,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="eval_cnotrol_id" jdbcType="BIGINT" property="evalCnotrolId" />
     <result column="indicator_id" jdbcType="BIGINT" property="indicatorId" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
   </resultMap>
 </mapper>
