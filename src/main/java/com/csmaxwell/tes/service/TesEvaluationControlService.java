@@ -12,4 +12,6 @@ public interface TesEvaluationControlService {
     List<TesEvaluationControl> tecList(Long semesterId);
 
     List<TesEvaluationControl> list();
+
+    int updateStatus(Long semesterId, Integer status);
 }

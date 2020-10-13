@@ -20,4 +20,6 @@ public interface TesIndicatorService {
     TesIndicator indicatorList(Long indicatorId);
 
     int updateStatus(Long id, Byte status);
+
+    List<TesIndicator> all();
 }

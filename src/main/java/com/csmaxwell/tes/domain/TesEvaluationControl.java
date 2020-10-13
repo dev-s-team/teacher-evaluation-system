@@ -17,7 +17,7 @@ public class TesEvaluationControl {
     /**
      * 0: 未开启 1:开启
      */
-    private Byte status;
+    private Integer status;
 
     /**
      * @return id
@@ -56,7 +56,7 @@ public class TesEvaluationControl {
      *
      * @return status - 0: 未开启 1:开启
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -65,7 +65,7 @@ public class TesEvaluationControl {
      *
      * @param status 0: 未开启 1:开启
      */
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

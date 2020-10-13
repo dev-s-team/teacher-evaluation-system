@@ -3,7 +3,6 @@ package com.csmaxwell.tes.service.impl;
 import com.csmaxwell.tes.domain.TesEvaluation;
 import com.csmaxwell.tes.domain.TesEvaluationControl;
 import com.csmaxwell.tes.domain.TesIndicator;
-import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesEvaluationControlService;
 import com.csmaxwell.tes.service.TesEvaluationService;
 import com.csmaxwell.tes.service.TesIndicatorService;
@@ -15,8 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)

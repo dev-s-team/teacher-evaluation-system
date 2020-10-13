@@ -244,4 +244,13 @@ public class TesUserServiceImpl implements TesUserService {
             int count = tesUserMapper.insertSelective(user);
         }
     }
+
+    @Override
+    public int countStudent() {
+        Example example = new Example(TesUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("roleId", 4L);
+        int count = tesUserMapper.selectCountByExample(example);
+        return count;
+    }
 }
