@@ -4,17 +4,22 @@ import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesCourse;
 import com.csmaxwell.tes.service.TesCourseService;
+import com.csmaxwell.tes.service.TesEvaluationResultService;
+import com.csmaxwell.tes.vo.CourseVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Key;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * S
@@ -29,6 +34,9 @@ public class TesCourseController {
 
     @Autowired
     private TesCourseService tesCourseService;
+
+    @Autowired
+    private TesEvaluationResultService tesEvaluationResultService;
 
     @ApiOperation("获取所有课程列表")
     @RequestMapping(value = "list", method = RequestMethod.GET)
@@ -101,5 +109,51 @@ public class TesCourseController {
             LOGGER.debug("deleteCourse failed: id = {}", id);
         }
         return commonResult;
+    }
+
+    @ApiOperation("根据课程id查询该课程的用户人数")
+    @RequestMapping(value = "/getCount/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('lms:course:read')")
+    public CommonResult getCount(@PathVariable("id") Long id) {
+        TesCourse tesCourse = tesCourseService.findById(id);
+        int courseUserCount1 =tesCourseService.getCount(tesCourse.getNum());
+        int evaluatedCount1 =tesEvaluationResultService.evaluatedCount(id);
+        int noEvaluationCount1 = courseUserCount1 - evaluatedCount1;
+        String evaluatedCount = String.valueOf(evaluatedCount1);
+        String noEvaluationCount = String.valueOf(noEvaluationCount1);
+        Map<String,String> map1=new HashMap<>();
+        map1.put("人数", "已评教人数");
+        map1.put("访问用户", evaluatedCount);
+        Map<String,String> map2=new HashMap<>();
+        map2.put("人数", "未评教人数");
+        map2.put("访问用户", noEvaluationCount);
+        CourseVo courseVo = new CourseVo();
+        String[] columns = new String[]{"人数","访问用户"};
+        courseVo.setColumns(columns);
+        List<Map<String,String>> rows = new ArrayList<Map<String, String>>();
+        rows.add(map1);
+        rows.add(map2);
+        courseVo.setRows(rows);
+        if (noEvaluationCount != null) {
+            return CommonResult.success(courseVo);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+    @ApiOperation("根据课程id查询该课程的用户人数")
+    @RequestMapping(value = "/getAllCount/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('lms:course:read')")
+    public CommonResult getAlCount(@PathVariable("id") Long id) {
+        TesCourse tesCourse = tesCourseService.findById(id);
+        int courseUserCount =tesCourseService.getCount(tesCourse.getNum());
+
+        if (courseUserCount >=0) {
+            return CommonResult.success(courseUserCount);
+        } else {
+            return CommonResult.failed();
+        }
     }
 }

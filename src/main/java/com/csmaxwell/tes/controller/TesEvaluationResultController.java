@@ -3,11 +3,13 @@ package com.csmaxwell.tes.controller;
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.common.constant.EvalOption;
+import com.csmaxwell.tes.domain.TesCourse;
 import com.csmaxwell.tes.domain.TesEvaluationResult;
 import com.csmaxwell.tes.service.TesEvaluationResultService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -78,6 +80,17 @@ public class TesEvaluationResultController {
 
     }
 
+    @ApiOperation("根据课程id查询该课程的已评教用户人数")
+    @RequestMapping(value = "/evaluatedCount/{courseId}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult evaluatedCount(@PathVariable("courseId") Long courseId) {
+        int count =tesEvaluationResultService.evaluatedCount(courseId);
+        if (count >=0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
 
 
 }

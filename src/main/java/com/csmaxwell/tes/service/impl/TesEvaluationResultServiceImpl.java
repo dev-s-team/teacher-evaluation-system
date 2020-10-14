@@ -3,6 +3,7 @@ package com.csmaxwell.tes.service.impl;
 import com.csmaxwell.tes.common.constant.EvalOption;
 import com.csmaxwell.tes.dao.TesEvaluationResultMapper;
 import com.csmaxwell.tes.domain.TesEvaluationResult;
+import com.csmaxwell.tes.domain.TesUserCourse;
 import com.csmaxwell.tes.service.TesEvaluationResultService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,17 @@ public class TesEvaluationResultServiceImpl implements TesEvaluationResultServic
         result.setScore(score);
 
         return create(result);
+    }
+
+    @Override
+    public int evaluatedCount(Long courseId) {
+        Example example = new Example(TesEvaluationResult.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("courseId", courseId);
+
+        int count = tesEvaluationResultMapper.selectCountByExample(example);
+
+        return count;
     }
 
 
