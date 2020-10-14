@@ -90,4 +90,15 @@ public class TesCourseServiceImpl implements TesCourseService {
 
         return tesUser;
     }
+
+    @Override
+    public int getCount(String num) {
+        Example example = new Example(TesUserCourse.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("courseNum", num);
+
+        int count = tesUserCourseMapper.selectCountByExample(example);
+
+        return count;
+    }
 }

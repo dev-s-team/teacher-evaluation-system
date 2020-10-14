@@ -92,13 +92,21 @@ public class TesIndicatorController {
     @ApiOperation(value = "更新指标状态")
     @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult updateStatus(@PathVariable("id") Long id, @RequestParam("status") Byte status) {
+    public CommonResult updateStatus(@PathVariable("id") Long id, @RequestParam("status") Integer status) {
         int count = tesIndicatorService.updateStatus(id, status);
         if (count == 1) {
             return CommonResult.success("更新指标信息成功");
         } else {
             return CommonResult.failed("更新指标信息失败");
         }
+    }
+
+    @ApiOperation("获取所有指标")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesIndicator>> all() {
+        List<TesIndicator> indicatorList = tesIndicatorService.all();
+        return CommonResult.success(indicatorList);
     }
 }
 

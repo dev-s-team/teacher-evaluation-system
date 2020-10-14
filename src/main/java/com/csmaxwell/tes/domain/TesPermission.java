@@ -25,16 +25,6 @@ public class TesPermission {
     private String permission;
 
     /**
-     * 图标
-     */
-    private String icon;
-
-    /**
-     * 资源路径
-     */
-    private String uri;
-
-    /**
      * 启用状态：0->禁用；1->启用
      */
     private Integer status;
@@ -114,42 +104,6 @@ public class TesPermission {
     }
 
     /**
-     * 获取图标
-     *
-     * @return icon - 图标
-     */
-    public String getIcon() {
-        return icon;
-    }
-
-    /**
-     * 设置图标
-     *
-     * @param icon 图标
-     */
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    /**
-     * 获取资源路径
-     *
-     * @return uri - 资源路径
-     */
-    public String getUri() {
-        return uri;
-    }
-
-    /**
-     * 设置资源路径
-     *
-     * @param uri 资源路径
-     */
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
-    /**
      * 获取启用状态：0->禁用；1->启用
      *
      * @return status - 启用状态：0->禁用；1->启用
@@ -195,8 +149,6 @@ public class TesPermission {
         sb.append(", pid=").append(pid);
         sb.append(", name=").append(name);
         sb.append(", permission=").append(permission);
-        sb.append(", icon=").append(icon);
-        sb.append(", uri=").append(uri);
         sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);
         sb.append("]");
@@ -219,8 +171,6 @@ public class TesPermission {
             && (this.getPid() == null ? other.getPid() == null : this.getPid().equals(other.getPid()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getPermission() == null ? other.getPermission() == null : this.getPermission().equals(other.getPermission()))
-            && (this.getIcon() == null ? other.getIcon() == null : this.getIcon().equals(other.getIcon()))
-            && (this.getUri() == null ? other.getUri() == null : this.getUri().equals(other.getUri()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
     }
@@ -233,8 +183,6 @@ public class TesPermission {
         result = prime * result + ((getPid() == null) ? 0 : getPid().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getPermission() == null) ? 0 : getPermission().hashCode());
-        result = prime * result + ((getIcon() == null) ? 0 : getIcon().hashCode());
-        result = prime * result + ((getUri() == null) ? 0 : getUri().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         return result;

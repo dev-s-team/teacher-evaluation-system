@@ -15,9 +15,6 @@ public class TesEvaluationControlServiceImpl implements TesEvaluationControlServ
     @Autowired
     private TesEvaluationControlMapper tesEvaluationControlMapper;
 
-
-
-
     @Override
     public TesEvaluationControl select(Long semesterId, TesEvaluationControl tesEvaluationControl) {
         tesEvaluationControl.setSemesterId(semesterId);
@@ -39,5 +36,15 @@ public class TesEvaluationControlServiceImpl implements TesEvaluationControlServ
     @Override
     public List<TesEvaluationControl> list() {
         return tesEvaluationControlMapper.selectAll();
+    }
+
+    @Override
+    public int updateStatus(Long semesterId, Integer status) {
+        TesEvaluationControl evalControl = new TesEvaluationControl();
+        evalControl.setStatus(status);
+        Example example = new Example(TesEvaluationControl.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("semesterId", semesterId);
+        return tesEvaluationControlMapper.updateByExampleSelective(evalControl, example);
     }
 }
