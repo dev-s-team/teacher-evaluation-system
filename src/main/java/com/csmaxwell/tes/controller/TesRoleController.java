@@ -3,6 +3,7 @@ package com.csmaxwell.tes.controller;
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.*;
+import com.csmaxwell.tes.service.TesPermissionService;
 import com.csmaxwell.tes.service.TesRoleService;
 import com.csmaxwell.tes.service.TesMenuService;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
@@ -29,6 +30,9 @@ public class TesRoleController {
 
     @Autowired
     private TesMenuService tesMenuService;
+
+    @Autowired
+    private TesPermissionService tesPermissionService;
 
     @ApiOperation(value = "角色添加")
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
@@ -149,6 +153,53 @@ public class TesRoleController {
         for (Long menuId : menuIds) {
 
             count = tesRoleService.insertMenu(roleId, menuId);
+        }
+
+        if (count == 1) {
+            commonResult = CommonResult.success(null);
+        } else {
+            commonResult = CommonResult.failed();
+        }
+        return commonResult;
+    }
+
+    @ApiOperation(value = "查询角色对应权限")
+    @RequestMapping(value = "/listPermission/{roleId}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesPermission>> listPermission(@PathVariable("roleId") Long roleId) {
+        List<TesRolePermission> tesRolePermissions = tesRoleService.listRolePermission(roleId);
+        TesPermission tesPermission = null;
+        List<TesPermission> allPermissionLists = new ArrayList<TesPermission>();
+        for (TesRolePermission tesRolePermission : tesRolePermissions) {
+
+            tesPermission = tesPermissionService.select(tesRolePermission.getPermissionId());
+//            System.out.println(tesPermission);
+
+            allPermissionLists.add(tesPermission);
+//            System.out.println(allPermissionLists);
+        }
+        return CommonResult.success(allPermissionLists);
+    }
+
+    @ApiOperation(value = "分配权限")
+    @RequestMapping(value = "/allocPermission", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult allocPermission(@RequestParam("roleId") Long roleId,
+                                  @RequestParam("permissionIds") List<Long> permissionIds) {
+        CommonResult commonResult;
+//        List<TesRoleMenu> tesRoleMenu = new ArrayList<TesRoleMenu>();
+//        TesRoleMenu tesRoleMenu = new TesRoleMenu();
+//        BeanUtils.copyProperties(tesRoleParam, tesRoleMenu);
+        System.out.println(permissionIds + "`111222333");
+        int count = 0;
+        try {
+            int count1 = tesRoleService.delRolePermission(roleId);
+        } catch (Exception e) {
+            System.out.println("删除权限失败");
+        }
+        for (Long permissionId : permissionIds) {
+
+            count = tesRoleService.insertPermission(roleId, permissionId);
         }
 
         if (count == 1) {

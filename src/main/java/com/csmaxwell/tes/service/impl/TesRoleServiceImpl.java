@@ -135,4 +135,30 @@ public class TesRoleServiceImpl implements TesRoleService {
         return count1;
     }
 
+    @Override
+    public List<TesRolePermission> listRolePermission(Long roleId) {
+        Example example = new Example(TesRolePermission.class);
+        example.createCriteria().andEqualTo("roleId", roleId);
+        List<TesRolePermission> tesRolePermissions = tesRolePermissionMapper.selectByExample(example);
+        return tesRolePermissions;
+    }
+
+    @Override
+    public int delRolePermission(Long roleId) {
+        Example example = new Example(TesRolePermission.class);
+        example.createCriteria().andEqualTo("roleId", roleId);
+        int count1 = tesRolePermissionMapper.deleteByExample(example);
+        System.out.println(count1+"count1");
+        return count1;
+    }
+
+    @Override
+    public int insertPermission(Long roleId, Long permissionId) {
+        TesRolePermission tesRolePermission=new TesRolePermission();
+        tesRolePermission.setRoleId(roleId);
+        tesRolePermission.setPermissionId(permissionId);
+        int count=tesRolePermissionMapper.insert(tesRolePermission);
+        return count;
+    }
+
 }

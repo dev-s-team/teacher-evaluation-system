@@ -2,6 +2,7 @@ package com.csmaxwell.tes.controller;
 
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
+import com.csmaxwell.tes.domain.TesMenu;
 import com.csmaxwell.tes.domain.TesPermission;
 import com.csmaxwell.tes.service.TesPermissionService;
 import io.swagger.annotations.Api;
@@ -98,6 +99,15 @@ public class TesPermissionController {
         } else {
             return CommonResult.failed("更新权限状态失败");
         }
+    }
+
+    @ApiOperation("查询所有权限列表")
+    @RequestMapping(value = "/treeList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesPermission>> treeList() {
+        List<TesPermission> permissionList = tesPermissionService.treeList();
+        //System.out.println(permissionList);
+        return CommonResult.success(permissionList);
     }
 
 

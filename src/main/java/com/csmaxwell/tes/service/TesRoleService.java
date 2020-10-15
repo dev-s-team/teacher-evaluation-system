@@ -3,6 +3,7 @@ package com.csmaxwell.tes.service;
 import com.csmaxwell.tes.domain.TesMenu;
 import com.csmaxwell.tes.domain.TesRole;
 import com.csmaxwell.tes.domain.TesRoleMenu;
+import com.csmaxwell.tes.domain.TesRolePermission;
 
 import java.util.List;
 
@@ -31,4 +32,10 @@ public interface TesRoleService {
     int insertMenu(Long roleId, Long menuIds);
 
     int delRoleMenu(Long roleId);
+
+    List<TesRolePermission> listRolePermission(Long roleId);
+
+    int delRolePermission(Long roleId);
+
+    int insertPermission(Long roleId, Long permissionId);
 }

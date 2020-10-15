@@ -87,4 +87,10 @@ public class TesPermissionServiceImpl implements TesPermissionService {
         int count = tesPermissionMapper.updateByPrimaryKeySelective(tesPermission);
         return count;
     }
+
+    @Override
+    public List<TesPermission> treeList() {
+        List<TesPermission> tesPermissions = tesPermissionMapper.selectAll();
+        return tesPermissions;
+    }
 }
