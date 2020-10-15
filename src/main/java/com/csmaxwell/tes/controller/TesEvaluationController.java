@@ -213,4 +213,71 @@ public class TesEvaluationController {
         return CommonResult.success(map);
     }
 
+    @ApiOperation(value = "同行评教")
+    @RequestMapping(value = "/otherCourseList/{no}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<TesUserEvalDto>> otherCourseList(@PathVariable("no") String no) {
+        System.out.println("111");
+
+        // 获取评教对象
+        TesUser tesUser1 = tesUserService.findByNo(no);
+        Long id = tesUser1.getId();
+        // 获取评教人角色
+        TesRole tesRole = tesUserService.findRoleById(id);
+        // 获取班级信息
+        TesClass tesClass = tesUserService.findClassById(id);
+        // 获取院系信息
+        TesDepartment tesDept = tesUserService.findDeptById(id);
+        //查询老师列表
+        List<TesUser> tesUsers = tesUserService.byRoleId();
+//        TesUserCourse tesUserCourse = new TesUserCourse();
+//        TesCourse tesCourse = new TesCourse();
+        List<TesCourse> tesCourses = new ArrayList<>();
+        List<TesUserEvalDto> userEvalDtoList = new ArrayList<>();
+        for(TesUser tesUser : tesUsers){
+            if(!no.equals(tesUser.getNo())){
+                List<TesUserCourse> tesUserCourses = tesUserService.findByUserNo(tesUser.getNo());
+                for(TesUserCourse tesUserCourse: tesUserCourses){
+                    System.out.println(tesUserCourse.getCourseNum()+"CourseNum");
+                    TesCourse tesCourse = tesCourseService.findByNum(tesUserCourse.getCourseNum());
+                    tesCourses.add(tesCourse);
+                    System.out.println(tesCourse+"tesCourse");
+                }
+                System.out.println(tesCourses+"tesCourses");
+
+
+            }
+
+
+        }
+        for(TesCourse tesCourse1: tesCourses){
+            // 根据课程查询
+            TesUserEvalDto userEvalDto = new TesUserEvalDto();
+            // 根据课程获取学期id
+            Long semesterId = tesCourse1.getSemesterId();
+            // 获取学期信息
+            TesSemester tesSemester = tesSemesterService.select(semesterId);
+
+            System.out.println(tesCourse1.getName());
+            // 查询评教目标信息
+            TesUser targetUser = tesCourseService.findUserInfoById(tesCourse1.getNum());
+
+            userEvalDto.setUserId(id);
+            userEvalDto.setRoleId(tesRole.getId());
+            userEvalDto.setTargetId(targetUser.getId());
+            userEvalDto.setTargetName(targetUser.getUsername());
+            userEvalDto.setCourseId(tesCourse1.getId());
+            userEvalDto.setCourseName(tesCourse1.getName());
+            userEvalDto.setClassId(tesClass.getId());
+            userEvalDto.setClassNo(tesClass.getNo());
+            userEvalDto.setDeptId(tesDept.getId());
+            userEvalDto.setDeptName(tesDept.getName());
+            userEvalDto.setSemesterId(tesSemester.getId());
+            userEvalDto.setSemesterName(tesSemester.getName());
+            userEvalDtoList.add(userEvalDto);
+
+        }
+        return CommonResult.success(userEvalDtoList);
+    }
+
 }

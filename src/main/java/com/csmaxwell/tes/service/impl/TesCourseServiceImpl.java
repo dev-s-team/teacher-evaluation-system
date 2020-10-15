@@ -101,4 +101,14 @@ public class TesCourseServiceImpl implements TesCourseService {
 
         return count;
     }
+
+    @Override
+    public TesCourse findByNum(String courseNum) {
+
+        Example example = new Example(TesCourse.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("num", courseNum);
+        TesCourse tesCourse1 = tesCourseMapper.selectOneByExample(example);
+        return tesCourse1;
+    }
 }

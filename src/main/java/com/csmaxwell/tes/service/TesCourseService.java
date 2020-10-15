@@ -23,4 +23,6 @@ public interface TesCourseService {
     TesUser findUserInfoById(String id);
 
     int getCount(String num);
+
+    TesCourse findByNum(String courseNum);
 }

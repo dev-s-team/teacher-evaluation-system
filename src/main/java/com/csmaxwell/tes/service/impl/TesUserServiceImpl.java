@@ -291,4 +291,25 @@ public class TesUserServiceImpl implements TesUserService {
         return tesUserMapper.updateByPrimaryKeySelective(tesUser);
     }
 
+    @Override
+    public List<TesUser> byRoleId() {
+        Example example = new Example(TesUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("roleId",3L);
+        List<TesUser> tesUsers = tesUserMapper.selectByExample(example);
+        return tesUsers;
+
+    }
+
+    @Override
+    public List<TesUserCourse> findByUserNo(String no) {
+        TesUserCourse tesUserCourse = new TesUserCourse();
+        Example example = new Example(TesUserCourse.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userNo",no);
+        List<TesUserCourse> tesUserCourses = tesUserCourseMapper.selectByExample(example);
+        return tesUserCourses;
+
+    }
+
 }
