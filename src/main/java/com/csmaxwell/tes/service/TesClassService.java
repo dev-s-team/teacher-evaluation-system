@@ -18,4 +18,10 @@ public interface TesClassService{
     List<TesClass> findAll(String keyword, Integer pageSize, Integer pageNum);
 
     List<TesClass> all();
+
+    int selectCountClass();
+
+    int[] classAllUser();
+
+    int[] classAllUserComplete();
 }

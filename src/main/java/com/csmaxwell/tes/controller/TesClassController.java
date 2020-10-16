@@ -1,9 +1,13 @@
 package com.csmaxwell.tes.controller;
 
+import ch.qos.logback.core.pattern.ConverterUtil;
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.domain.TesClass;
+import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesClassService;
+import com.csmaxwell.tes.vo.CourseVo;
+import com.csmaxwell.tes.vo.CourseVo1;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -11,7 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * S
@@ -99,6 +108,42 @@ public class TesClassController {
             commonResult=CommonResult.failed();
         }
         return commonResult;
+    }
+
+    @ApiOperation(value = "查询评教班级数量")
+    @RequestMapping(value = "/classCount", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult classCount(){
+        int count = tesClassService.selectCountClass();
+        return CommonResult.success(count);
+    }
+
+    @ApiOperation(value = "查询每个班级人数")
+    @RequestMapping(value = "/classCountUserAll", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult classCountUserAll(){
+//        查询每个班级的所有人数
+        int[] classAllList = tesClassService.classAllUser();
+//        查询每个班级号
+        int[] classNoList = tesClassService.classAllUserComplete();
+        List<Map<String,Integer>> rows = new ArrayList<>();
+        for (int i = 0;i<classAllList.length;i++) {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("班级号", classNoList[i]);
+            map.put("班级人数", classAllList[i]);
+            rows.add(map);
+        }
+        CourseVo1 courseVo = new CourseVo1();
+        String[] columns = new String[]{"班级号","班级人数"};
+        courseVo.setColumns(columns);
+
+
+        courseVo.setRows(rows);
+        if (classAllList != null) {
+            return CommonResult.success(courseVo);
+        } else {
+            return CommonResult.failed();
+        }
 
     }
 }
