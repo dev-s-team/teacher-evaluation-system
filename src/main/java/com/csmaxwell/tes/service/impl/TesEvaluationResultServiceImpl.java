@@ -24,7 +24,6 @@ public class TesEvaluationResultServiceImpl implements TesEvaluationResultServic
     @Autowired
     private TesEvaluationResultMapper tesEvaluationResultMapper;
 
-
     @Override
     public int create(TesEvaluationResult tesEvaluationResult) {
         int count = tesEvaluationResultMapper.insertSelective(tesEvaluationResult);
@@ -91,6 +90,11 @@ public class TesEvaluationResultServiceImpl implements TesEvaluationResultServic
         int count = tesEvaluationResultMapper.selectCountByExample(example);
 
         return count;
+    }
+
+    @Override
+    public List<TesEvaluationResult> all() {
+        return tesEvaluationResultMapper.selectAll();
     }
 
 
