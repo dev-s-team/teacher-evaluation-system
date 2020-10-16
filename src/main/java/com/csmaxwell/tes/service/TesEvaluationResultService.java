@@ -18,4 +18,6 @@ public interface TesEvaluationResultService {
     int commit(Long userId, Long roleId, Long targetId, Long courseId, List<String> radios, List<String> weights);
 
     int evaluatedCount(Long courseId);
+
+    List<TesEvaluationResult> all();
 }
