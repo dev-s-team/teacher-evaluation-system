@@ -1,7 +1,11 @@
 package com.csmaxwell.tes.service.impl;
 
 import com.csmaxwell.tes.dao.TesClassMapper;
+import com.csmaxwell.tes.dao.TesEvaluationResultMapper;
+import com.csmaxwell.tes.dao.TesUserMapper;
 import com.csmaxwell.tes.domain.TesClass;
+import com.csmaxwell.tes.domain.TesEvaluationResult;
+import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesClassService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,6 +21,12 @@ public class TesClassServiceImpl implements TesClassService {
 
     @Autowired
     private TesClassMapper tesClassMapper;
+
+    @Autowired
+    private TesEvaluationResultMapper tesEvaluationResultMapper;
+
+    @Autowired
+    private TesUserMapper tesUserMapper;
 
     @Override
     public int create(TesClass tesClassParam) {
@@ -58,4 +69,51 @@ public class TesClassServiceImpl implements TesClassService {
     public List<TesClass> all() {
         return tesClassMapper.selectAll();
     }
+
+    @Override
+    public int selectCountClass(){
+        Example example = new Example(TesClass.class);
+        int count = tesClassMapper.selectCountByExample(example);
+        return count;
+    }
+
+//    查询每个班级的所有人数
+    public  int[] classAllUser(){
+//        List<TesClass> tesClassList = tesClassMapper.selectAll();
+        Example example = new Example(TesClass.class);
+        int length = tesClassMapper.selectCountByExample(example);
+        int[] classAllUserList = new int[length];
+        List<TesClass> tesClassList = tesClassMapper.selectByExample(example);
+        int i = 0;
+        for (TesClass tesClass : tesClassList) {
+            Example example1 = new Example(TesUser.class);
+            Example.Criteria criteria = example1.createCriteria();
+            criteria.andEqualTo("classNo",tesClass.getNo());
+            int count = tesUserMapper.selectCountByExample(example1);
+//            for (int i=0;i<length;i++){
+//                classAllUserList[i] = count;
+//            }
+            classAllUserList[i] = count;
+            i++;
+        }
+        return classAllUserList;
+    }
+
+    /**
+     * 查询所有班级号
+     * @return
+     */
+    public int[] classAllUserComplete() {
+        Example example = new Example(TesClass.class);
+        List<TesClass> tesClassList = tesClassMapper.selectByExample(example);
+        int length = tesClassMapper.selectCountByExample(example);
+        int[] allClass = new int[length];
+        int i = 0;
+        for (TesClass tesClass : tesClassList) {
+            allClass[i] = Integer.valueOf(tesClass.getNo()).intValue();
+            i++;
+        }
+        return allClass;
+    }
+
 }
