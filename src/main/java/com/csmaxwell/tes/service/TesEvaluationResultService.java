@@ -20,4 +20,6 @@ public interface TesEvaluationResultService {
     int evaluatedCount(Long courseId);
 
     List<TesEvaluationResult> all();
+
+    List<TesEvaluationResult> findByCourseId(Long id);
 }

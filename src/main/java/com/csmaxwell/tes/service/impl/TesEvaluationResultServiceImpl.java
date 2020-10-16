@@ -97,5 +97,15 @@ public class TesEvaluationResultServiceImpl implements TesEvaluationResultServic
         return tesEvaluationResultMapper.selectAll();
     }
 
+    @Override
+    public List<TesEvaluationResult> findByCourseId(Long id) {
+
+        Example example = new Example(TesEvaluationResult.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("courseId", id);
+        List<TesEvaluationResult> tesEvaluationResults = tesEvaluationResultMapper.selectByExample(example);
+        return tesEvaluationResults;
+    }
+
 
 }
