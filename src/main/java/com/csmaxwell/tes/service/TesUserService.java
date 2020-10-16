@@ -67,6 +67,8 @@ public interface TesUserService {
 
     int updateStatus(Long id, Integer status);
 
+    List<TesUser> findUserByDeptNo(String no, Long roleId);
+
     List<TesUser> byRoleId();
 
     List<TesUserCourse> findByUserNo(String no);

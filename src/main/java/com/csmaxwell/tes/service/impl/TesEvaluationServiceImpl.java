@@ -5,6 +5,7 @@ import com.csmaxwell.tes.dao.TesEvaluationControlMapper;
 import com.csmaxwell.tes.dao.TesUserMapper;
 import com.csmaxwell.tes.domain.TesEvaluation;
 import com.csmaxwell.tes.domain.TesEvaluationControl;
+import com.csmaxwell.tes.dto.TesUserEvalDto;
 import com.csmaxwell.tes.service.TesEvaluationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +25,6 @@ public class TesEvaluationServiceImpl implements TesEvaluationService {
     private TesEvaluationMapper tesEvaluationMapper;
     @Autowired
     private TesEvaluationControlMapper tesEvaluationControlMapper;
-    @Autowired
-    private TesUserMapper tesUserMapper;
 
 
     @Override
@@ -74,5 +73,4 @@ public class TesEvaluationServiceImpl implements TesEvaluationService {
 
         return list;
     }
-
 }

@@ -2,6 +2,7 @@ package com.csmaxwell.tes.controller;
 
 
 import com.csmaxwell.tes.common.api.CommonResult;
+import com.csmaxwell.tes.common.constant.UserRole;
 import com.csmaxwell.tes.domain.*;
 import com.csmaxwell.tes.dto.TesUserEvalDto;
 import com.csmaxwell.tes.service.*;
@@ -129,8 +130,6 @@ public class TesEvaluationController {
         TesClass tesClass = tesUserService.findClassById(id);
         // 获取院系信息
         TesDepartment tesDept = tesUserService.findDeptById(id);
-
-
 
         // 查询用户有哪些课程
         List<TesCourse> courseList = tesUserService.findCourseListById(id);
@@ -277,6 +276,72 @@ public class TesEvaluationController {
             userEvalDtoList.add(userEvalDto);
 
         }
+        return CommonResult.success(userEvalDtoList);
+    }
+
+    @ApiOperation("领导评教的列表")
+    @RequestMapping(value = "/leaderCourseList/{no}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult leaderCourseList(@PathVariable("no") String no) {
+
+        List<TesUserEvalDto> userEvalDtoList = new ArrayList<>();
+        // 获取评教对象
+        TesUser tesUser = tesUserService.findByNo(no);
+        Long id = tesUser.getId();
+        // 获取评教人角色
+        TesRole tesRole = tesUserService.findRoleById(id);
+        // 获取院系信息
+        TesDepartment tesDept = tesUserService.findDeptById(id);
+
+        // 查询出本院系老师的信息
+        List<TesUser> teacherList = tesUserService.findUserByDeptNo(tesDept.getNo(), UserRole.TEACHER);
+        for (TesUser user : teacherList) {
+            System.out.println(user.getUsername());
+        }
+
+        List<TesCourse> courseList = new ArrayList<>();
+
+        // 根据教师列表获取教的课程列表
+        for (TesUser teacher : teacherList) {
+            // 查询用户有哪些课程
+            List<TesCourse> list = tesUserService.findCourseListById(teacher.getId());
+            for (TesCourse course : list) {
+                courseList.add(course);
+            }
+        }
+
+        for (TesCourse tesCourse : courseList) {
+            System.out.println(tesCourse.getName());
+        }
+
+        if (courseList != null) {
+            // 根据课程查询
+            for (TesCourse course : courseList) {
+                TesUserEvalDto userEvalDto = new TesUserEvalDto();
+
+                // 根据课程获取学期id
+                Long semesterId = course.getSemesterId();
+                // 获取学期信息
+                TesSemester tesSemester = tesSemesterService.select(semesterId);
+
+                System.out.println(course.getName());
+                // 查询评教目标信息
+                TesUser targetUser = tesCourseService.findUserInfoById(course.getNum());
+
+                userEvalDto.setUserId(id);
+                userEvalDto.setRoleId(tesRole.getId());
+                userEvalDto.setTargetId(targetUser.getId());
+                userEvalDto.setTargetName(targetUser.getUsername());
+                userEvalDto.setCourseId(course.getId());
+                userEvalDto.setCourseName(course.getName());
+                userEvalDto.setDeptId(tesDept.getId());
+                userEvalDto.setDeptName(tesDept.getName());
+                userEvalDto.setSemesterId(tesSemester.getId());
+                userEvalDto.setSemesterName(tesSemester.getName());
+                userEvalDtoList.add(userEvalDto);
+            }
+        }
+
         return CommonResult.success(userEvalDtoList);
     }
 

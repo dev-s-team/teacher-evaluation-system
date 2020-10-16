@@ -312,4 +312,13 @@ public class TesUserServiceImpl implements TesUserService {
 
     }
 
+    @Override
+    public List<TesUser> findUserByDeptNo(String no, Long roleId) {
+        Example example = new Example(TesUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deptNo", no);
+        criteria.andEqualTo("roleId", roleId);
+        return tesUserMapper.selectByExample(example);
+    }
+
 }
