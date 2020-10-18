@@ -95,7 +95,7 @@ public class TesEvaluationResultController {
         }
     }
 
-    @ApiOperation("根据课程id查询该课程的用户人数")
+    @ApiOperation("根据课程id返回用户及分数封装图表的实体类")
     @RequestMapping(value = "/getAllMark/{courseId}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getAllMark(@PathVariable("courseId") Long courseId) {

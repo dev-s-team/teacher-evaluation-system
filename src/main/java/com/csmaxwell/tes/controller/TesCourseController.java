@@ -134,7 +134,7 @@ public class TesCourseController {
         return commonResult;
     }
 
-    @ApiOperation("根据课程id查询该课程的用户人数")
+    @ApiOperation("根据课程id返回封装图表数据的实体类")
     @RequestMapping(value = "/getCount/{id}", method = RequestMethod.GET)
     @ResponseBody
 //    @PreAuthorize("hasAuthority('lms:course:read')")
