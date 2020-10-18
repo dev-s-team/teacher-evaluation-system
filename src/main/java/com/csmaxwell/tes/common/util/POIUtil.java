@@ -39,7 +39,9 @@ public class POIUtil {
         // 创建返回对象，把每行中的值作为一个数组，所有行作为一个集合返回
         List<String[]> list = new ArrayList<>();
         if (workbook != null) {
-            for (int sheetNum = 0; sheetNum < workbook.getNumberOfSheets(); sheetNum++) {
+            // for (int sheetNum = 0; sheetNum < workbook.getNumberOfSheets(); sheetNum++) {
+            for (int sheetNum = 0; sheetNum < 1; sheetNum++) {
+
                 // 获得当前sheet工作表
                 Sheet sheet = workbook.getSheetAt(sheetNum);
                 if (sheet == null) {
@@ -49,7 +51,8 @@ public class POIUtil {
                 int firstRowNum = sheet.getFirstRowNum();
                 // 获得当前sheet的结束行
                 int lastRowNum = sheet.getLastRowNum();
-                // 循环除了第一行的所有航
+
+                // 循环除了第一行的所有行
                 for (int rowNum = firstRowNum + 1; rowNum <= lastRowNum; rowNum++) {
                     // 获得当前行
                     Row row = sheet.getRow(rowNum);
@@ -60,6 +63,7 @@ public class POIUtil {
                     int firstCellNum = row.getFirstCellNum();
                     // 获得当前行的列数
                     int lastCellNum = row.getPhysicalNumberOfCells();
+
                     String[] cells = new String[row.getPhysicalNumberOfCells()];
                     // 循环当前行
                     for (int cellNum = firstCellNum; cellNum < lastCellNum; cellNum++) {

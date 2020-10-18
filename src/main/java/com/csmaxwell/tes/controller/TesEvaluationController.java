@@ -262,10 +262,10 @@ public class TesEvaluationController {
         TesClass tesClass = tesUserService.findClassById(id);
         // 获取院系信息
         TesDepartment tesDept = tesUserService.findDeptById(id);
-        //查询老师列表
+        // 查询老师列表
         List<TesUser> tesUsers = tesUserService.byRoleId();
-//        TesUserCourse tesUserCourse = new TesUserCourse();
-//        TesCourse tesCourse = new TesCourse();
+        // TesUserCourse tesUserCourse = new TesUserCourse();
+        // TesCourse tesCourse = new TesCourse();
         List<TesCourse> tesCourses = new ArrayList<>();
         List<TesUserEvalDto> userEvalDtoList = new ArrayList<>();
 

@@ -3,11 +3,9 @@ package com.csmaxwell.tes.controller;
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
 import com.csmaxwell.tes.common.util.POIUtil;
-import com.csmaxwell.tes.domain.TesMenu;
-import com.csmaxwell.tes.domain.TesPermission;
-import com.csmaxwell.tes.domain.TesRole;
-import com.csmaxwell.tes.domain.TesUser;
+import com.csmaxwell.tes.domain.*;
 import com.csmaxwell.tes.dto.TesUserLoginParam;
+import com.csmaxwell.tes.service.TesDepartmentService;
 import com.csmaxwell.tes.service.TesRoleService;
 import com.csmaxwell.tes.service.TesUserService;
 import io.swagger.annotations.Api;
@@ -39,6 +37,8 @@ public class TesUserController {
     private TesUserService tesUserService;
     @Autowired
     private TesRoleService tesRoleService;
+    @Autowired
+    private TesDepartmentService tesDepartmentService;
 
     @Value("${jwt.tokenHeader}")
     private String tokenHeader;
@@ -224,23 +224,39 @@ public class TesUserController {
         }
 
         List<String[]> list = POIUtil.readExcel(excelFile);
+
         List<TesUser> data = new ArrayList<>();
+
+        // 获取角色列表
+        List<TesRole> roleList = tesRoleService.selectAll();
+        Map<String, Long> roleMap = new HashMap<>();
+        for (TesRole tesRole : roleList) {
+            roleMap.put(tesRole.getName(), tesRole.getId());
+        }
+
+        // 获取院系列表
+        List<TesDepartment> deptList = tesDepartmentService.all();
+        Map<String, String> deptMap = new HashMap<>();
+        for (TesDepartment dept : deptList) {
+            deptMap.put(dept.getName(), dept.getName());
+        }
+
         for (String[] strings : list) {
             String no = strings[0];
             String username = strings[1];
             String gender = strings[2];
-            Long roleId = Long.valueOf(strings[3]);
+            String roleKey = strings[3];
             String classNo = strings[4];
-            String deptNo = strings[5];
+            String deptKey = strings[5];
             Integer status = Integer.valueOf(strings[6]);
 
             TesUser tesUser = new TesUser();
             tesUser.setNo(no);
             tesUser.setUsername(username);
             tesUser.setGender(gender);
-            tesUser.setRoleId(roleId);
+            tesUser.setRoleId(roleMap.get(roleKey));
             tesUser.setClassNo(classNo);
-            tesUser.setDeptNo(deptNo);
+            tesUser.setDeptNo(deptMap.get(deptKey));
             tesUser.setStatus(status);
             data.add(tesUser);
         }
