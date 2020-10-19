@@ -2,6 +2,7 @@ package com.csmaxwell.tes.controller;
 
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
+import com.csmaxwell.tes.common.constant.UserRole;
 import com.csmaxwell.tes.domain.*;
 import com.csmaxwell.tes.dto.TesUserEvalDto;
 import com.csmaxwell.tes.service.TesCourseService;
@@ -52,6 +53,37 @@ public class TesCourseController {
                                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<TesCourse> courseList = tesCourseService.listAllCourse(keyword, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(courseList));
+    }
+
+    @ApiOperation("获取所有课程列表")
+    @RequestMapping(value = "leaderSelect/{no}", method = RequestMethod.GET)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('lms:course:read')")
+    public CommonResult<List<TesCourse>> leaderSelect(@PathVariable("no") String no) {
+
+        // 获取评教对象
+        TesUser tesUser = tesUserService.findByNo(no);
+        Long id = tesUser.getId();
+        // 获取评教人角色
+        TesRole tesRole = tesUserService.findRoleById(id);
+        // 获取院系信息
+        TesDepartment tesDept = tesUserService.findDeptById(id);
+
+        // 查询出本院系老师的信息
+        List<TesUser> teacherList = tesUserService.findUserByDeptNo(tesDept.getNo(),
+                UserRole.TEACHER);
+
+        List<TesCourse> courseList = new ArrayList<>();
+
+        // 根据教师列表获取教的课程列表
+        for (TesUser teacher : teacherList) {
+            // 查询用户有哪些课程
+            List<TesCourse> list = tesUserService.findCourseListById(teacher.getId());
+            for (TesCourse course : list) {
+                courseList.add(course);
+            }
+        }
+        return CommonResult.success(courseList);
     }
 
     @ApiOperation("通过用户no获取课程列表")

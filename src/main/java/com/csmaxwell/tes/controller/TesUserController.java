@@ -238,7 +238,7 @@ public class TesUserController {
         List<TesDepartment> deptList = tesDepartmentService.all();
         Map<String, String> deptMap = new HashMap<>();
         for (TesDepartment dept : deptList) {
-            deptMap.put(dept.getName(), dept.getName());
+            deptMap.put(dept.getName(), dept.getNo());
         }
 
         for (String[] strings : list) {
