@@ -59,7 +59,7 @@ public class TesClassServiceImpl implements TesClassService {
         Example example = new Example(TesClass.class);
         Example.Criteria criteria = example.createCriteria();
         if (!StringUtils.isEmpty(keyword)) {
-            criteria.andEqualTo("no", keyword);
+            criteria.andLike("name", "%"+keyword+"%");
         }
         List<TesClass> classList = tesClassMapper.selectByExample(example);
         return classList;
