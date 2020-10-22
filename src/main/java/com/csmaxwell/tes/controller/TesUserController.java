@@ -264,10 +264,31 @@ public class TesUserController {
         for (TesUser datum : data) {
             System.out.println(datum);
         }
+        List<TesUser> tesUsers = tesUserService.findAll();
+        int count = 0;
+        for(TesUser tesUser: tesUsers){
+            count = 0;
+            for(TesUser tesUser1 : data){
+                String no = tesUser.getNo();
+                if(!no.equals(tesUser1.getNo())){
+                    count = count + 1;
+                    continue;
 
-        tesUserService.add(data);
+                }
 
-        return CommonResult.success("导入成功");
+            }
+        }
+        System.out.println(count + "count");
+        System.out.println(data.size() + "size");
+        if(count==data.size()){
+            tesUserService.add(data);
+            return CommonResult.success("导入成功");
+        }else {
+            return CommonResult.failed("导入失败");
+        }
+
+
+
     }
 
     @ApiOperation(value = "查询学生人数")

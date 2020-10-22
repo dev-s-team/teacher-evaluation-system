@@ -96,12 +96,13 @@ public class TesEvaluationResultController {
     }
 
     @ApiOperation("根据课程id返回用户及分数封装图表的实体类")
-    @RequestMapping(value = "/getAllMark/{courseId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getAllMark", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult getAllMark(@PathVariable("courseId") Long courseId) {
+    public CommonResult getAllMark(@RequestParam("no") String no,@RequestParam("courseId") Long courseId) {
 
         List<TesEvaluationResult> tesEvaluationResults = tesEvaluationResultService.findByCourseId(courseId);
         List<Map<String,String>> rows = new ArrayList<Map<String, String>>();
+        TesUser tesUser1 = tesUserService.findByNo(no);
         for(TesEvaluationResult tesEvaluationResult :tesEvaluationResults){
             TesUser tesUser = tesUserService.findById(tesEvaluationResult.getUserId());
             Map<String,String> map=new HashMap<>();
