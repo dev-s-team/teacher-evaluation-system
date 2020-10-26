@@ -1,7 +1,6 @@
 package com.csmaxwell.tes.service;
 
 import com.csmaxwell.tes.domain.TesEvaluation;
-import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.dto.TesUserEvalDto;
 
 import java.util.List;
@@ -14,5 +13,7 @@ public interface TesEvaluationService {
     List<TesEvaluation> select();
 
 
-    List<TesEvaluation> teList(Long id);
+    List<TesEvaluation> teList(Long id, Long roleId);
+
+    List<Integer> findBySmsIdAndRoleId(Long evalControlId, Long roleId);
 }

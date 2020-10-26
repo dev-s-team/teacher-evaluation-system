@@ -2,17 +2,19 @@ package com.csmaxwell.tes.controller;
 
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
-import com.csmaxwell.tes.common.constant.EvalOption;
 import com.csmaxwell.tes.domain.TesEvaluationResult;
+import com.csmaxwell.tes.domain.TesUser;
 import com.csmaxwell.tes.service.TesEvaluationResultService;
+import com.csmaxwell.tes.service.TesUserService;
+import com.csmaxwell.tes.vo.CourseVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 评教结果管理
@@ -25,6 +27,9 @@ public class TesEvaluationResultController {
 
     @Autowired
     private TesEvaluationResultService tesEvaluationResultService;
+
+    @Autowired
+    private TesUserService tesUserService;
 
     @ApiOperation("新增评教结果")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -78,6 +83,42 @@ public class TesEvaluationResultController {
 
     }
 
+    @ApiOperation("根据课程id查询该课程的已评教用户人数")
+    @RequestMapping(value = "/evaluatedCount/{courseId}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult evaluatedCount(@PathVariable("courseId") Long courseId) {
+        int count =tesEvaluationResultService.evaluatedCount(courseId);
+        if (count >=0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
 
+    @ApiOperation("根据课程id返回用户及分数封装图表的实体类")
+    @RequestMapping(value = "/getAllMark", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getAllMark(@RequestParam("no") String no,@RequestParam("courseId") Long courseId) {
+
+        List<TesEvaluationResult> tesEvaluationResults = tesEvaluationResultService.findByCourseId(courseId);
+        List<Map<String,String>> rows = new ArrayList<Map<String, String>>();
+        TesUser tesUser1 = tesUserService.findByNo(no);
+        for(TesEvaluationResult tesEvaluationResult :tesEvaluationResults){
+            TesUser tesUser = tesUserService.findById(tesEvaluationResult.getUserId());
+            Map<String,String> map=new HashMap<>();
+            map.put("用户", tesUser.getUsername());
+            map.put("分数", tesEvaluationResult.getScore().toString());
+            rows.add(map);
+        }
+        CourseVo courseVo = new CourseVo();
+        String[] columns = new String[]{"用户","分数"};
+        courseVo.setColumns(columns);
+        courseVo.setRows(rows);
+        if (courseVo != null) {
+            return CommonResult.success(courseVo);
+        } else {
+            return CommonResult.failed();
+        }
+    }
 
 }

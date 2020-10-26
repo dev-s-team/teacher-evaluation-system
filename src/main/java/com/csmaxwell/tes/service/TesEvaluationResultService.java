@@ -16,4 +16,10 @@ public interface TesEvaluationResultService {
     List<TesEvaluationResult> select(Long userId, Integer pageSize, Integer pageNum);
 
     int commit(Long userId, Long roleId, Long targetId, Long courseId, List<String> radios, List<String> weights);
+
+    int evaluatedCount(Long courseId);
+
+    List<TesEvaluationResult> all();
+
+    List<TesEvaluationResult> findByCourseId(Long id);
 }

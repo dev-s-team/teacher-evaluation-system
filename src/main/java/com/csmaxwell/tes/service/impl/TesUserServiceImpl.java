@@ -191,7 +191,6 @@ public class TesUserServiceImpl implements TesUserService {
         for (TesUserCourse userCourse : userCourseList) {
             Example example2 = new Example(TesCourse.class);
             example2.createCriteria().andEqualTo("num", userCourse.getCourseNum());
-            example2.createCriteria().andEqualTo("semesterId", tesUser.getSemesterId());
             courseList.add(tesCourseMapper.selectByExample(example2).get(0));
         }
 
@@ -218,9 +217,8 @@ public class TesUserServiceImpl implements TesUserService {
 
     @Override
     public TesSemester findSemesterById(Long userId) {
-        TesUser tesUser = findById(userId);
         Example example = new Example(TesSemester.class);
-        example.createCriteria().andEqualTo("id", tesUser.getSemesterId());
+        // example.createCriteria().andEqualTo("id", tesUser.getSemesterId());
         List<TesSemester> semesterList = tesSemesterMapper.selectByExample(example);
         return semesterList.get(0);
     }
@@ -231,4 +229,96 @@ public class TesUserServiceImpl implements TesUserService {
         example.createCriteria().andEqualTo("no", no);
         return tesUserMapper.selectByExample(example).get(0);
     }
+
+    /**
+     * 批量导入用户
+     * @param data
+     */
+    @Override
+    public void add(List<TesUser> data) {
+        for (TesUser user : data) {
+            String encodePassword = passwordEncoder.encode("123456");
+            user.setPassword(encodePassword);
+            int count = tesUserMapper.insertSelective(user);
+        }
+    }
+
+    /*
+    * 查询学生人数
+    * */
+    public int countStudent(){
+        Example example = new Example(TesUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("roleId",4L);
+        int count = tesUserMapper.selectCountByExample(example);
+        return count;
+    }
+
+    /*
+    * 查询教师人数
+    * */
+    public int countTeacher(){
+        Example example = new Example(TesUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("roleId",3L);
+        int count = tesUserMapper.selectCountByExample(example);
+        return count;
+    }
+
+    /*
+     * 查询班级数
+     * */
+    public int countClass(){
+        TesClass tesClass = new TesClass();
+        int count = tesClassMapper.selectCount(tesClass);
+        return count;
+    }
+
+    /*
+     * 查询学院数
+     * */
+    public int countDepartment(){
+        TesDepartment tesDepartment = new TesDepartment();
+        int count = tesDepartmentMapper.selectCount(tesDepartment);
+        return count;
+    }
+
+    @Override
+    public int updateStatus(Long id, Integer status) {
+        TesUser tesUser = new TesUser();
+        tesUser.setId(id);
+        tesUser.setStatus(status);
+        return tesUserMapper.updateByPrimaryKeySelective(tesUser);
+    }
+
+    @Override
+    public List<TesUser> byRoleId() {
+        Example example = new Example(TesUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("roleId",3L);
+        List<TesUser> tesUsers = tesUserMapper.selectByExample(example);
+        return tesUsers;
+
+    }
+
+    @Override
+    public List<TesUserCourse> findByUserNo(String no) {
+        TesUserCourse tesUserCourse = new TesUserCourse();
+        Example example = new Example(TesUserCourse.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userNo",no);
+        List<TesUserCourse> tesUserCourses = tesUserCourseMapper.selectByExample(example);
+        return tesUserCourses;
+
+    }
+
+    @Override
+    public List<TesUser> findUserByDeptNo(String no, Long roleId) {
+        Example example = new Example(TesUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deptNo", no);
+        criteria.andEqualTo("roleId", roleId);
+        return tesUserMapper.selectByExample(example);
+    }
+
 }

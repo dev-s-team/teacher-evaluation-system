@@ -18,4 +18,6 @@ public interface TesPermissionService {
     int deleteSelect(Long id);
 
     int update(Long id,TesPermission tesPermission);
+
+    List<TesPermission> treeList();
 }

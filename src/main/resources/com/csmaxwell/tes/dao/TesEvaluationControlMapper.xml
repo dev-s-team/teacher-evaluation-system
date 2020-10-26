@@ -7,6 +7,6 @@
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="semester_id" jdbcType="BIGINT" property="semesterId" />
-    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
 </mapper>

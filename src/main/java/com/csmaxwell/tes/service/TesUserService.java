@@ -54,4 +54,22 @@ public interface TesUserService {
     TesSemester findSemesterById(Long userId);
 
     TesUser findByNo(String no);
+
+    void add(List<TesUser> data);
+
+    int countStudent();
+
+    int countTeacher();
+
+    int countClass();
+
+    int countDepartment();
+
+    int updateStatus(Long id, Integer status);
+
+    List<TesUser> findUserByDeptNo(String no, Long roleId);
+
+    List<TesUser> byRoleId();
+
+    List<TesUserCourse> findByUserNo(String no);
 }

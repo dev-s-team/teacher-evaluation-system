@@ -21,4 +21,8 @@ public interface TesCourseService {
     int delete(Long id);
 
     TesUser findUserInfoById(String id);
+
+    int getCount(String num);
+
+    TesCourse findByNum(String courseNum);
 }

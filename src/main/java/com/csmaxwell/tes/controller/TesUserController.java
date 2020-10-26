@@ -1,16 +1,11 @@
 package com.csmaxwell.tes.controller;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.poi.excel.ExcelReader;
-import cn.hutool.poi.excel.ExcelUtil;
 import com.csmaxwell.tes.common.api.CommonPage;
 import com.csmaxwell.tes.common.api.CommonResult;
-import com.csmaxwell.tes.domain.TesMenu;
-import com.csmaxwell.tes.domain.TesPermission;
-import com.csmaxwell.tes.domain.TesRole;
-import com.csmaxwell.tes.domain.TesUser;
+import com.csmaxwell.tes.common.util.POIUtil;
+import com.csmaxwell.tes.domain.*;
 import com.csmaxwell.tes.dto.TesUserLoginParam;
+import com.csmaxwell.tes.service.TesDepartmentService;
 import com.csmaxwell.tes.service.TesRoleService;
 import com.csmaxwell.tes.service.TesUserService;
 import io.swagger.annotations.Api;
@@ -27,10 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * 用户管理
@@ -45,6 +37,8 @@ public class TesUserController {
     private TesUserService tesUserService;
     @Autowired
     private TesRoleService tesRoleService;
+    @Autowired
+    private TesDepartmentService tesDepartmentService;
 
     @Value("${jwt.tokenHeader}")
     private String tokenHeader;
@@ -82,24 +76,20 @@ public class TesUserController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getUserInfo(Principal principal) {
-        System.out.println("哈哈哈哈");
         if (principal == null) {
             return CommonResult.unauthorized(null);
         }
         String no = principal.getName();
-        System.out.println("no是: " + no);
+
         TesUser tesUser = tesUserService.getUserByNo(no);
         HashMap<String, Object> data = new HashMap<>();
         data.put("username", tesUser.getUsername());
         List<TesMenu> menus = tesRoleService.getMenuList(tesUser.getId());
         data.put("menus", menus);
         TesRole tesRole = tesRoleService.findById(tesUser.getRoleId());
-        // if(CollUtil.isNotEmpty(roleList)){
-        //     List<String> roles = roleList.stream().map(UmsRole::getName).collect(Collectors.toList());
-        //     data.put("roles",roles);
-        // }
+
         data.put("roles", tesRole.getName());
-        System.out.println("获取用户信息");
+
         return CommonResult.success(data);
     }
 
@@ -172,6 +162,19 @@ public class TesUserController {
         }
     }
 
+    @ApiOperation("更新用户状态")
+    @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('ums:user:update')")
+    public CommonResult updateStatus(@PathVariable("id") Long id, @RequestParam("status") Integer status) {
+        int count = tesUserService.updateStatus(id, status);
+        if (count == 1) {
+            return CommonResult.success("更新状态成功");
+        } else {
+            return CommonResult.failed("更新状态失败");
+        }
+    }
+
     @ApiOperation(value = "获取用户列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
@@ -206,6 +209,7 @@ public class TesUserController {
     @ResponseBody
     public CommonResult upload(@RequestParam("excelFile") MultipartFile excelFile) throws IOException {
         String fileName = excelFile.getOriginalFilename();
+
         // 上传文件为空
         if (StringUtils.isEmpty(excelFile)) {
             return CommonResult.failed("不能上传空文件");
@@ -218,16 +222,105 @@ public class TesUserController {
         if (fileName.lastIndexOf(".") != -1 && !".xlsx".equals(fileName.substring(fileName.lastIndexOf(".")))) {
             return CommonResult.failed("文件格式不正确");
         }
-        // 读取数据
-        ExcelReader reader = ExcelUtil.getReader(excelFile.getInputStream(), 0);
-        List<Map<String, Object>> maps = reader.readAll();
-        for (Map<String, Object> map : maps) {
-            for (String key : map.keySet()) {
-                System.out.println(key);
-                System.out.println(map.get(key));
-            }
+
+        List<String[]> list = POIUtil.readExcel(excelFile);
+
+        List<TesUser> data = new ArrayList<>();
+
+        // 获取角色列表
+        List<TesRole> roleList = tesRoleService.selectAll();
+        Map<String, Long> roleMap = new HashMap<>();
+        for (TesRole tesRole : roleList) {
+            roleMap.put(tesRole.getName(), tesRole.getId());
         }
 
-        return null;
+        // 获取院系列表
+        List<TesDepartment> deptList = tesDepartmentService.all();
+        Map<String, String> deptMap = new HashMap<>();
+        for (TesDepartment dept : deptList) {
+            deptMap.put(dept.getName(), dept.getNo());
+        }
+
+        for (String[] strings : list) {
+            String no = strings[0];
+            String username = strings[1];
+            String gender = strings[2];
+            String roleKey = strings[3];
+            String classNo = strings[4];
+            String deptKey = strings[5];
+            Integer status = Integer.valueOf(strings[6]);
+
+            TesUser tesUser = new TesUser();
+            tesUser.setNo(no);
+            tesUser.setUsername(username);
+            tesUser.setGender(gender);
+            tesUser.setRoleId(roleMap.get(roleKey));
+            tesUser.setClassNo(classNo);
+            tesUser.setDeptNo(deptMap.get(deptKey));
+            tesUser.setStatus(status);
+            data.add(tesUser);
+        }
+
+        for (TesUser datum : data) {
+            System.out.println(datum);
+        }
+        List<TesUser> tesUsers = tesUserService.findAll();
+        int count = 0;
+        for(TesUser tesUser: tesUsers){
+            count = 0;
+            for(TesUser tesUser1 : data){
+                String no = tesUser.getNo();
+                if(!no.equals(tesUser1.getNo())){
+                    count = count + 1;
+                    continue;
+
+                }
+
+            }
+        }
+        System.out.println(count + "count");
+        System.out.println(data.size() + "size");
+        if(count==data.size()){
+            tesUserService.add(data);
+            return CommonResult.success("导入成功");
+        }else {
+            return CommonResult.failed("导入失败");
+        }
+
+
+
     }
+
+    @ApiOperation(value = "查询学生人数")
+    @RequestMapping(value = "/selectStudent", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectStudent( ){
+        int count = tesUserService.countStudent();
+        return CommonResult.success(count);
+    }
+
+    @ApiOperation(value = "查询教师人数")
+    @RequestMapping(value = "/selectTeacher", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectTeacher( ){
+        int count = tesUserService.countTeacher();
+        return CommonResult.success(count);
+    }
+
+    @ApiOperation(value = "查询班级数")
+    @RequestMapping(value = "/selectClass", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectClass( ){
+        int count = tesUserService.countClass();
+        return CommonResult.success(count);
+    }
+
+    @ApiOperation(value = "查询学院数")
+    @RequestMapping(value = "/selectDepartment", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult selectDepartment( ){
+        int count = tesUserService.countDepartment();
+        return CommonResult.success(count);
+    }
+
 }

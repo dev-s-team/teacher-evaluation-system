@@ -1,6 +1,7 @@
 package com.csmaxwell.tes.service.impl;
 
 import com.csmaxwell.tes.dao.TesPermissionMapper;
+import com.csmaxwell.tes.dao.TesRolePermissionMapper;
 import com.csmaxwell.tes.domain.TesPermission;
 import com.csmaxwell.tes.domain.TesRolePermission;
 import com.csmaxwell.tes.service.TesPermissionService;
@@ -26,6 +27,8 @@ public class TesPermissionServiceImpl implements TesPermissionService {
 
     @Autowired
     private TesPermissionMapper tesPermissionMapper;
+    @Autowired
+    private TesRolePermissionMapper tesRolePermissionMapper;
 
     @Override
     public TesPermission select(Long permissionId) {
@@ -71,7 +74,10 @@ public class TesPermissionServiceImpl implements TesPermissionService {
 
     @Override
     public int deleteSelect(Long id) {
-        int count = tesPermissionMapper.deleteSelect(id);
+        Example example = new Example(TesRolePermission.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("permissionId", id);
+        int count = tesRolePermissionMapper.selectCountByExample(example);
         return count;
     }
 
@@ -80,5 +86,11 @@ public class TesPermissionServiceImpl implements TesPermissionService {
         tesPermission.setId(id);
         int count = tesPermissionMapper.updateByPrimaryKeySelective(tesPermission);
         return count;
+    }
+
+    @Override
+    public List<TesPermission> treeList() {
+        List<TesPermission> tesPermissions = tesPermissionMapper.selectAll();
+        return tesPermissions;
     }
 }

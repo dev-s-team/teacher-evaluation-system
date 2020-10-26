@@ -17,6 +17,15 @@ public class TesUserEvalDto {
     private String deptName; // 院系名称
     private Long semesterId; // 学期id
     private String semesterName; // 学期名
+    private boolean isEval; // 是否评教过
+
+    public boolean isEval() {
+        return isEval;
+    }
+
+    public void setEval(boolean eval) {
+        isEval = eval;
+    }
 
     public String getTargetName() {
         return targetName;
